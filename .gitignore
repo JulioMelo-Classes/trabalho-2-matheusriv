@@ -1,0 +1,5 @@
+# Executables
+build/*
+!build/.gitkeep
+
+src/tests
