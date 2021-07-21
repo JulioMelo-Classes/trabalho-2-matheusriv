@@ -16,8 +16,8 @@ string Sistema::create_user (const string email, const string senha, const strin
         return "Usuário já existe!";
     }
     else{
-        CountId++;
-        Usuario novo(contId, nome, email, senha);
+        countId++;
+        Usuario novo(countId, nome, email, senha);
         usuarios.push_back(novo);
         return "Usuário Criado";
     }
