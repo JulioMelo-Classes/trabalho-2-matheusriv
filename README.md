@@ -1,26 +1,14 @@
-# Base para a atividade 02 de LP1
+# Concordo - Projeto 02 de LP1
 
-Use esse esqueleto de classes para iniciar a terceira atividade.
-
-Existe um executor que faz a interpretação dos comandos e executa o método correto do sistema.
+Essa atividade se trata de um sistema chamado "Concordo" com recursos similares ao Discord, mas que vai funcionar somente em modo texto e sem recursos de rede. A ideia principal é simular o “backend” de um serviço com o discord, que, embora de forma simplificada, serve para dar uma boa ideia de como as coisas são feitas nesse nicho de aplicação.
 
 ## Para compilar
 
-Com makefiles:
 ```console
-mkdir build
-make
-```
-
-Com cmake:
-```console
-mkdir build
 cd build
 cmake ..
 cmake --build .
 ```
-
-Escolha uma das duas formas de build e ignore a outra.
 
 ## Para executar
 Você pode rodar o sistema e em logo depois digitar os comandos seguidos de ENTER
@@ -32,3 +20,4 @@ Ou pode criar um arquivo de texto com uma lista de comandos (um por linha) e exe
 ```console
 ./concordo < script_comandos.txt
 ```
+## Para executar
