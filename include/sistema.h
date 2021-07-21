@@ -16,7 +16,7 @@ class Sistema {
 		std::vector<Servidor> servidores; //<! um vetor com todos os servidores
 		std::vector<Usuario> usuarios; //<! um vetor com todos os usuários cadastrados
 		std::map< int, std::pair<std::string, std::string> > usuariosLogados; //<! um vetor contendo os usuários que logaram no sistema
-    int contId = 0; //<! ID de usuário gerado automaticamente. 
+    int countId = 0; //<! ID de usuário gerado automaticamente. 
 		
 
   public:

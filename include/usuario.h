@@ -1,16 +1,17 @@
 #ifndef USUARIO_H
 #define USUARIO_H
+#include <iostream>
 
 class Usuario{
   private:
     int id; //<! ID do usuário
-    string nome; //<! Nome do usuário 
-    string email; //<! Endereço de email do usuário 
-    string senha; //<! Senha do login  
+    std::string nome; //<! Nome do usuário 
+    std::string email; //<! Endereço de email do usuário 
+    std::string senha; //<! Senha do login  
 
   public:
     /* Construtor */
-    Usuario(int id, string nome, string email, string senha);
+    Usuario(int id, std::string nome, std::string email, std::string senha);
 
     /*
      * @brief Altera o ID do usuário.
@@ -22,19 +23,19 @@ class Usuario{
      * @brief Altera o nome do usuário.
      * @param nome Novo nome.
      */
-    void setNome(string nome);
+    void setNome(std::string nome);
 
     /*
      * @brief Altera o email do usuario.
      * @param email Novo email.
      */
-    void setEmail(string email);
+    void setEmail(std::string email);
 
     /*
      * @brief Altera a senha do usuário.
      * @param senha Nova senha.
      */
-    void setSenha(string senha);
+    void setSenha(std::string senha);
 
     /*
      * @brief Retorna o ID do usuário.
@@ -46,19 +47,19 @@ class Usuario{
      * @brief Retorna o Nome do usuário.
      * @return String com a ao nome do usuário.
      */
-    string getNome();
+    std::string getNome();
 
     /*
      * @brief Retorna o Email do usuário.
      * @return String com a ao email do usuário.
      */
-    string getEmail();
+    std::string getEmail();
 
     /*
      * @brief Retorna a senha do usuário.
      * @return String com a senha do usuário.
      */
-    string getSenha();
+    std::string getSenha();
 
 };
 

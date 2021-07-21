@@ -1,5 +1,7 @@
 #include "usuario.h"
 
+using namespace std;
+
 Usuario::Usuario(int id, string nome, string email, string senha){
   this->id = id;
   this->nome = nome;
