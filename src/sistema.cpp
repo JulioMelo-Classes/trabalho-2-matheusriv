@@ -11,7 +11,18 @@ string Sistema::quit() {
 }
 
 string Sistema::create_user (const string email, const string senha, const string nome) {
-  return "create_user NÃO IMPLEMENTADO";
+  for(auto i=0; i<usuarios.size(); i++){
+    if(usuarios[i].getEmail() == email){
+        return "Usuário já existe!";
+    }
+    else{
+        CountId++;
+        Usuario novo(contId, nome, email, senha);
+        usuarios.push_back(novo);
+        return "Usuário Criado";
+    }
+  }
+  return "Erro!";
 }
 
 string Sistema::login(const string email, const string senha) {
