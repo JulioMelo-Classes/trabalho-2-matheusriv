@@ -72,7 +72,7 @@ string Sistema::login(const string email, const string senha) {
 }
 
 string Sistema::disconnect(int id) {
-  if( search_user(id)==false ) { 
+  if( !search_user(id) ) { 
     return "Não está conectado";
   }
 
@@ -90,7 +90,20 @@ string Sistema::disconnect(int id) {
 }
 
 string Sistema::create_server(int id, const string nome) {
-  return "create_server NÃO IMPLEMENTADO";
+  if( !search_user(id) ) { 
+    return "Usuário não logado.";
+  }
+
+  for(int i = 0; i<servidores.size(); i++) {
+    if(servidores[i].getNome() == nome) 
+      return "Servidor com esse nome já existe.";
+  }
+
+  Servidor novo(id, nome);
+  servidores.push_back(novo);
+  servidores[(int)servidores.size()-1].adicionaParticipante(id);
+  return "Servidor criado";
+
 }
 
 string Sistema::set_server_desc(int id, const string nome, const string descricao) {
