@@ -4,8 +4,8 @@
 
 class Usuario{
   private:
-    int id; //<! ID do usuário
-    std::string nome; //<! Nome do usuário 
+    int id;            //<! ID do usuário
+    std::string nome;  //<! Nome do usuário 
     std::string email; //<! Endereço de email do usuário 
     std::string senha; //<! Senha do login  
 

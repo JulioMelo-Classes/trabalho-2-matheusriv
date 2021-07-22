@@ -10,27 +10,83 @@ string Sistema::quit() {
   return "Saindo...";
 }
 
-string Sistema::create_user (const string email, const string senha, const string nome) {
-  for(auto i=0; i<usuarios.size(); i++){
+string Sistema::create_user(const string email, const string senha, const string nome) {
+  if(usuarios.size()==0){
+    countId++;
+    Usuario NovoUsuario(countId, nome, email, senha);
+    usuarios.push_back(NovoUsuario);
+    return "Usuário Criado";
+  }
+  
+  for(int i=0; i<usuarios.size(); i++){
     if(usuarios[i].getEmail() == email){
-        return "Usuário já existe!";
+      return "Usuário já existe!";
     }
     else{
-        countId++;
-        Usuario novo(countId, nome, email, senha);
-        usuarios.push_back(novo);
-        return "Usuário Criado";
+      countId++;
+      Usuario NovoUsuario(countId, nome, email, senha);
+      usuarios.push_back(NovoUsuario);
+      return "Usuário Criado";
     }
   }
+
   return "Erro!";
+
+}
+
+bool Sistema::search_user(int Id){
+  //verificar se usuario esta no std::map<int, std::pair<std::string, std::string>> usuariosLogados;
+  auto it = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
+                            [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
+                                if(entrada.first == Id) 
+                                    return true; 
+                                else 
+                                    return false;
+                                });
+                                
+  if(it != usuariosLogados.end()){ 
+    //usuario logado 
+    return true;
+  }
+
+  //usuario não logado 
+  return false;
+  
 }
 
 string Sistema::login(const string email, const string senha) {
-  return "login NÃO IMPLEMENTADO";
+  for(int i=0; i<usuarios.size(); i++){
+    if(usuarios[i].getEmail() == email && usuarios[i].getSenha() == senha){
+      if( search_user(usuarios[i].getId()) ) { 
+        return "Usuário '" + usuarios[i].getEmail() + "' já encontra-se logado!";
+      }
+      else{ 
+        usuariosLogados.insert({usuarios[i].getId(), {"",""}});
+        return "Logado como " + email;
+      }
+    } 
+  }
+
+  return "Senha ou Usuário Inválidos!";
+
 }
 
 string Sistema::disconnect(int id) {
-  return "disconnect NÃO IMPLEMENTADO";
+  if( search_user(id)==false ) { 
+    return "Não está conectado";
+  }
+
+  auto it = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
+                            [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
+                                if(entrada.first == id) 
+                                    return true; 
+                                else 
+                                    return false;
+                                });
+
+  usuariosLogados.erase(it);
+  return "Desconectando usuário isaacfranco@imd.ufrn.br";
+
 }
 
 string Sistema::create_server(int id, const string nome) {
