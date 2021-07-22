@@ -26,6 +26,12 @@ class Sistema {
 	*/
 	std::string quit();
 
+	/*! Procura um usuário no vetor que contém os usuários que logaram no sistema.
+		@param ID um id válido de um usuário logado no sistema.
+		@return Verdadeiro se o usuario for encontrado, falso se não for encontrado."
+	*/
+	bool search_user(int Id);
+
 	/*! Cria um usuário e retorna uma string de erro/sucesso 
 		@param email o email do usuário informado no comando create-user
 		@param senha a senha passada ao comando create-ser
@@ -33,12 +39,6 @@ class Sistema {
 		@return uma string contendo uma mensagem de erro ou "Usuário Criado"
 	*/
 	std::string create_user(const std::string email, const std::string senha, const std::string nome);
-
-	/*! Procura um usuário no vetor que contém os usuários que logaram no sistema.
-		@param ID um id válido de um usuário logado no sistema.
-		@return Verdadeiro se o usuario for encontrado, falso se não for encontrado."
-	*/
-	bool search_user(int Id);
 
 	/*! Realiza o login do usuário com email e senha, retorna uma string de erro ou uma mensagem 
 		login bem sucedido. Quando um usuário loga o sistema deve adicionar o usuário na tabela 

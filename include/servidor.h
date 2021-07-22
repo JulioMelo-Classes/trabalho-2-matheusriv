@@ -21,17 +21,45 @@ class Servidor{
 		/* Construtor */
 		Servidor(int UsuarioDonoId, std::string nome);
 
-		/* Getters */
+		/*
+		* @brief Retorna o Id do dono do servidor.
+		* @return Inteiro Id com o dono do servidor.
+		*/
 		int getUsuarioDonoId();
+
+		/*
+		* @brief Retorna o nome do servidor.
+		* @return String com o nome do servidor.
+		*/
 		std::string getNome();
+
+		/*
+		* @brief Retorna a descrição do servidor.
+		* @return String com a descrição do servidor.
+		*/
 		std::string getDescricao();
+
+		/*
+		* @brief Retorna o código de convite do servidor.
+		* @return String com a descrição do servidor.
+		*/
 		std::string getCodigoConvite();
+
+		/*
+		* @brief Retorna os canais de texto do servidor.
+		* @return Vetor com os canais de texto do servidor.
+		*/
 		std::vector<CanalTexto> getCanaisTexto();
+
+		/*
+		* @brief Retorna os participantes do servidor.
+		* @return Vetor com os participantes do servidor.
+		*/
 		std::vector<int> getParticipantesIds();
 
 		/*
 		* @brief Adiciona o ID de um novo participante à lista de IDs do servidor
-		* @param id id do tipo inteiro a ser adicionado
+		* @param id Inteiro id a ser adicionado
 		*/
 		void adicionaParticipante(int id);
 };

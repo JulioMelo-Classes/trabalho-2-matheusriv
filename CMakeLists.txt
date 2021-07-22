@@ -6,11 +6,12 @@ project(concordo VERSION 0.1 LANGUAGES CXX )
 # Diretório contendo os .hpp
 include_directories( include )
 
-# Cria um executável com nome "concordo", adiciona neste executável os arquivos src/concordo.cpp src/sistema.cpp src/executor.cpp src/usuario.cpp
+# Cria um executável com nome "concordo", adiciona neste executável os .cpp
 add_executable( concordo
                 src/concordo.cpp
                 src/sistema.cpp 
 								src/executor.cpp
-                src/usuario.cpp )
+                src/usuario.cpp
+                src/servidor.cpp )
 
 # The end

@@ -45,13 +45,13 @@ class Usuario{
 
     /*
      * @brief Retorna o Nome do usuário.
-     * @return String com a ao nome do usuário.
+     * @return String com o nome do usuário.
      */
     std::string getNome();
 
     /*
      * @brief Retorna o Email do usuário.
-     * @return String com a ao email do usuário.
+     * @return String com o email do usuário.
      */
     std::string getEmail();
 

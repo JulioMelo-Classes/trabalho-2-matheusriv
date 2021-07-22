@@ -10,30 +10,6 @@ string Sistema::quit() {
   return "Saindo...";
 }
 
-string Sistema::create_user(const string email, const string senha, const string nome) {
-  if(usuarios.size()==0){
-    countId++;
-    Usuario NovoUsuario(countId, nome, email, senha);
-    usuarios.push_back(NovoUsuario);
-    return "Usuário Criado";
-  }
-  
-  for(int i=0; i<usuarios.size(); i++){
-    if(usuarios[i].getEmail() == email){
-      return "Usuário já existe!";
-    }
-    else{
-      countId++;
-      Usuario NovoUsuario(countId, nome, email, senha);
-      usuarios.push_back(NovoUsuario);
-      return "Usuário Criado";
-    }
-  }
-
-  return "Erro!";
-
-}
-
 bool Sistema::search_user(int Id){
   //verificar se usuario esta no std::map<int, std::pair<std::string, std::string>> usuariosLogados;
   auto it = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
@@ -54,6 +30,20 @@ bool Sistema::search_user(int Id){
   
 }
 
+string Sistema::create_user(const string email, const string senha, const string nome) {
+  for(int i=0; i<usuarios.size(); i++){
+    if(usuarios[i].getEmail() == email){
+      return "Usuário já existe!";
+    }
+  }
+  
+  countId++;
+  Usuario NovoUsuario(countId, nome, email, senha);
+  usuarios.push_back(NovoUsuario);
+  return "Usuário Criado";
+
+}
+
 string Sistema::login(const string email, const string senha) {
   for(int i=0; i<usuarios.size(); i++){
     if(usuarios[i].getEmail() == email && usuarios[i].getSenha() == senha){
@@ -72,7 +62,7 @@ string Sistema::login(const string email, const string senha) {
 }
 
 string Sistema::disconnect(int id) {
-  if( !search_user(id) ) { 
+  if( search_user(id)==false ) { 
     return "Não está conectado";
   }
 
@@ -94,7 +84,14 @@ string Sistema::create_server(int id, const string nome) {
     return "Usuário não logado.";
   }
 
-  for(int i = 0; i<servidores.size(); i++) {
+  /*if(servidores.size() == 0) {  
+    Servidor novo(id, nome);
+    servidores.push_back(novo);
+    servidores[0].adicionaParticipante(id);
+    return "Servidor criado";
+  } */
+
+  for(int i=0; i<servidores.size(); i++) {
     if(servidores[i].getNome() == nome) 
       return "Servidor com esse nome já existe.";
   }
