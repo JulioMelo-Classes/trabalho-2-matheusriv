@@ -7,6 +7,8 @@ Servidor::Servidor(int usuarioDonoId, string nome) {
     this->nome = nome;
 }
 
+Servidor::Servidor() {}
+
 int Servidor::getUsuarioDonoId() {
     return usuarioDonoId;
 }
@@ -35,6 +37,17 @@ void Servidor::setDescricao(string descricao) {
     this->descricao = descricao;
 }
 
+void Servidor::setConvite(string codigoConvite) {
+    this->codigoConvite = codigoConvite;
+}
+
 void Servidor::adicionaParticipante(int id) {
     participantesIDs.push_back(id);
+}
+
+void Servidor::removeParticipante(int id){
+    for(auto i = participantesIDs.begin(); i != participantesIDs.end(); i++){
+        if(*i == id)
+            i = participantesIDs.erase(i);
+    }
 }

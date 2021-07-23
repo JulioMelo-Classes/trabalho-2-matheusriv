@@ -30,7 +30,7 @@ class Sistema {
 		@param ID um id válido de um usuário logado no sistema.
 		@return Verdadeiro se o usuario for encontrado, falso se não for encontrado."
 	*/
-	bool search_user(int Id);
+	bool search_usuariosLogados(int Id);
 
 	/*! Cria um usuário e retorna uma string de erro/sucesso 
 		@param email o email do usuário informado no comando create-user

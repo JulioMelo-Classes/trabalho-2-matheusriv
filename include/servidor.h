@@ -21,6 +21,9 @@ class Servidor{
 		/* Construtor */
 		Servidor(int UsuarioDonoId, std::string nome);
 
+		/* Construtor padrão*/
+		Servidor();
+
 		/*
 		* @brief Retorna o Id do dono do servidor.
 		* @return Inteiro Id com o dono do servidor.
@@ -64,10 +67,22 @@ class Servidor{
 		void setDescricao(std::string descricao);
 
 		/*
-		* @brief Adiciona o ID de um novo participante à lista de IDs do servidor
-		* @param id Inteiro id a ser adicionado
+     	* @brief Altera o código de convite do servidor.
+     	* @param codigoConvite Novo código de convite do servidor.
+     	*/
+		void setConvite(std::string codigoConvite);
+
+		/*
+		* @brief Adiciona o ID de um novo participante à lista de IDs do servidor.
+		* @param id Inteiro id a ser adicionado.
 		*/
 		void adicionaParticipante(int id);
+
+		/*
+		* @brief Remove o ID de um participante da lista de IDs do servidor.
+		* @param id Inteiro id a ser removido.
+		*/
+		void removeParticipante(int id);
 };
 
 #endif
