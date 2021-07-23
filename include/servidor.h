@@ -58,6 +58,12 @@ class Servidor{
 		std::vector<int> getParticipantesIds();
 
 		/*
+     	* @brief Altera a descrição do servidor.
+     	* @param descricao Nova descrição do servidor.
+     	*/
+		void setDescricao(std::string descricao);
+
+		/*
 		* @brief Adiciona o ID de um novo participante à lista de IDs do servidor
 		* @param id Inteiro id a ser adicionado
 		*/

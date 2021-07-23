@@ -31,39 +31,39 @@ bool Sistema::search_user(int Id){
 }
 
 string Sistema::create_user(const string email, const string senha, const string nome) {
-  for(int i=0; i<usuarios.size(); i++){
-    if(usuarios[i].getEmail() == email){
-      return "Usuário já existe!";
+  for(int i=0; i<usuarios.size(); i++) { 
+    if(usuarios[i].getEmail() == email) {
+      return "== Usuário já existe! ==";
     }
   }
   
   countId++;
   Usuario NovoUsuario(countId, nome, email, senha);
   usuarios.push_back(NovoUsuario);
-  return "Usuário Criado";
+  return "== Usuário Criado ==";
 
 }
 
 string Sistema::login(const string email, const string senha) {
-  for(int i=0; i<usuarios.size(); i++){
-    if(usuarios[i].getEmail() == email && usuarios[i].getSenha() == senha){
+  for(int i=0; i<usuarios.size(); i++) {
+    if(usuarios[i].getEmail() == email && usuarios[i].getSenha() == senha) {
       if( search_user(usuarios[i].getId()) ) { 
-        return "Usuário '" + usuarios[i].getEmail() + "' já encontra-se logado!";
+        return "== Usuário '" + usuarios[i].getEmail() + "' já encontra-se logado! ==";
       }
       else{ 
         usuariosLogados.insert({usuarios[i].getId(), {"",""}});
-        return "Logado como " + email;
+        return "== Logado como " + email + " ==";
       }
     } 
   }
 
-  return "Senha ou Usuário Inválidos!";
+  return "== Senha ou Usuário Inválidos! ==";
 
 }
 
 string Sistema::disconnect(int id) {
   if( search_user(id)==false ) { 
-    return "Não está conectado";
+    return "== Usuário precisa estar logado para desconectar! ==";
   }
 
   auto it = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
@@ -75,36 +75,44 @@ string Sistema::disconnect(int id) {
                                 });
 
   usuariosLogados.erase(it);
-  return "Desconectando usuário isaacfranco@imd.ufrn.br";
+  return "== Desconectando usuário isaacfranco@imd.ufrn.br ==";
 
 }
 
 string Sistema::create_server(int id, const string nome) {
-  if( !search_user(id) ) { 
-    return "Usuário não logado.";
+  if( search_user(id)==false ) { 
+    return "== Usuário precisa estar logado para criar servidor! ==";
   }
-
-  /*if(servidores.size() == 0) {  
-    Servidor novo(id, nome);
-    servidores.push_back(novo);
-    servidores[0].adicionaParticipante(id);
-    return "Servidor criado";
-  } */
 
   for(int i=0; i<servidores.size(); i++) {
     if(servidores[i].getNome() == nome) 
-      return "Servidor com esse nome já existe.";
+      return "== Servidor com esse nome já existe. ==";
   }
 
-  Servidor novo(id, nome);
-  servidores.push_back(novo);
+  Servidor novoServidor(id, nome);
+  servidores.push_back(novoServidor);
   servidores[(int)servidores.size()-1].adicionaParticipante(id);
-  return "Servidor criado";
+  return "== Servidor criado ==";
 
 }
 
 string Sistema::set_server_desc(int id, const string nome, const string descricao) {
-  return "set_server_desc NÃO IMPLEMENTADO";
+  if(search_user(id)==false) {
+    return "== Usuário precisa estar logado! ==";
+  }
+
+  for(int i=0; i<servidores.size(); i++) {
+    if(servidores[i].getNome() == nome && servidores[i].getUsuarioDonoId() == id) {
+      servidores[i].setDescricao(descricao);
+      return "== Descrição do servidor '" + nome + "' modificada ==";
+    }
+    else if(servidores[i].getNome() == nome && servidores[i].getUsuarioDonoId() != id) {
+        return "== Você não pode alterar a descrição de um servidor que não foi criado por você! ==";
+    }
+  }
+
+return "Servidor '" + nome + "' não existe";
+
 }
 
 string Sistema::set_server_invite_code(int id, const string nome, const string codigo) {

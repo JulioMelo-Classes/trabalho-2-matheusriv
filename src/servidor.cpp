@@ -31,6 +31,10 @@ vector<int> Servidor::getParticipantesIds() {
     return participantesIDs;
 }
 
+void Servidor::setDescricao(string descricao) {
+    this->descricao = descricao;
+}
+
 void Servidor::adicionaParticipante(int id) {
     participantesIDs.push_back(id);
 }
