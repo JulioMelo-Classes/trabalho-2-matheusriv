@@ -44,12 +44,13 @@ std::map<int, std::pair<std::string, std::string>>::iterator Sistema::search_it_
 void Sistema::apagar_servidor_usuariosLogados(string nome){
   for(auto it_users=usuariosLogados.begin(); it_users!=usuariosLogados.end(); it_users++){ 
     auto it_aux = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
-                          [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
-                              if(entrada.second.first == nome) 
-                                  return true; 
-                              else 
-                                  return false;
-                              });
+                                [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
+                                    if(entrada.second.first == nome) 
+                                        return true; 
+                                    else 
+                                        return false;
+                                });
+
     if(it_aux != usuariosLogados.end()) {
       usuariosLogados.erase(it_aux);
       usuariosLogados.insert({it_aux->first, {"",""}});
@@ -253,7 +254,7 @@ string Sistema::leave_server(int id, const string nome) {
     };
   }
   
-  return "Saindo do servidor '" + nome + "'";
+  return "== Saindo do servidor '" + nome + "' ==";
 
 }
 
@@ -283,20 +284,21 @@ string Sistema::list_participants(int id) {
       }
     }
 
-    string listaParticipantes = "";
-
+    string listaParticipantes;
+    
     for(int i=0; i<usuarios.size(); i++) {
-      for(int j=0; j<listaParticipantes.size(); j++) {
-        if(usuarios[i].getId() == listaParticipantesIds[j]) 
-          listaParticipantes += usuarios[i].getNome() + "\n";
+      for(int j=0; j<listaParticipantesIds.size(); j++) {
+        if(usuarios[i].getId() == listaParticipantesIds[j])
+          listaParticipantes += "  " + usuarios[i].getNome() + "\n";
       }
     }
 
     return listaParticipantes;
+
   }
 
   // usuario não está visualizando um servidor
-  return "Não há servidor conectado";
+  return "== Não há servidor conectado ==";
 
 }
 
