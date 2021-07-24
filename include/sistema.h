@@ -36,13 +36,13 @@ class Sistema {
 		@param ID um id válido de um usuário logado no sistema.
 		@return Iterator do usuário em usuariosLogados."
 	*/
-	std::map<int, std::pair<std::string, std::string>>::iterator Sistema::search_it_usuariosLogados(int id);
+	std::map<int, std::pair<std::string, std::string>>::iterator search_it_usuariosLogados(int id);
 
 	/*! Apaga um servidor que o usuário esteja visualizando. 
 		Campos correspondentes ao Servidor e CanalTexto que estão sendo vizualizados recebem strings vazias.
 		@param nome Nome do servidor a ser removido.
 	*/
-	void Sistema::apagar_servidor_usuariosLogados(std::string nome);
+	void apagar_servidor_usuariosLogados(std::string nome);
 
 	/*! Cria um usuário e retorna uma string de erro/sucesso 
 		@param email o email do usuário informado no comando create-user
