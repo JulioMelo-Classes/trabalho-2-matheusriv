@@ -52,8 +52,8 @@ void Sistema::apagar_servidor_usuariosLogados(string nome){
                                 });
 
     if(it_aux != usuariosLogados.end()) {
-      usuariosLogados.erase(it_aux);
       usuariosLogados.insert({it_aux->first, {"",""}});
+      usuariosLogados.erase(it_aux);
     }
   }
 }
@@ -217,7 +217,6 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
 
   if(servidores[i].getUsuarioDonoId() == id) {
     servidores[i].adicionaParticipante(id);
-    usuarios[id].adicionaServidor(nome);
     usuariosLogados.erase(search_it_usuariosLogados(id));
     usuariosLogados.insert({id, {nome,""}});
     return "== Entrou no servidor com sucesso ==";
@@ -225,7 +224,6 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
   else if(servidores[i].getCodigoConvite().empty() || 
           servidores[i].getCodigoConvite() == codigo) {
     servidores[i].adicionaParticipante(id);
-    usuarios[id].adicionaServidor(nome);
     usuariosLogados.erase(search_it_usuariosLogados(id));
     usuariosLogados.insert({id, {nome,""}});
     return "== Entrou no servidor com sucesso ==";
@@ -241,9 +239,11 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
 string Sistema::leave_server(int id, const string nome) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado! ==";
+  
+  auto it = search_it_usuariosLogados(id);
 
-  if(usuarios[id].getServidores_usuario().empty()) 
-    return "== Você não está em qualquer servidor =="; 
+  if(it->second.first.empty())
+    return "== Você não está em qualquer servidor ==";
   
   for(int i=0; i<servidores.size(); i++) {
     if(servidores[i].getNome() == nome) {

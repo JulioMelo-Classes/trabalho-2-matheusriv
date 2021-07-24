@@ -9,7 +9,7 @@ class Usuario{
     std::string nome;  //<! Nome do usuário.
     std::string email; //<! Endereço de email do usuário.
     std::string senha; //<! Senha do login.
-    std::vector<std::string> servidores_usuario; //<! Um vetor contendo os servidores em que o usuário está.
+    std::vector<std::string> servidores_usuario; //<! vetor contendo os servidores em que o usuário está.
 
   public:
     /* Construtor */
