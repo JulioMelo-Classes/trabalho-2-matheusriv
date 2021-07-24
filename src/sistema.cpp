@@ -10,11 +10,11 @@ string Sistema::quit() {
   return "Saindo...";
 }
 
-bool Sistema::search_usuariosLogados(int Id){
+bool Sistema::search_usuariosLogados(int id){
   //verificar se usuario esta no std::map<int, std::pair<std::string, std::string>> usuariosLogados;
   auto it = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
                             [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
-                                if(entrada.first == Id) 
+                                if(entrada.first == id) 
                                     return true; 
                                 else 
                                     return false;
@@ -28,6 +28,33 @@ bool Sistema::search_usuariosLogados(int Id){
   //usuario não logado 
   return false;
   
+}
+
+std::map<int, std::pair<std::string, std::string>>::iterator Sistema::search_it_usuariosLogados(int id){
+  auto it = usuariosLogados.begin();
+  for(; it != usuariosLogados.end(); it++){
+    if(it->first == id)
+      break;
+  }
+
+  return it;
+
+}
+
+void Sistema::apagar_servidor_usuariosLogados(string nome){
+  for(auto it_users=usuariosLogados.begin(); it_users!=usuariosLogados.end(); it_users++){ 
+    auto it_aux = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
+                          [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
+                              if(entrada.second.first == nome) 
+                                  return true; 
+                              else 
+                                  return false;
+                              });
+    if(it_aux != usuariosLogados.end()) {
+      usuariosLogados.erase(it_aux);
+      usuariosLogados.insert({it_aux->first, {"",""}});
+    }
+  }
 }
 
 string Sistema::create_user(const string email, const string senha, const string nome) {
@@ -62,22 +89,16 @@ string Sistema::login(const string email, const string senha) {
 }
 
 string Sistema::disconnect(int id) {
-  if( search_usuariosLogados(id)==false )  
+  if(search_usuariosLogados(id) == false)  
     return "== Usuário precisa estar logado para desconectar! ==";
 
-  auto it = usuariosLogados.begin();
-  for(; it != usuariosLogados.end(); it++){
-    if(it->first == id)
-      break;
-  }
-
-  usuariosLogados.erase(it);
+  usuariosLogados.erase(search_it_usuariosLogados(id));
   return "== Desconectando usuário isaacfranco@imd.ufrn.br ==";
 
 }
 
 string Sistema::create_server(int id, const string nome) {
-  if( search_usuariosLogados(id)==false ) 
+  if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para criar servidor! ==";
 
   for(int i=0; i<servidores.size(); i++) {
@@ -94,7 +115,7 @@ string Sistema::create_server(int id, const string nome) {
 }
 
 string Sistema::set_server_desc(int id, const string nome, const string descricao) {
-  if(search_usuariosLogados(id)==false) 
+  if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado! ==";
 
   for(int i=0; i<servidores.size(); i++) {
@@ -103,16 +124,16 @@ string Sistema::set_server_desc(int id, const string nome, const string descrica
       return "== Descrição do servidor '" + nome + "' modificada ==";
     }
     else if(servidores[i].getNome() == nome && servidores[i].getUsuarioDonoId() != id) {
-        return "== Você não pode alterar a descrição de um servidor que não foi criado por você! ==";
+      return "== Você não pode alterar a descrição de um servidor que não foi criado por você! ==";
     }
   }
 
-return "Servidor '" + nome + "' não existe";
+  return "Servidor '" + nome + "' não existe";
 
 }
 
 string Sistema::set_server_invite_code(int id, const string nome, const string codigo) {
-  if(search_usuariosLogados(id)==false) 
+  if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado! ==";
 
   for(int i=0; i<servidores.size(); i++) {
@@ -136,7 +157,7 @@ string Sistema::set_server_invite_code(int id, const string nome, const string c
 }
 
 string Sistema::list_servers(int id) {
-  if(search_usuariosLogados(id)==false) 
+  if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado! ==";
 
   if(servidores.empty()) 
@@ -159,29 +180,17 @@ string Sistema::list_servers(int id) {
 }
 
 string Sistema::remove_server(int id, const string nome) {
-  if(search_usuariosLogados(id)==false) 
+  if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado! ==";
 
-  for(auto it_serv = servidores.begin(); it_serv != servidores.end(); it_serv++) {
-    if(it_serv->getNome() == nome && it_serv->getUsuarioDonoId() == id) {
+  for(auto it = servidores.begin(); it != servidores.end(); it++) {
+    if(it->getNome() == nome && it->getUsuarioDonoId() == id) {
       // apagar servidor e atualizar usuariosLogados que estejam visualizando o servidor
-      for(auto it_users=usuariosLogados.begin(); it_users!=usuariosLogados.end(); it_users++){ 
-        auto it_aux = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
-                              [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
-                                  if(entrada.second.first == nome) 
-                                      return true; 
-                                  else 
-                                      return false;
-                                  });
-        if(it_aux != usuariosLogados.end()) {
-          usuariosLogados.erase(it_aux);
-          usuariosLogados.insert({it_aux->first, {"",""}});
-        } 
-      }
-      servidores.erase(it_serv);
+      apagar_servidor_usuariosLogados(nome);
+      servidores.erase(it);
       return "== Servidor '" + nome + "' removido ==";
     }
-    else if(it_serv->getNome() == nome && it_serv->getUsuarioDonoId() != id) {
+    else if(it->getNome() == nome && it->getUsuarioDonoId() != id) {
       return "== Você não é o dono do servidor '" + nome + "' ==";
     }
   }
@@ -191,11 +200,11 @@ string Sistema::remove_server(int id, const string nome) {
 }
 
 string Sistema::enter_server(int id, const string nome, const string codigo) {
-  if(search_usuariosLogados(id)==false) 
+  if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado! ==";
 
-  int i;
   bool ServidorAchado = false;
+  int i;
   for(i=0; i<servidores.size(); i++) {
     if(servidores[i].getNome() == nome) {
       ServidorAchado = true;
@@ -204,17 +213,11 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
   }
 
   if(!ServidorAchado) return "== Servidor '" + nome + "' não existe ==";
-  
-  auto it = usuariosLogados.begin();
-  for(; it != usuariosLogados.end(); it++){
-    if(it->first == id)
-      break;
-  }
 
   if(servidores[i].getUsuarioDonoId() == id) {
     servidores[i].adicionaParticipante(id);
     usuarios[id].adicionaServidor(nome);
-    usuariosLogados.erase(it);
+    usuariosLogados.erase(search_it_usuariosLogados(id));
     usuariosLogados.insert({id, {nome,""}});
     return "== Entrou no servidor com sucesso ==";
   } 
@@ -222,7 +225,7 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
           servidores[i].getCodigoConvite() == codigo) {
     servidores[i].adicionaParticipante(id);
     usuarios[id].adicionaServidor(nome);
-    usuariosLogados.erase(it);
+    usuariosLogados.erase(search_it_usuariosLogados(id));
     usuariosLogados.insert({id, {nome,""}});
     return "== Entrou no servidor com sucesso ==";
   } 
@@ -235,20 +238,20 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
 }
 
 string Sistema::leave_server(int id, const string nome) {
-  if(search_usuariosLogados(id)==false) 
+  if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado! ==";
 
-  if(usuarios[id].getServidores_usuario().empty())
-    return "== Você não está em qualquer servidor ==";
+  if(usuarios[id].getServidores_usuario().empty()) 
+    return "== Você não está em qualquer servidor =="; 
   
-  int i;
-  for(i=0; i<servidores.size(); i++) {
+  for(int i=0; i<servidores.size(); i++) {
     if(servidores[i].getNome() == nome) {
+      servidores[i].removeParticipante(id);
+      // atualizar usuariosLogados se usuario estiver visualizando o servidor
+      apagar_servidor_usuariosLogados(nome);
       break;
     };
   }
-
-  servidores[i].removeParticipante(id);
   
   return "Saindo do servidor '" + nome + "'";
 
@@ -258,6 +261,7 @@ string Sistema::list_participants(int id) {
   if(search_usuariosLogados(id)==false) 
     return "== Usuário precisa estar logado! ==";
 
+  // verificar se o usuário logado está visualizando um servidor
   auto it = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
                             [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
                                 if(entrada.first == id && entrada.second.first != "")
@@ -265,27 +269,33 @@ string Sistema::list_participants(int id) {
                                 else 
                                     return false;
                                 });
-  
+
   if(it != usuariosLogados.end()) {
-    //usuario tem servidor conectado
+    // usuario está visualizando um servidor
     cout << "== Lista de Participantes ==" << endl;
 
-    int i;
-    for(i=0; i<servidores.size(); i++) {
-      if(servidores[i].getNome() == it->second.first) 
+    vector<int> listaParticipantesIds;
+
+    for(int i=0; i<servidores.size(); i++) {
+      if(servidores[i].getNome() == it->second.first) { 
+        listaParticipantesIds = servidores[i].getParticipantesIds();
         break;
+      }
     }
 
-    vector<int> listaIds = servidores[i].getParticipantesIds();
+    string listaParticipantes = "";
+
     for(int i=0; i<usuarios.size(); i++) {
-      for(int j=0; j<listaIds.size(); j++) {
-        if(usuarios[i].getId() == listaIds[j]) 
+      for(int j=0; j<listaParticipantes.size(); j++) {
+        if(usuarios[i].getId() == listaParticipantesIds[j]) 
           listaParticipantes += usuarios[i].getNome() + "\n";
       }
     }
+
+    return listaParticipantes;
   }
 
-  //usuario não tem servidor conectado
+  // usuario não está visualizando um servidor
   return "Não há servidor conectado";
 
 }

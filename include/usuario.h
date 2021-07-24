@@ -5,11 +5,11 @@
 
 class Usuario{
   private:
-    int id;            //<! ID do usuário
-    std::string nome;  //<! Nome do usuário 
-    std::string email; //<! Endereço de email do usuário 
-    std::string senha; //<! Senha do login  
-    std::vector<std::string> servidores_usuario; //<! Um vetor contendo os servidores em que o usuário está
+    int id;            //<! ID do usuário.
+    std::string nome;  //<! Nome do usuário.
+    std::string email; //<! Endereço de email do usuário.
+    std::string senha; //<! Senha do login.
+    std::vector<std::string> servidores_usuario; //<! Um vetor contendo os servidores em que o usuário está.
 
   public:
     /* Construtor */

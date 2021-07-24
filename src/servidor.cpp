@@ -46,8 +46,5 @@ void Servidor::adicionaParticipante(int id) {
 }
 
 void Servidor::removeParticipante(int id){
-    for(auto i = participantesIDs.begin(); i != participantesIDs.end(); i++){
-        if(*i == id)
-            i = participantesIDs.erase(i);
-    }
+    participantesIDs.erase(std::remove(participantesIDs.begin(), participantesIDs.end(), id), participantesIDs.end());
 }

@@ -19,7 +19,7 @@ class Servidor{
 
 	public:
 		/* Construtor */
-		Servidor(int UsuarioDonoId, std::string nome);
+		Servidor(int usuarioDonoId, std::string nome);
 
 		/* Construtor padrão*/
 		Servidor();
