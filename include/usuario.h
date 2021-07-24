@@ -9,7 +9,6 @@ class Usuario{
     std::string nome;  //<! Nome do usuário.
     std::string email; //<! Endereço de email do usuário.
     std::string senha; //<! Senha do login.
-    std::vector<std::string> servidores_usuario; //<! vetor contendo os servidores em que o usuário está.
 
   public:
     /* Construtor */
@@ -65,20 +64,6 @@ class Usuario{
      * @return String com a senha do usuário.
      */
     std::string getSenha();
-
-    /*
-     * @brief Retorna os servidores do usuário.
-     * @return Vetor com os servidores do usuário.
-     */
-    std::vector<std::string> getServidores_usuario();
-
-    /*
-     * @brief Adiciona o nome de um novo servidor à lista de servidores em que o usuário está.
-     * @param nome_servidor Nome do novo servidor a ser adicionado.
-     */
-    void adicionaServidor(std::string nome_servidor);
-
-
 
 };
 

@@ -41,11 +41,3 @@ string Usuario::getEmail(){
 string Usuario::getSenha(){
   return senha;
 }
-
-vector<string> Usuario::getServidores_usuario(){
-  return servidores_usuario;
-}
-
-void Usuario::adicionaServidor(string nome_servidor) {
-    servidores_usuario.push_back(nome_servidor);
-}
