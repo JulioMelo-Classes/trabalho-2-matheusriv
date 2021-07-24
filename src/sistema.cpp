@@ -52,8 +52,8 @@ void Sistema::apagar_servidor_usuariosLogados(string nome){
                                 });
 
     if(it_aux != usuariosLogados.end()) {
-      usuariosLogados.insert({it_aux->first, {"",""}});
-      usuariosLogados.erase(it_aux);
+      it_aux->second.first.clear();
+      it_aux->second.second.clear();
     }
   }
 }
@@ -245,8 +245,8 @@ string Sistema::leave_server(int id, const string nome) {
     if(servidores[i].getNome() == nome) {
       servidores[i].removeParticipante(id);
       // atualizar usuariosLogados se usuario estiver visualizando o servidor
-      it->second.first = "";
-      it->second.second = "";
+      it->second.first.clear();
+      it->second.second.clear();
       break;
     };
   }
