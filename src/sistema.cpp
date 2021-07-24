@@ -61,7 +61,7 @@ void Sistema::apagar_servidor_usuariosLogados(string nome){
 string Sistema::create_user(const string email, const string senha, const string nome) {
   for(int i=0; i<usuarios.size(); i++) { 
     if(usuarios[i].getEmail() == email) {
-      return "== Usuário já existe! ==";
+      return "== Usuário '" + email + "' já existe! ==";
     }
   }
   
@@ -128,7 +128,7 @@ string Sistema::set_server_desc(int id, const string nome, const string descrica
     }
   }
 
-  return "Servidor '" + nome + "' não existe";
+  return "Servidor '" + nome + "' não encontrado!";
 
 }
 
@@ -195,7 +195,7 @@ string Sistema::remove_server(int id, const string nome) {
     }
   }
 
-  return "== Servidor '" + nome + "' não existe ==";
+  return "== Servidor '" + nome + "' não existe! ==";
 
 }
 
@@ -212,7 +212,7 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
     };
   }
 
-  if(!ServidorAchado) return "== Servidor '" + nome + "' não existe ==";
+  if(!ServidorAchado) return "== Servidor '" + nome + "' não existe! ==";
 
   if(servidores[i].getUsuarioDonoId() == id) {
     servidores[i].adicionaParticipante(id);
@@ -239,7 +239,7 @@ string Sistema::leave_server(int id, const string nome) {
   
   auto it = search_it_usuariosLogados(id);
   if(it->second.first.empty())
-    return "== Você não está em qualquer servidor ==";
+    return "== Você não está em qualquer servidor! ==";
   
   for(int i=0; i<servidores.size(); i++) {
     if(servidores[i].getNome() == nome) {
@@ -263,7 +263,7 @@ string Sistema::list_participants(int id) {
 
   if(it->first == id && it->second.first != ""){
     // usuario está visualizando um servidor
-    cout << "== Lista de Participantes ==" << endl;
+    cout << "== Lista de Participantes '" + it->second.first + "'==" << endl;
 
     vector<int> listaParticipantesIds;
 
