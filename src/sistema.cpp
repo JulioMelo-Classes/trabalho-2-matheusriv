@@ -94,7 +94,7 @@ string Sistema::disconnect(int id) {
     return "== Usuário precisa estar logado para desconectar! ==";
 
   usuariosLogados.erase(search_it_usuariosLogados(id));
-  return "== Desconectando usuário isaacfranco@imd.ufrn.br ==";
+  return "== Desconectando usuário " + usuarios[id].getEmail() + " ==";
 
 }
 
@@ -104,20 +104,19 @@ string Sistema::create_server(int id, const string nome) {
 
   for(int i=0; i<servidores.size(); i++) {
     if(servidores[i].getNome() == nome) 
-      return "== Servidor com esse nome já existe. ==";
+      return "== Servidor com o nome '" + nome + "' já existe! ==";
   }
 
   Servidor novoServidor(id, nome);
   servidores.push_back(novoServidor);
   //servidores[(int)servidores.size()-1].adicionaParticipante(id);
-  //usuarios[id].adicionaServidor(nome);
   return "== Servidor criado ==";
 
 }
 
 string Sistema::set_server_desc(int id, const string nome, const string descricao) {
   if(search_usuariosLogados(id) == false) 
-    return "== Usuário precisa estar logado! ==";
+    return "== Usuário precisa estar logado para mudar descrição de um servidor! ==";
 
   for(int i=0; i<servidores.size(); i++) {
     if(servidores[i].getNome() == nome && servidores[i].getUsuarioDonoId() == id) {
@@ -135,7 +134,7 @@ string Sistema::set_server_desc(int id, const string nome, const string descrica
 
 string Sistema::set_server_invite_code(int id, const string nome, const string codigo) {
   if(search_usuariosLogados(id) == false) 
-    return "== Usuário precisa estar logado! ==";
+    return "== Usuário precisa estar logado para mudar código de convite de um servidor! ==";
 
   for(int i=0; i<servidores.size(); i++) {
     if(servidores[i].getNome() == nome && servidores[i].getUsuarioDonoId() == id) {
@@ -159,16 +158,16 @@ string Sistema::set_server_invite_code(int id, const string nome, const string c
 
 string Sistema::list_servers(int id) {
   if(search_usuariosLogados(id) == false) 
-    return "== Usuário precisa estar logado! ==";
+    return "== Usuário precisa estar logado para acessar lista de servidores! ==";
 
   if(servidores.empty()) 
-    return "== Não há servidores cadastrados. ==";
+    return "== Não há servidores cadastrados ==";
 
   cout << "== Lista de Servidores ==" << endl;
   for(int i=0; i<servidores.size(); i++) {
     cout << "  " << servidores[i].getNome();
 
-    if(servidores[i].getCodigoConvite() == "") {
+    if(servidores[i].getCodigoConvite().empty()) {
       cout << " | Servidor Aberto" << endl;
     }
     else {
@@ -182,7 +181,7 @@ string Sistema::list_servers(int id) {
 
 string Sistema::remove_server(int id, const string nome) {
   if(search_usuariosLogados(id) == false) 
-    return "== Usuário precisa estar logado! ==";
+    return "== Usuário precisa estar logado para remover um servidor! ==";
 
   for(auto it = servidores.begin(); it != servidores.end(); it++) {
     if(it->getNome() == nome && it->getUsuarioDonoId() == id) {
@@ -202,7 +201,7 @@ string Sistema::remove_server(int id, const string nome) {
 
 string Sistema::enter_server(int id, const string nome, const string codigo) {
   if(search_usuariosLogados(id) == false) 
-    return "== Usuário precisa estar logado! ==";
+    return "== Usuário precisa estar logado para entrar num servidor! ==";
 
   bool ServidorAchado = false;
   int i;
@@ -217,19 +216,17 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
 
   if(servidores[i].getUsuarioDonoId() == id) {
     servidores[i].adicionaParticipante(id);
-    usuariosLogados.erase(search_it_usuariosLogados(id));
-    usuariosLogados.insert({id, {nome,""}});
+    search_it_usuariosLogados(id)->second.first = nome;
     return "== Entrou no servidor com sucesso ==";
   } 
   else if(servidores[i].getCodigoConvite().empty() || 
           servidores[i].getCodigoConvite() == codigo) {
     servidores[i].adicionaParticipante(id);
-    usuariosLogados.erase(search_it_usuariosLogados(id));
-    usuariosLogados.insert({id, {nome,""}});
+    search_it_usuariosLogados(id)->second.first = nome;
     return "== Entrou no servidor com sucesso ==";
   } 
   else if( !(servidores[i].getCodigoConvite().empty()) && codigo.empty() ) {
-    return "== Servidor requer código de convite ==";
+    return "== Servidor requer código de convite! ==";
   } 
   
   return "== Código de convite incorreto! ==";
@@ -238,10 +235,9 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
 
 string Sistema::leave_server(int id, const string nome) {
   if(search_usuariosLogados(id) == false) 
-    return "== Usuário precisa estar logado! ==";
+    return "== Usuário precisa estar logado para sair de um servidor! ==";
   
   auto it = search_it_usuariosLogados(id);
-
   if(it->second.first.empty())
     return "== Você não está em qualquer servidor ==";
   
@@ -249,7 +245,8 @@ string Sistema::leave_server(int id, const string nome) {
     if(servidores[i].getNome() == nome) {
       servidores[i].removeParticipante(id);
       // atualizar usuariosLogados se usuario estiver visualizando o servidor
-      apagar_servidor_usuariosLogados(nome);
+      it->second.first = "";
+      it->second.second = "";
       break;
     };
   }
@@ -260,18 +257,11 @@ string Sistema::leave_server(int id, const string nome) {
 
 string Sistema::list_participants(int id) {
   if(search_usuariosLogados(id)==false) 
-    return "== Usuário precisa estar logado! ==";
+    return "== Usuário precisa estar logado acessar lista de participantes de um servidor! ==";
+  
+  auto it = search_it_usuariosLogados(id);
 
-  // verificar se o usuário logado está visualizando um servidor
-  auto it = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
-                            [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
-                                if(entrada.first == id && entrada.second.first != "")
-                                    return true; 
-                                else 
-                                    return false;
-                                });
-
-  if(it != usuariosLogados.end()) {
+  if(it->first == id && it->second.first != ""){
     // usuario está visualizando um servidor
     cout << "== Lista de Participantes ==" << endl;
 
