@@ -263,7 +263,7 @@ string Sistema::list_participants(int id) {
 
   if(it->first == id && it->second.first != ""){
     // usuario está visualizando um servidor
-    cout << "== Lista de Participantes '" + it->second.first + "'==" << endl;
+    cout << "== Lista de Participantes '" + it->second.first + "' ==" << endl;
 
     vector<int> listaParticipantesIds;
 
