@@ -110,7 +110,7 @@ string Sistema::create_server(int id, const string nome) {
   Servidor novoServidor(id, nome);
   servidores.push_back(novoServidor);
   //servidores[(int)servidores.size()-1].adicionaParticipante(id);
-  return "== Servidor criado ==";
+  return "== Servidor '" + nome + "' criado ==";
 
 }
 
@@ -217,7 +217,7 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
   if(servidores[i].getUsuarioDonoId() == id) {
     servidores[i].adicionaParticipante(id);
     search_it_usuariosLogados(id)->second.first = nome;
-    return "== Entrou no servidor com sucesso ==";
+    return "== Entrou no servidor '" + nome + "' com sucesso ==";
   } 
   else if(servidores[i].getCodigoConvite().empty() || 
           servidores[i].getCodigoConvite() == codigo) {
@@ -311,13 +311,13 @@ string Sistema::list_channels(int id) {
   }
 
   if(vetorCanaisTexto.empty()) 
-    return "Nenhum canal no servidor foi encontrado!";
+    return "== Nenhum canal de texto em '" + nomeServidorConectado + "' foi encontrado! ==";
 
   string canais;
 
-  canais += "#canais de texto '" + nomeServidor + "'\n";
+  canais += "#canais de texto '" + nomeServidorConectado + "'\n";
   for(int i=0; i<vetorCanaisTexto.size(); i++) {
-    canais += vetorCanaisTexto[i].getCanalTextoNome() + "\n";
+    canais += "  " + vetorCanaisTexto[i].getCanalTextoNome() + "\n";
   }
 
   return canais;
@@ -334,7 +334,7 @@ string Sistema::create_channel(int id, const string nome) {
   string nomeServidorConectado = search_it_usuariosLogados(id)->second.first;
   
   //std::vector<Servidor>::iterator it_server
-  auto it_server = servidores.begin()
+  auto it_server = servidores.begin();
   for(; it_server != servidores.end(); it_server++) {
     if(it_server->getNome() == nomeServidorConectado) {
       break;
@@ -342,9 +342,11 @@ string Sistema::create_channel(int id, const string nome) {
   }
 
   CanalTexto NovoCanalTexto(nome);
-  it_server->canaisTexto.push_back(NovoCanalTexto);
+  it_server->adicionaCanalTexto(nome, NovoCanalTexto);
 
-  return "Canal de texto '" + nome "' criado";
+  return "== Canal de texto '" + nome + "' no servidor '" + nomeServidorConectado + "' criado ==";
+
+}
 
 
 string Sistema::enter_channel(int id, const string nome) {

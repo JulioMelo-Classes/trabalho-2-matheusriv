@@ -81,6 +81,13 @@ class Servidor{
 		* @param id Inteiro id a ser removido.
 		*/
 		void removeParticipante(int id);
+
+    /*
+		* @brief Adiciona um canal de texto na list de canais de texto do servidor.
+		* @param nome Nome do canal de texto a ser adicionado.
+    * @param novoCanalTexto Canal de texto a ser adicionado.
+		*/
+    void adicionaCanalTexto(std::string nome, CanalTexto novoCanalTexto);
 };
 
 #endif
