@@ -41,21 +41,16 @@ std::map<int, std::pair<std::string, std::string>>::iterator Sistema::search_it_
 
 }
 
-void Sistema::apagar_servidor_usuariosLogados(string nome){
-  for(auto it_users=usuariosLogados.begin(); it_users!=usuariosLogados.end(); it_users++){ 
-    auto it_aux = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
-                                [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
-                                    if(entrada.second.first == nome) 
-                                        return true; 
-                                    else 
-                                        return false;
-                                });
-
-    if(it_aux != usuariosLogados.end()) {
-      it_aux->second.first.clear();
-      it_aux->second.second.clear();
+std::vector<Servidor>::iterator Sistema::search_it_servidores(string nomeServidor){
+  auto it_server = servidores.begin();
+  for(; it_server != servidores.end(); it_server++) {
+    if(it_server->getNome() == nomeServidor) {
+      break;
     }
   }
+
+  return it_server;
+
 }
 
 string Sistema::create_user(const string email, const string senha, const string nome) {
@@ -75,13 +70,13 @@ string Sistema::create_user(const string email, const string senha, const string
 string Sistema::login(const string email, const string senha) {
   for(int i=0; i<usuarios.size(); i++) {
     if(usuarios[i].getEmail() == email && usuarios[i].getSenha() == senha) {
-      if( search_usuariosLogados(usuarios[i].getId()) ) { 
-        return "== Usuário '" + email + "' já encontra-se logado! ==";
-      }
-      else{ 
-        usuariosLogados.insert({usuarios[i].getId(), {"",""}});
-        return "== Logado como " + email + " ==";
-      }
+        if( search_usuariosLogados(usuarios[i].getId()) ) { 
+          return "== Usuário '" + email + "' já encontra-se logado! ==";
+        } 
+        else { 
+          usuariosLogados.insert({usuarios[i].getId(), {"",""}});
+          return "== Logado como " + email + " ==";
+        }
     } 
   }
 
@@ -183,14 +178,26 @@ string Sistema::remove_server(int id, const string nome) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para remover um servidor! ==";
 
-  for(auto it = servidores.begin(); it != servidores.end(); it++) {
-    if(it->getNome() == nome && it->getUsuarioDonoId() == id) {
+  for(auto it_server = servidores.begin(); it_server != servidores.end(); it_server++) {
+    if(it_server->getNome() == nome && it_server->getUsuarioDonoId() == id) {
+      // se nome do servidor e id do dono do servidor forem iguais aos parametros
       // apagar servidor e atualizar usuariosLogados que estejam visualizando o servidor
-      apagar_servidor_usuariosLogados(nome);
-      servidores.erase(it);
+      for(auto it_users=usuariosLogados.begin(); it_users!=usuariosLogados.end(); it_users++){ 
+        auto it_aux = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
+                                    [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
+                                        if(entrada.second.first == nome) 
+                                            return true; 
+                                        else 
+                                            return false;
+                                    });
+        if(it_aux != usuariosLogados.end()) {
+          it_aux->second.first.clear();
+          it_aux->second.second.clear(); }
+      }
+      servidores.erase(it_server);
       return "== Servidor '" + nome + "' removido ==";
     }
-    else if(it->getNome() == nome && it->getUsuarioDonoId() != id) {
+    else if(it_server->getNome() == nome && it_server->getUsuarioDonoId() != id) {
       return "== Você não é o dono do servidor '" + nome + "' ==";
     }
   }
@@ -237,16 +244,17 @@ string Sistema::leave_server(int id, const string nome) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para sair de um servidor! ==";
   
-  auto it = search_it_usuariosLogados(id);
-  if(it->second.first.empty())
+  auto it_user = search_it_usuariosLogados(id);
+
+  if(it_user->second.first.empty())
     return "== Você não está em qualquer servidor! ==";
   
   for(int i=0; i<servidores.size(); i++) {
     if(servidores[i].getNome() == nome) {
       servidores[i].removeParticipante(id);
       // atualizar usuariosLogados se usuario estiver visualizando o servidor
-      it->second.first.clear();
-      it->second.second.clear();
+      it_user->second.first.clear();
+      it_user->second.second.clear();
       break;
     };
   }
@@ -257,19 +265,19 @@ string Sistema::leave_server(int id, const string nome) {
 
 string Sistema::list_participants(int id) {
   if(search_usuariosLogados(id) == false) 
-    return "== Usuário precisa estar logado acessar lista de participantes de um servidor! ==";
+    return "== Usuário precisa estar logado para acessar lista de participantes de um servidor! ==";
   
-  auto it = search_it_usuariosLogados(id);
+  auto it_user = search_it_usuariosLogados(id);
 
-  if(it->first == id && it->second.first != ""){
+  if(it_user->first == id && it_user->second.first != ""){
     // usuario está visualizando um servidor
-    cout << "== Lista de Participantes '" + it->second.first + "' ==" << endl;
+    cout << "== Lista de Participantes '" + it_user->second.first + "' ==" << endl;
 
-    vector<int> listaParticipantesIds;
+    vector<int> vetorParticipantesIds;
 
     for(int i=0; i<servidores.size(); i++) {
-      if(servidores[i].getNome() == it->second.first) { 
-        listaParticipantesIds = servidores[i].getParticipantesIds();
+      if(servidores[i].getNome() == it_user->second.first) { 
+        vetorParticipantesIds = servidores[i].getParticipantesIds();
         break;
       }
     }
@@ -277,8 +285,8 @@ string Sistema::list_participants(int id) {
     string listaParticipantes;
     
     for(int i=0; i<usuarios.size(); i++) {
-      for(int j=0; j<listaParticipantesIds.size(); j++) {
-        if(usuarios[i].getId() == listaParticipantesIds[j])
+      for(int j=0; j<vetorParticipantesIds.size(); j++) {
+        if(usuarios[i].getId() == vetorParticipantesIds[j])
           listaParticipantes += "  " + usuarios[i].getNome() + "\n";
       }
     }
@@ -294,27 +302,19 @@ string Sistema::list_participants(int id) {
 
 string Sistema::list_channels(int id) {
   if(search_usuariosLogados(id) == false) 
-    return "== Usuário precisa estar logado acessar lista de canais de um servidor! ==";
-  
-  if(search_it_usuariosLogados(id)->second.first.empty())
-    return "== Você não está em qualquer servidor! ==";
-  
-  string nomeServidorConectado = search_it_usuariosLogados(id)->second.first;
+    return "== Usuário precisa estar logado para acessar lista de canais de um servidor! ==";
 
-  vector<CanalTexto> vetorCanaisTexto;
+  string nomeServidorConectado = search_it_usuariosLogados(id)->second.first;
   
-  for(auto it_server = servidores.begin(); it_server != servidores.end(); it_server++) {
-    if(it_server->getNome() == nomeServidorConectado) {
-      vetorCanaisTexto = it_server->getCanaisTexto();
-      break;
-    }
-  }
+  if(nomeServidorConectado.empty())
+    return "== Você não está em qualquer servidor! ==";
+
+  vector<CanalTexto> vetorCanaisTexto = search_it_servidores(nomeServidorConectado)->getCanaisTexto();
 
   if(vetorCanaisTexto.empty()) 
     return "== Nenhum canal de texto em '" + nomeServidorConectado + "' foi encontrado! ==";
 
   string canais;
-
   canais += "#canais de texto '" + nomeServidorConectado + "'\n";
   for(int i=0; i<vetorCanaisTexto.size(); i++) {
     canais += "  " + vetorCanaisTexto[i].getCanalTextoNome() + "\n";
@@ -326,35 +326,74 @@ string Sistema::list_channels(int id) {
 
 string Sistema::create_channel(int id, const string nome) {
   if(search_usuariosLogados(id) == false) 
-    return "== Usuário precisa estar logado acessar lista de canais de um servidor! ==";
-  
-  if(search_it_usuariosLogados(id)->second.first.empty())
-    return "== Você não está em qualquer servidor! ==";
+    return "== Usuário precisa estar logado para criar um canal num servidor! ==";
 
   string nomeServidorConectado = search_it_usuariosLogados(id)->second.first;
   
-  //std::vector<Servidor>::iterator it_server
-  auto it_server = servidores.begin();
-  for(; it_server != servidores.end(); it_server++) {
-    if(it_server->getNome() == nomeServidorConectado) {
-      break;
-    }
-  }
+  if(nomeServidorConectado.empty())
+    return "== Você não está em qualquer servidor! ==";
 
   CanalTexto NovoCanalTexto(nome);
-  it_server->adicionaCanalTexto(nome, NovoCanalTexto);
+  search_it_servidores(nomeServidorConectado)->adicionaCanalTexto(NovoCanalTexto);
 
-  return "== Canal de texto '" + nome + "' no servidor '" + nomeServidorConectado + "' criado ==";
+  return "== Canal de texto '" + nome + "' em '" + nomeServidorConectado + "' criado ==";
 
 }
 
 
 string Sistema::enter_channel(int id, const string nome) {
-  return "enter_channel NÃO IMPLEMENTADO";
+  if(search_usuariosLogados(id) == false) 
+    return "== Usuário precisa estar logado parar entrar num canal! ==";
+
+  string nomeServidorConectado = search_it_usuariosLogados(id)->second.first;
+  
+  if(nomeServidorConectado.empty())
+    return "== Você não está em qualquer servidor! ==";
+
+  vector<CanalTexto> vetorCanaisTexto = search_it_servidores(nomeServidorConectado)->getCanaisTexto();
+
+  if(vetorCanaisTexto.empty()) 
+    return "== Nenhum canal de texto em '" + nomeServidorConectado + "' foi encontrado! ==";
+  
+  for(int i=0; i<vetorCanaisTexto.size(); i++){
+    if(vetorCanaisTexto[i].getCanalTextoNome() == nome){
+      // parametro canal de usuarioLogados recebe nome do canal
+      search_it_usuariosLogados(id)->second.second = nome;
+      return "Entrou no canal '" + nome + "' em '" + nomeServidorConectado + "'";
+    }
+  }
+
+  return "Canal '" + nome + "' não existe";
+
 }
 
 string Sistema::leave_channel(int id) {
-  return "leave_channel NÃO IMPLEMENTADO";
+  if(search_usuariosLogados(id) == false) 
+    return "== Usuário precisa estar logado sair de um canal! ==";
+  
+  string nomeServidorConectado = search_it_usuariosLogados(id)->second.first;
+
+  string nomeCanalConectado = search_it_usuariosLogados(id)->second.second;
+
+  if(nomeServidorConectado.empty())
+    return "== Você não está em qualquer servidor! ==";
+  
+  if(nomeCanalConectado.empty())
+    return "== Você não está num canal! ==";
+
+  vector<CanalTexto> vetorCanaisTexto = search_it_servidores(nomeServidorConectado)->getCanaisTexto();
+
+  if(vetorCanaisTexto.empty()) 
+    return "== Nenhum canal de texto em '" + nomeServidorConectado + "' foi encontrado! ==";
+  
+  for(int i=0; i<vetorCanaisTexto.size(); i++){
+    if(vetorCanaisTexto[i].getCanalTextoNome() == nomeCanalConectado){
+      search_it_usuariosLogados(id)->second.second.clear();
+      return "Saindo do canal '" + nomeCanalConectado + "'";
+    }
+  }
+
+  return "Canal não existe";
 }
 
 string Sistema::send_message(int id, const string mensagem) {

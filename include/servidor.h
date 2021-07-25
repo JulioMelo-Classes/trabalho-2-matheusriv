@@ -87,7 +87,7 @@ class Servidor{
 		* @param nome Nome do canal de texto a ser adicionado.
     * @param novoCanalTexto Canal de texto a ser adicionado.
 		*/
-    void adicionaCanalTexto(std::string nome, CanalTexto novoCanalTexto);
+    void adicionaCanalTexto(CanalTexto novoCanalTexto);
 };
 
 #endif

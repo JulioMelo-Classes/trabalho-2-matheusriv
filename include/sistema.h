@@ -29,7 +29,7 @@ class Sistema {
 
 	/*! Procura um usuário no vetor que contém os usuários que logaram no sistema.
 		@param ID um id válido de um usuário logado no sistema.
-		@return Verdadeiro se o usuario for encontrado, falso se não for encontrado."
+		@return Verdadeiro se o usuario for encontrado, falso se não for encontrado.
 	*/
 	bool search_usuariosLogados(int id);
 
@@ -39,11 +39,11 @@ class Sistema {
 	*/
 	std::map<int, std::pair<std::string, std::string>>::iterator search_it_usuariosLogados(int id);
 
-	/*! Apaga um servidor que o usuário esteja visualizando. 
-		Campos correspondentes ao Servidor e CanalTexto que estão sendo vizualizados recebem strings vazias.
-		@param nome Nome do servidor a ser removido.
+	/*! Procura o iterator de um servidor no vetor que contém os servidores do sistema.
+		@param nomeServidor uma string com o nome do servidor a ser procurado no sistema.
+		@return Iterator do servidor procurado.
 	*/
-	void apagar_servidor_usuariosLogados(std::string nome);
+	std::vector<Servidor>::iterator Sistema::search_it_servidores(std::string nomeServidor);
 
 	/*! Cria um usuário e retorna uma string de erro/sucesso 
 		@param email o email do usuário informado no comando create-user

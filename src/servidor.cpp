@@ -49,6 +49,6 @@ void Servidor::removeParticipante(int id){
     participantesIDs.erase(std::remove(participantesIDs.begin(), participantesIDs.end(), id), participantesIDs.end());
 }
 
-void Servidor::adicionaCanalTexto(string nome, CanalTexto novoCanalTexto){
+void Servidor::adicionaCanalTexto(CanalTexto novoCanalTexto){
     canaisTexto.push_back(novoCanalTexto);
 }
