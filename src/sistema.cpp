@@ -315,7 +315,7 @@ string Sistema::list_channels(int id) {
     return "== Nenhum canal de texto em '" + nomeServidorConectado + "' foi encontrado! ==";
 
   string canais;
-  canais += "#canais de texto '" + nomeServidorConectado + "'\n";
+  canais += "# canais de texto '" + nomeServidorConectado + "' #\n";
   for(int i=0; i<vetorCanaisTexto.size(); i++) {
     canais += "  " + vetorCanaisTexto[i].getCanalTextoNome() + "\n";
   }
@@ -359,11 +359,11 @@ string Sistema::enter_channel(int id, const string nome) {
     if(vetorCanaisTexto[i].getCanalTextoNome() == nome){
       // parametro canal de usuarioLogados recebe nome do canal
       search_it_usuariosLogados(id)->second.second = nome;
-      return "Entrou no canal '" + nome + "' em '" + nomeServidorConectado + "'";
+      return "== Entrou no canal '" + nome + "' em '" + nomeServidorConectado + "' ==";
     }
   }
 
-  return "Canal '" + nome + "' não existe";
+  return "== Canal '" + nome + "' não existe! ==";
 
 }
 
@@ -389,11 +389,11 @@ string Sistema::leave_channel(int id) {
   for(int i=0; i<vetorCanaisTexto.size(); i++){
     if(vetorCanaisTexto[i].getCanalTextoNome() == nomeCanalConectado){
       search_it_usuariosLogados(id)->second.second.clear();
-      return "Saindo do canal '" + nomeCanalConectado + "'";
+      return "== Saindo do canal '" + nomeCanalConectado + "' ==";
     }
   }
 
-  return "Canal não existe";
+  return "== Canal não existe! ==";
 }
 
 string Sistema::send_message(int id, const string mensagem) {

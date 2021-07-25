@@ -43,7 +43,7 @@ class Sistema {
 		@param nomeServidor uma string com o nome do servidor a ser procurado no sistema.
 		@return Iterator do servidor procurado.
 	*/
-	std::vector<Servidor>::iterator Sistema::search_it_servidores(std::string nomeServidor);
+	std::vector<Servidor>::iterator search_it_servidores(std::string nomeServidor);
 
 	/*! Cria um usuário e retorna uma string de erro/sucesso 
 		@param email o email do usuário informado no comando create-user
