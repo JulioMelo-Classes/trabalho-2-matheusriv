@@ -256,7 +256,7 @@ string Sistema::leave_server(int id, const string nome) {
 }
 
 string Sistema::list_participants(int id) {
-  if(search_usuariosLogados(id)==false) 
+  if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado acessar lista de participantes de um servidor! ==";
   
   auto it = search_it_usuariosLogados(id);
@@ -293,12 +293,59 @@ string Sistema::list_participants(int id) {
 }
 
 string Sistema::list_channels(int id) {
-  return "list_channels NÃO IMPLEMENTADO";
+  if(search_usuariosLogados(id) == false) 
+    return "== Usuário precisa estar logado acessar lista de canais de um servidor! ==";
+  
+  if(search_it_usuariosLogados(id)->second.first.empty())
+    return "== Você não está em qualquer servidor! ==";
+  
+  string nomeServidorConectado = search_it_usuariosLogados(id)->second.first;
+
+  vector<CanalTexto> vetorCanaisTexto;
+  
+  for(auto it_server = servidores.begin(); it_server != servidores.end(); it_server++) {
+    if(it_server->getNome() == nomeServidorConectado) {
+      vetorCanaisTexto = it_server->getCanaisTexto();
+      break;
+    }
+  }
+
+  if(vetorCanaisTexto.empty()) 
+    return "Nenhum canal no servidor foi encontrado!";
+
+  string canais;
+
+  canais += "#canais de texto '" + nomeServidor + "'\n";
+  for(int i=0; i<vetorCanaisTexto.size(); i++) {
+    canais += vetorCanaisTexto[i].getCanalTextoNome() + "\n";
+  }
+
+  return canais;
+
 }
 
 string Sistema::create_channel(int id, const string nome) {
-  return "create_channel NÃO IMPLEMENTADO";
-}
+  if(search_usuariosLogados(id) == false) 
+    return "== Usuário precisa estar logado acessar lista de canais de um servidor! ==";
+  
+  if(search_it_usuariosLogados(id)->second.first.empty())
+    return "== Você não está em qualquer servidor! ==";
+
+  string nomeServidorConectado = search_it_usuariosLogados(id)->second.first;
+  
+  //std::vector<Servidor>::iterator it_server
+  auto it_server = servidores.begin()
+  for(; it_server != servidores.end(); it_server++) {
+    if(it_server->getNome() == nomeServidorConectado) {
+      break;
+    }
+  }
+
+  CanalTexto NovoCanalTexto(nome);
+  it_server->canaisTexto.push_back(NovoCanalTexto);
+
+  return "Canal de texto '" + nome "' criado";
+
 
 string Sistema::enter_channel(int id, const string nome) {
   return "enter_channel NÃO IMPLEMENTADO";

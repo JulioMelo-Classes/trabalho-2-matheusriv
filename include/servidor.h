@@ -1,12 +1,10 @@
 #ifndef SERVIDOR_H
 #define SERVIDOR_H
-
 #include <iostream>
 #include <algorithm>
 #include <vector>
 
 #include "canaltexto.h"
-#include "usuario.h"
 
 class Servidor{
 	private:
