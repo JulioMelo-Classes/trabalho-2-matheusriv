@@ -14,7 +14,7 @@ string Sistema::quit() {
 string Sistema::create_user(const string email, const string senha, const string nome) {
   for(int i=0; i<usuarios.size(); i++) { 
     if(usuarios[i].getEmail() == email) {
-      return "== Usuário '" + email + "' já existe! ==";
+      return "== Usuário " + email + " já existe! ==";
     }
   }
   
@@ -96,7 +96,7 @@ string Sistema::set_server_invite_code(int id, const string nome, const string c
   auto it_server = search_it_servidores(nome);
 
   if(it_server == servidores.end())
-    return "Servidor '" + nome + "' não encontrado!";
+    return "== Servidor '" + nome + "' não encontrado! ==";
 
   if(it_server->getNome() == nome && it_server->getUsuarioDonoId() == id) {
       if(codigo == "") {
@@ -133,7 +133,6 @@ string Sistema::list_servers(int id) {
       lista_servidores += " | Servidor Fechado\n";
     }
   }
-  lista_servidores += "## Fim da lista de servidores ##";
 
   return lista_servidores;
 
@@ -159,7 +158,6 @@ string Sistema::list_servers_desc(int id) {
       lista_servidores += " | '" + servidores[i].getDescricao() + "'\n";
     }
   }
-  lista_servidores += "## Fim da lista de servidores ##";
 
   return lista_servidores;
 }
@@ -184,6 +182,8 @@ string Sistema::remove_server(int id, const string nome) {
         }
     }
     servidores.erase(it_server);
+
+    return "== Servidor '" + nome + "' removido ==";
   }
   
   return "== Você não é o dono do servidor '" + nome + "' ==";
@@ -204,7 +204,7 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
   it_server->getCodigoConvite() == codigo) {
     it_server->adicionaParticipante(id);
     search_it_usuariosLogados(id)->second.first = nome;
-    return "== Entrou no servidor '" + nome + "' com sucesso ==";
+    return "== '" + usuarios[id].getNome() + "' entrou no servidor '" + nome + "' com sucesso ==";
   } 
   else if( !(it_server->getCodigoConvite().empty()) && codigo.empty() ) {
     return "== Servidor requer código de convite! ==";
@@ -263,7 +263,6 @@ string Sistema::list_participants(int id) {
           listaParticipantes += "   " + usuarios[i].getNome() + "\n";
       }
     }
-    listaParticipantes +=  "## Fim da lista de participantes ##";
 
     return listaParticipantes;
 
@@ -293,7 +292,6 @@ string Sistema::list_channels(int id) {
   for(int i=0; i<vetorCanaisTexto.size(); i++) {
     canais += "  " + vetorCanaisTexto[i].getNome() + "\n";
   }
-  canais += "# Fim canais de texto #";
 
   return canais;
 
@@ -329,6 +327,7 @@ string Sistema::enter_channel(int id, const string nome) {
     return "== Não é possível entrar em um canal sem nome! ==";
 
   string nomeServidor = search_it_usuariosLogados(id)->second.first;
+  string nomeCanal = search_it_usuariosLogados(id)->second.second;
   
   if(nomeServidor.empty())
     return "== Você não está em qualquer servidor! ==";
@@ -338,11 +337,14 @@ string Sistema::enter_channel(int id, const string nome) {
   if(vetorCanaisTexto.empty()) 
     return "== Nenhum canal de texto em '" + nomeServidor + "' foi encontrado! ==";
   
+  if(nomeCanal == nome)
+    return "== O usuário '" + usuarios[id].getNome() + "' já está no canal! ==";
+  
   for(int i=0; i<vetorCanaisTexto.size(); i++){
     if(vetorCanaisTexto[i].getNome() == nome){
       // parametro canal de usuarioLogados recebe nome do canal
       search_it_usuariosLogados(id)->second.second = nome;
-      return "== Entrou no canal '" + nome + "' em '" + nomeServidor + "' ==";
+      return "== '" + usuarios[id].getNome() + "' entrou no canal '" + nome + "' ==";
     }
   }
 
@@ -467,8 +469,7 @@ string Sistema::list_online_users(int id) {
         if(usuarios[i].getId() == vetorIdsOnline[j])
           listaUsuariosOnline += "   " + usuarios[i].getNome() + "\n";
       }
-    }
-  listaUsuariosOnline +=  "## Fim da lista de usuários ##";
+  }
 
   return listaUsuariosOnline;
 
