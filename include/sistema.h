@@ -88,6 +88,13 @@ class Sistema {
 	*/
 	std::string list_servers(int id);
 
+	/*! Lista a descrição dos servidores cadastrados no sistema, retorna uma string contendo uma mensagem de
+		erro ou uma string vazia no caso de não haver erros.
+		@param id um id válido de algum usuário cadastrado e logado no sistema.
+		@return uma string vazia ou a string de erro "Usuário não está logado".
+	*/
+	std::string list_servers_desc(int id);
+
 	/*! Remove um servidor da lista de servidores, retornando uma mensagem de sucesso ou de erro
 		em caso de falha.
 		@param id  um id válido de algum usuário cadastrado e logado no sistema.
@@ -121,16 +128,14 @@ class Sistema {
 	std::string leave_server(int id, const std::string nome);
 
 	/*! Lista os participantes presentes no servidor que o usuário com o id passado está visualizando.
-		Retorna uma string vazia em caso de sucesso ou uma mensagem de erro em caso de falha.
 		@param id um id válido de algum usuário cadastrado e logado no sistema.
-		@return Uma string vazia em caso de sucesso ou uma mensagem de erro em caso de falha.
+		@return String com lista de participantes do servidor ou uma mensagem de erro em caso de falha.
 	*/
 	std::string list_participants(int id);
 
-	/*!	Lista os canais do servidor que o usuário com o id passado está vizualizando. Retorna uma
-		string vazia em caso de sucesso o uma mensagem de erro no caso de falha.
+	/*!	Lista os canais do servidor que o usuário com o id passado está vizualizando. 
 		@param id um id válido de algum usuário cadastrado e logado no sistema.
-		@return uma string vazia em caso de sucesso ou uma mensagem de erro em caso de falha.
+		@return uma string com os nomes dos canais do servidor em caso de sucesso ou uma mensagem de erro em caso de falha.
 	*/
 	std::string list_channels(int id);
 

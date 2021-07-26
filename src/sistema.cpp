@@ -137,6 +137,29 @@ string Sistema::list_servers(int id) {
 
 }
 
+string Sistema::list_servers_desc(int id) {
+  if(search_usuariosLogados(id) == false) 
+    return "== Usuário precisa estar logado para acessar lista de servidores! ==";
+
+  if(servidores.empty()) 
+    return "== Não há servidores cadastrados ==";
+
+  cout << "## Lista de Servidores ##" << endl;
+  for(int i=0; i<servidores.size(); i++) {
+    cout << "   " << servidores[i].getNome();
+
+    if(servidores[i].getDescricao().empty()){
+      cout << " | Servidor sem descrição " << endl;
+    }
+    else{
+      cout << " | '" << servidores[i].getDescricao() << "'" << endl;
+    }
+  }
+  cout << "## Fim da lista de servidores ##" << endl;
+
+  return "";
+}
+
 string Sistema::remove_server(int id, const string nome) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para remover um servidor! ==";

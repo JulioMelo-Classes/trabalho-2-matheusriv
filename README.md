@@ -188,6 +188,26 @@ list-servers 0
   Bate-papo-uol
 ```
 
+### `list-servers-desc`
+
+Exibe os nomes e a descrição dos servidores do sistema, um por linha:
+
+```
+list-servers-desc [id do usuário logado]
+```
+
+Exemplo de entrada/saída:
+
+```
+list-servers-desc 0
+
+== Lista de Servidores ==
+  minha-casa 'essa é minha casa'
+  minha-casa2 'essa é minha segunda casa'
+  RPG-galera 'galera do RPG'
+  Bate-papo-uol Servidor sem descrição
+```
+
 ### `remove-server`
 
 Remove um servidor do Concordo. Só tem sucesso na remoção se o dono do servidor for o usuário logado:
