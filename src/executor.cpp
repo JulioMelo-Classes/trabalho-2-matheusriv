@@ -156,6 +156,11 @@ string Executor::processarLinha(string linha) {
 		else if (nomeComando == "list-messages") {
 			return sistema->list_messages(id);
 		}
+
+		else if (nomeComando == "list-online-users") {
+			return sistema->list_online_users(id);
+		}
+		
 		else {
 			return "Comando não reconhecido [" + nomeComando + "]";
 		}

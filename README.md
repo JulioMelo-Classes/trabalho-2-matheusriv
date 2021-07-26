@@ -102,6 +102,22 @@ disconnect 0
 == Usuário precisa estar logado para desconectar! ==
 ```
 
+### `list-online-users` 
+Lista os usuários online do sistema.
+
+```
+list-online-users [id do usuário logado]
+```
+
+Exemplo de entrada/saída:
+
+```
+list-online-users 0
+== Usuários logados no Concordo ==
+  Renan
+  Julio
+```
+
 ### `create-server`
 
 Cria um novo servidor como o nome informado. Na criação de um novo servidor o dono desse servidor se torna usuário passado no [id do usuário logado]:
