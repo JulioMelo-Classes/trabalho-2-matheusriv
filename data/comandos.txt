@@ -60,7 +60,6 @@ enter-channel 1 canalsinistro
 enter-channel 2 canalsinistro
 list-messages 0
 send-message 0 Oi pessoal querem TC?
-send-message 0 ola pessoal
 send-message 1 ola pessoal
 send-message 2 eaeee
 list-messages 0
