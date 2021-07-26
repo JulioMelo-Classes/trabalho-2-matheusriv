@@ -78,7 +78,7 @@ string Sistema::set_server_desc(int id, const string nome, const string descrica
   auto it_server = search_it_servidores(nome);
   
   if(it_server == servidores.end())
-    return "Servidor '" + nome + "' não encontrado!";
+    return "== Servidor '" + nome + "' não encontrado! ==";
 
   if(it_server->getNome() == nome && it_server->getUsuarioDonoId() == id){
     it_server->setDescricao(descricao);
@@ -91,7 +91,7 @@ string Sistema::set_server_desc(int id, const string nome, const string descrica
 
 string Sistema::set_server_invite_code(int id, const string nome, const string codigo) {
   if(search_usuariosLogados(id) == false) 
-    return "== Usuário precisa estar logado para mudar código de convite de um servidor! ==";
+    return "== Usuário precisa estar logado para mudar código de convite! ==";
   
   auto it_server = search_it_servidores(nome);
 
@@ -119,21 +119,23 @@ string Sistema::list_servers(int id) {
 
   if(servidores.empty()) 
     return "== Não há servidores cadastrados ==";
+  
+  string lista_servidores;
 
-  cout << "## Lista de Servidores ##" << endl;
+  lista_servidores = "## Lista de Servidores ##\n";
   for(int i=0; i<servidores.size(); i++) {
-    cout << "   " << servidores[i].getNome();
+    lista_servidores += "   " + servidores[i].getNome();
 
     if(servidores[i].getCodigoConvite().empty()) {
-      cout << " | Servidor Aberto" << endl;
+      lista_servidores += " | Servidor Aberto\n";
     }
     else {
-      cout << " | Servidor Fechado" << endl;
+      lista_servidores += " | Servidor Fechado\n";
     }
   }
-  cout << "## Fim da lista de servidores ##" << endl;
+  lista_servidores += "## Fim da lista de servidores ##";
 
-  return "";
+  return lista_servidores;
 
 }
 
@@ -144,20 +146,22 @@ string Sistema::list_servers_desc(int id) {
   if(servidores.empty()) 
     return "== Não há servidores cadastrados ==";
 
-  cout << "## Lista de Servidores ##" << endl;
+  string lista_servidores;
+
+  lista_servidores = "## Lista de Descrição dos Servidores ##\n";
   for(int i=0; i<servidores.size(); i++) {
-    cout << "   " << servidores[i].getNome();
+    lista_servidores += "   " + servidores[i].getNome();
 
     if(servidores[i].getDescricao().empty()){
-      cout << " | Servidor sem descrição " << endl;
+      lista_servidores += " | Servidor sem descrição\n";
     }
     else{
-      cout << " | '" << servidores[i].getDescricao() << "'" << endl;
+      lista_servidores += " | '" + servidores[i].getDescricao() + "'\n";
     }
   }
-  cout << "## Fim da lista de servidores ##" << endl;
+  lista_servidores += "## Fim da lista de servidores ##";
 
-  return "";
+  return lista_servidores;
 }
 
 string Sistema::remove_server(int id, const string nome) {
@@ -285,10 +289,11 @@ string Sistema::list_channels(int id) {
     return "== Nenhum canal de texto em '" + nomeServidor + "' foi encontrado! ==";
 
   string canais;
-  canais += "# canais de texto '" + nomeServidor + "' #\n";
+  canais += "# Canais de texto '" + nomeServidor + "' #\n";
   for(int i=0; i<vetorCanaisTexto.size(); i++) {
     canais += "  " + vetorCanaisTexto[i].getNome() + "\n";
   }
+  canais += "# Fim canais de texto #";
 
   return canais;
 

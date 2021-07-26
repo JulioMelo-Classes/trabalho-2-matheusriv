@@ -81,17 +81,15 @@ class Sistema {
 	*/ 
 	std::string set_server_invite_code(int id, const std::string nome, const std::string codigo);
 
-	/*! Lista os servidores cadastrados no sistema, retorna uma string contendo uma mensagem de
-		erro ou uma string vazia no caso de não haver erros.
+	/*! Retorna uma lista os servidores cadastrados no sistema.
 		@param id um id válido de algum usuário cadastrado e logado no sistema.
-		@return uma string vazia ou a string de erro "Usuário não está logado".
+		@return string com a lista de servidores ou a string de erro "Usuário não está logado".
 	*/
 	std::string list_servers(int id);
 
-	/*! Lista a descrição dos servidores cadastrados no sistema, retorna uma string contendo uma mensagem de
-		erro ou uma string vazia no caso de não haver erros.
+	/*! Retorna uma lista com a descrição dos servidores cadastrados no sistema.
 		@param id um id válido de algum usuário cadastrado e logado no sistema.
-		@return uma string vazia ou a string de erro "Usuário não está logado".
+		@return string com a descrição dos servidores ou a string de erro "Usuário não está logado".
 	*/
 	std::string list_servers_desc(int id);
 
