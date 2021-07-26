@@ -108,9 +108,9 @@ Exemplo de entrada/saída:
 
 ```
 list-online-users 0
-== Usuários logados no Concordo ==
-  Renan
-  Julio
+## Usuários online no Concordo ##
+   Renan
+   Julio
 ```
 
 ### `create-server`
@@ -181,11 +181,11 @@ Exemplo de entrada/saída:
 ```
 list-servers 0
 
-== Lista de Servidores ==
-  minha-casa
-  minha-casa2
-  RPG-galera
-  Bate-papo-uol
+## Lista de Servidores ##
+   minha-casa
+   minha-casa2
+   RPG-galera
+   Bate-papo-uol
 ```
 
 ### `list-servers-desc`
@@ -201,11 +201,11 @@ Exemplo de entrada/saída:
 ```
 list-servers-desc 0
 
-== Lista de Servidores ==
-  minha-casa 'essa é minha casa'
-  minha-casa2 'essa é minha segunda casa'
-  RPG-galera 'galera do RPG'
-  Bate-papo-uol Servidor sem descrição
+## Lista de Descrição dos Servidores ##
+   minha-casa 'essa é minha casa'
+   minha-casa2 'essa é minha segunda casa'
+   RPG-galera 'galera do RPG'
+   Bate-papo-uol Servidor sem descrição
 ```
 
 ### `remove-server`
@@ -284,12 +284,12 @@ Exemplo de entrada/saída:
 
 ```
 list-participants 0
-== Lista de Participantes ==
-  tomé
-  bebé
-  eu
-  eu-mesmo
-  irene
+## Lista de Participantes ##
+   tomé
+   bebé
+   eu
+   eu-mesmo
+   irene
 ```
 
 ### `list-channels`
@@ -305,7 +305,7 @@ Exemplo de entrada/saída:
 
 ```
 list-channels 0
-# canais de texto #
+# Canais de texto #
   casa-de-mae-joana
   aqui-nós-faz-o-trabalho
 ```
@@ -343,7 +343,7 @@ enter-channel 0 casa-de-mae-joana
 == Entrou no canal 'casa-de-mae-joana' ==
 
 enter-channel 0 introspecção
-== Canal 'introspecção' não existe ==
+== Canal 'introspecção' não existe! ==
 ```
 
 ### `leave-channel`
@@ -373,6 +373,7 @@ Exemplo de entrada/saída:
 
 ```
 send-message 0 Oi pessoal querem TC?
+== Mensagem enviada ==
 ```
 
 ### `list-messages`
