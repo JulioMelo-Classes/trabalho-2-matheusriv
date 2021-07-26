@@ -12,7 +12,7 @@ class Usuario{
 
   public:
     /* Construtor */
-    Usuario(int id, std::string nome, std::string email, std::string senha);
+    Usuario(int id, const std::string nome, const std::string email, const std::string senha);
 
     /* Construtor padrão */
     Usuario();
@@ -27,19 +27,19 @@ class Usuario{
      * @brief Altera o nome do usuário.
      * @param nome Novo nome.
      */
-    void setNome(std::string nome);
+    void setNome(const std::string nome);
 
     /*
      * @brief Altera o email do usuario.
      * @param email Novo email.
      */
-    void setEmail(std::string email);
+    void setEmail(const std::string email);
 
     /*
      * @brief Altera a senha do usuário.
      * @param senha Nova senha.
      */
-    void setSenha(std::string senha);
+    void setSenha(const std::string senha);
 
     /*
      * @brief Retorna o ID do usuário.

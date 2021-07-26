@@ -17,7 +17,7 @@ class Servidor{
 
 	public:
 		/* Construtor */
-		Servidor(int usuarioDonoId, std::string nome);
+		Servidor(int usuarioDonoId, const std::string nome);
 
 		/* Construtor padrão*/
 		Servidor();
@@ -63,7 +63,7 @@ class Servidor{
 		* @param nomeCanal Nome do canal de texto em que ser quer acessar as mensagens.
 		* @return O vetor de mensagens do canal de texto 'nomeCanal'.
 		*/
-		std::vector<Mensagem> getMensagens(std::string nomeCanal);
+		std::vector<Mensagem> getMensagens(const std::string nomeCanal);
 
 		/*
      	* @brief Altera a descrição do servidor.

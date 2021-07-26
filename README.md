@@ -23,11 +23,6 @@ No windows:
 .\Debug\concordo.exe
 ```
 
-Ou pode criar um arquivo de texto com uma lista de comandos (um por linha) e executar o sistema redirecionando esse arquivo como entrada padrão:
-```console
-./concordo < script_comandos.txt
-```
-
 ## Comandos
 
 Assim que executar o sistema, o usuário não estará logado e precisará seguir os comandos para criar um usuário e fazer login no Concordo. 

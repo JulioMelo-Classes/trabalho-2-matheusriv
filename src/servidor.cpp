@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Servidor::Servidor(int usuarioDonoId, string nome) {
+Servidor::Servidor(int usuarioDonoId, const string nome) {
     this->usuarioDonoId = usuarioDonoId;
     this->nome = nome;
 }
@@ -33,7 +33,7 @@ vector<int> Servidor::getParticipantesIds() {
     return participantesIDs;
 }
 
-vector<Mensagem> Servidor::getMensagens(string nomeCanal) {
+vector<Mensagem> Servidor::getMensagens(const string nomeCanal) {
     auto it_canal = canaisTexto.begin();
     for(; it_canal != canaisTexto.end(); it_canal++){
         if(it_canal->getNome() == nomeCanal)

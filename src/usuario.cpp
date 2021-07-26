@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Usuario::Usuario(int id, string nome, string email, string senha){
+Usuario::Usuario(int id, const string nome, const string email, const string senha){
   this->id = id;
   this->nome = nome;
   this->email = email;
@@ -14,15 +14,15 @@ Usuario::Usuario() {}
 void Usuario::setId(int id){
   this->id = id;
 }
-void Usuario::setNome(string nome){
+void Usuario::setNome(const string nome){
   this->nome = nome;
 }
 
-void Usuario::setEmail(string email){
+void Usuario::setEmail(const string email){
   this->email = email;
 }
 
-void Usuario::setSenha(string senha){
+void Usuario::setSenha(const string senha){
   this->senha = senha;
 }
 
