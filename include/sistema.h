@@ -184,19 +184,19 @@ class Sistema {
 
 	/*! Procura um usuário no vetor que contém os usuários que logaram no sistema.
 		@param ID um id válido de um usuário logado no sistema.
-		@return Verdadeiro se o usuario for encontrado, falso se não for encontrado.
+		@return verdadeiro se o usuario for encontrado, falso se não for encontrado.
 	*/
 	bool search_usuariosLogados(int id);
 
 	/*! Procura o iterator de um usuário no vetor que contém os usuários que logaram no sistema.
 		@param ID um id válido de um usuário logado no sistema.
-		@return Iterator do usuário em usuariosLogados."
+		@return iterator do usuário em usuariosLogados."
 	*/
 	std::map<int, std::pair<std::string, std::string>>::iterator search_it_usuariosLogados(int id);
 
 	/*! Procura o iterator de um servidor no vetor que contém os servidores do sistema.
 		@param nomeServidor uma string com o nome do servidor a ser procurado no sistema.
-		@return Iterator do servidor procurado.
+		@return iterator do servidor achado ou o iterator que aponta para servidor.end() quando o servidor não é achado.
 	*/
 	std::vector<Servidor>::iterator search_it_servidores(std::string nomeServidor);
 
