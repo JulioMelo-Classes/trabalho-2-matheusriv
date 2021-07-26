@@ -12,6 +12,9 @@ class Mensagem{
         /* Construtor */
         Mensagem(std::string dataHora, std::string conteudo, int enviadaPor);
 
+		/* Construtor padrão */
+        Mensagem();
+
         /*
 		* @brief Retorna o conteudo da mensagem.
 		* @return String com o conteudo da mensagem.

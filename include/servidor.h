@@ -101,7 +101,7 @@ class Servidor{
 		* @param nomeCanal Nome do canal de texto em que ser quer adicionar uma mensagem.
 		* @param mensagem classe Mensagem que ser quer adicionar ao canal de texto.
 		*/
-		void sendMensagem(std::string nomeCanal, Mensagem mensagem);
+		void enviaMensagem(std::string nomeCanal, Mensagem mensagem);
 };
 
 #endif

@@ -8,6 +8,8 @@ Mensagem::Mensagem(string dataHora, string conteudo, int enviadaPor) {
     this->enviadaPor = enviadaPor;
 }
 
+Mensagem::Mensagem() {}
+
 string Mensagem::getConteudo() {
     return conteudo;
 }

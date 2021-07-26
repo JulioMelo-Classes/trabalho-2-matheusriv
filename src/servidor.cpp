@@ -63,7 +63,7 @@ void Servidor::adicionaCanalTexto(CanalTexto novoCanalTexto){
     canaisTexto.push_back(novoCanalTexto);
 }
 
-void Servidor::sendMensagem(string nomeCanal, Mensagem mensagem) {
+void Servidor::enviaMensagem(string nomeCanal, Mensagem mensagem) {
     auto it_canal = canaisTexto.begin();
     for(; it_canal != canaisTexto.end(); it_canal++){
         if(it_canal->getNome() == nomeCanal)
