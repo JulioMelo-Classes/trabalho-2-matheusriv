@@ -116,9 +116,9 @@ string Sistema::list_servers(int id) {
   if(servidores.empty()) 
     return "== Não há servidores cadastrados ==";
 
-  cout << "== Lista de Servidores ==" << endl;
+  cout << "## Lista de Servidores ##" << endl;
   for(int i=0; i<servidores.size(); i++) {
-    cout << "  " << servidores[i].getNome();
+    cout << "   " << servidores[i].getNome();
 
     if(servidores[i].getCodigoConvite().empty()) {
       cout << " | Servidor Aberto" << endl;
@@ -127,7 +127,7 @@ string Sistema::list_servers(int id) {
       cout << " | Servidor Fechado" << endl;
     }
   }
-  cout << "== Fim da lista de servidores ==" << endl;
+  cout << "## Fim da lista de servidores ##" << endl;
 
   return "";
 
@@ -240,14 +240,14 @@ string Sistema::list_participants(int id) {
 
     string listaParticipantes;
 
-    listaParticipantes = "== Lista de Participantes '" + it_user->second.first + "' ==\n";
+    listaParticipantes = "## Lista de Participantes '" + it_user->second.first + "' ##\n";
     for(int i=0; i<usuarios.size(); i++) {
       for(int j=0; j<vetorParticipantesIds.size(); j++) {
         if(usuarios[i].getId() == vetorParticipantesIds[j])
-          listaParticipantes += "  " + usuarios[i].getNome() + "\n";
+          listaParticipantes += "   " + usuarios[i].getNome() + "\n";
       }
     }
-    listaParticipantes +=  "== Fim da lista de participantes ==";
+    listaParticipantes +=  "## Fim da lista de participantes ##";
 
     return listaParticipantes;
 
@@ -383,13 +383,9 @@ string Sistema::send_message(int id, const string mensagem) {
   auto it_servidorConectado = search_it_servidores(nomeServidor);
 
   char dataHora[64];
+  time_t now = time(nullptr);
 
-  time_t timep;
-	time(&timep);
-	struct tm nowTime;
-	localtime_s(&nowTime, &timep);
-
-	strftime(dataHora, sizeof(dataHora), "%d/%m/%Y - %R", &nowTime);
+  strftime(dataHora, sizeof(dataHora), "%d/%m/%Y - %R", localtime(&now));
 
   Mensagem novaMensagem(dataHora, mensagem, id);
 
@@ -427,7 +423,7 @@ string Sistema::list_messages(int id) {
 
   for(auto it_mensagem=vetorMensagens.begin(); it_mensagem!=vetorMensagens.end(); it_mensagem++){ 
     string nomeUsuario = usuarios[it_mensagem->getEnviadaPor()].getNome();
-    string_mensagens += "  " + nomeUsuario + " <" + it_mensagem->getDataHora() + ">: " + it_mensagem->getConteudo() + "\n";
+    string_mensagens += nomeUsuario + " <" + it_mensagem->getDataHora() + ">: " + it_mensagem->getConteudo() + "\n";
   }
 
   string_mensagens += "== Fim das Mensagens ==";
@@ -447,14 +443,14 @@ string Sistema::list_online_users(int id) {
     vetorIdsOnline.push_back(it->first);
   }
 
-  listaUsuariosOnline = "== Usuários online no Concordo ==\n";
+  listaUsuariosOnline = "## Usuários online no Concordo ##\n";
   for(int i=0; i<usuarios.size(); i++) {
       for(int j=0; j<vetorIdsOnline.size(); j++) {
         if(usuarios[i].getId() == vetorIdsOnline[j])
-          listaUsuariosOnline += "  " + usuarios[i].getNome() + "\n";
+          listaUsuariosOnline += "   " + usuarios[i].getNome() + "\n";
       }
     }
-  listaUsuariosOnline +=  "== Fim da lista de usuários ==";
+  listaUsuariosOnline +=  "## Fim da lista de usuários ##";
 
   return listaUsuariosOnline;
 
