@@ -253,11 +253,113 @@ Exemplo de entrada/saída:
 
 ```
 list-participants 0
-
 == Lista de Participantes ==
   tomé
   bebé
   eu
   eu-mesmo
   irene
+```
+
+### `list-channels`
+
+Exibe todos os nomes canais do servidor que está sendo visualizado pelo cliente.
+
+```
+list-channels [id do usuário logado]
+```
+
+
+Exemplo de entrada/saída:
+
+```
+list-channels 0
+# canais de texto #
+  casa-de-mae-joana
+  aqui-nós-faz-o-trabalho
+```
+
+### `create-channel`
+
+Permite criar um canal no servidor que está sendo visualizado pelo usuário informando seu nome. Observe que canais dentro do servidor não podem ter o mesmo nome.
+
+```
+create-channel [id do usuário logado] [nome do canal]
+```
+
+Exemplo de entrada/saída:
+
+```
+create-channel 0 casa-de-mae-joana 
+== Canal de texto 'casa-de-mae-joana' criado ==
+
+create-channel 0 casa-de-mae-joana
+== Canal de texto 'casa-de-mae-joana' já existe! ==
+```
+
+### `enter-channel`
+
+Entra em um canal presente na lista de canais do servidor que o usuário está visualizando.
+
+```
+enter-channel [id do usuário logado] [nome do canal]
+```
+
+Exemplo de entrada/saída:
+
+```
+enter-channel 0 casa-de-mae-joana
+== Entrou no canal 'casa-de-mae-joana' ==
+
+enter-channel 0 introspecção
+== Canal 'introspecção' não existe ==
+```
+
+### `leave-channel`
+
+Sai do canal que o usuário está visualizando no momento.
+
+```
+leave-channel [id do usuário logado]
+```
+
+Exemplo de entrada/saída:
+
+```
+leave-channel 0
+== Saindo do canal ==
+```
+
+### `send-message`
+
+Cria uma mensagem e adiciona na lista de mensagens do canal visualizado pelo usuário. A mensagem criada possui o conteúdo digitado, a data/hora atual e o ID do usuário recebido no comando.
+
+```
+send-message [id do usuário logado] [conteúdo da mensagem]
+```
+
+Exemplo de entrada/saída:
+
+```
+send-message 0 Oi pessoal querem TC?
+```
+
+### `list-messages`
+
+Visualiza as mensagens de um canal que o usuário está visualizando no momento. A mensagem tem os seguintes campos: (1) O nome do usuário que criou a mensagem; (2) Data/hora da criação da mensagem; e (3) O conteúdo da mensagem.
+
+```
+list-messages [id do usuário logado]
+```
+
+Exemplo de entrada/saída:
+
+```
+list-messages 0
+Julio<08/03/2021 - 11:53>: Assim não tem condições, como que a galera vai conseguir terminar isso tudo em 4 semanas?
+Isaac<08/03/2021 - 12:00>: Eles conseguem confio na galera
+Renan<08/03/2021 - 12:00>: Semestre passado fizemos assim e ninguém entregou :/
+
+list-messages 0
+== Sem mensagens para exibir ==
 ```
