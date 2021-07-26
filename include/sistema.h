@@ -13,14 +13,12 @@
 // Sistema deve concentrar todas as operações do Concordo
 class Sistema {
     private:
-
         std::vector<Servidor> servidores; //<! um vetor com todos os servidores
         std::vector<Usuario> usuarios; //<! um vetor com todos os usuários cadastrados
         std::map< int, std::pair<std::string, std::string> > usuariosLogados; //<! um vetor contendo os usuários que logaram no sistema
         int countId = -1; //<! ID de usuário gerado automaticamente. 
 		
     public:
-
         /*! Encerra o funcionamento do Concordo, o programa termina ao executar este comando.
             @return uma string com a mensagem "Saindo.."
         */
@@ -121,7 +119,7 @@ class Sistema {
         */
         std::string list_participants(int id);
 
-        /*!	 Lista os canais do servidor que o usuário com o id passado está visualizando. 
+        /*! Lista os canais do servidor que o usuário com o id passado está visualizando. 
             @param id um id válido de algum usuário cadastrado e logado no sistema.
             @return uma string com os nomes dos canais do servidor em caso de sucesso ou uma mensagem de erro em caso de falha.
         */
