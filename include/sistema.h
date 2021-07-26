@@ -27,24 +27,6 @@ class Sistema {
 	*/
 	std::string quit();
 
-	/*! Procura um usuário no vetor que contém os usuários que logaram no sistema.
-		@param ID um id válido de um usuário logado no sistema.
-		@return Verdadeiro se o usuario for encontrado, falso se não for encontrado.
-	*/
-	bool search_usuariosLogados(int id);
-
-	/*! Procura o iterator de um usuário no vetor que contém os usuários que logaram no sistema.
-		@param ID um id válido de um usuário logado no sistema.
-		@return Iterator do usuário em usuariosLogados."
-	*/
-	std::map<int, std::pair<std::string, std::string>>::iterator search_it_usuariosLogados(int id);
-
-	/*! Procura o iterator de um servidor no vetor que contém os servidores do sistema.
-		@param nomeServidor uma string com o nome do servidor a ser procurado no sistema.
-		@return Iterator do servidor procurado.
-	*/
-	std::vector<Servidor>::iterator search_it_servidores(std::string nomeServidor);
-
 	/*! Cria um usuário e retorna uma string de erro/sucesso 
 		@param email o email do usuário informado no comando create-user
 		@param senha a senha passada ao comando create-ser
@@ -193,6 +175,31 @@ class Sistema {
 		@return uma string vazia em caso de sucesso ou uma mensagem de erro em caso de falha.
 	*/
 	std::string list_messages(int id);
+
+	/*! Lista os usuários online do sistema.
+		@param id um id válido de algum usuário cadastrado e logado no sistema.
+		@return uma string com o nome dos usuários logados no sistema.
+	*/
+	std::string list_online_users(int id);
+
+	/*! Procura um usuário no vetor que contém os usuários que logaram no sistema.
+		@param ID um id válido de um usuário logado no sistema.
+		@return Verdadeiro se o usuario for encontrado, falso se não for encontrado.
+	*/
+	bool search_usuariosLogados(int id);
+
+	/*! Procura o iterator de um usuário no vetor que contém os usuários que logaram no sistema.
+		@param ID um id válido de um usuário logado no sistema.
+		@return Iterator do usuário em usuariosLogados."
+	*/
+	std::map<int, std::pair<std::string, std::string>>::iterator search_it_usuariosLogados(int id);
+
+	/*! Procura o iterator de um servidor no vetor que contém os servidores do sistema.
+		@param nomeServidor uma string com o nome do servidor a ser procurado no sistema.
+		@return Iterator do servidor procurado.
+	*/
+	std::vector<Servidor>::iterator search_it_servidores(std::string nomeServidor);
+
 };
 
 #endif
