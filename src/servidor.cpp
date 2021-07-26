@@ -33,6 +33,16 @@ vector<int> Servidor::getParticipantesIds() {
     return participantesIDs;
 }
 
+vector<Mensagem> Servidor::getMensagens(string nomeCanal) {
+    auto it_canal = canaisTexto.begin();
+    for(; it_canal != canaisTexto.end(); it_canal++){
+        if(it_canal->getNome() == nomeCanal)
+            break;
+    }
+
+    return it_canal->getMensagens();
+}
+
 void Servidor::setDescricao(string descricao) {
     this->descricao = descricao;
 }
@@ -51,4 +61,14 @@ void Servidor::removeParticipante(int id){
 
 void Servidor::adicionaCanalTexto(CanalTexto novoCanalTexto){
     canaisTexto.push_back(novoCanalTexto);
+}
+
+void Servidor::sendMensagem(string nomeCanal, Mensagem mensagem) {
+    auto it_canal = canaisTexto.begin();
+    for(; it_canal != canaisTexto.end(); it_canal++){
+        if(it_canal->getNome() == nomeCanal)
+            break;
+    }
+
+    it_canal->adicionaMensagem(mensagem);
 }

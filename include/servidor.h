@@ -59,6 +59,13 @@ class Servidor{
 		std::vector<int> getParticipantesIds();
 
 		/*
+		* @brief Retorna o vetor de mensagens do canal de texto especificado.
+		* @param nomeCanal Nome do canal de texto em que ser quer acessar as mensagens.
+		* @return O vetor de mensagens do canal de texto 'nomeCanal'.
+		*/
+		std::vector<Mensagem> getMensagens(std::string nomeCanal);
+
+		/*
      	* @brief Altera a descrição do servidor.
      	* @param descricao Nova descrição do servidor.
      	*/
@@ -82,12 +89,19 @@ class Servidor{
 		*/
 		void removeParticipante(int id);
 
-    /*
-		* @brief Adiciona um canal de texto na list de canais de texto do servidor.
+		/*
+		* @brief Adiciona um canal de texto na lista de canais de texto do servidor.
 		* @param nome Nome do canal de texto a ser adicionado.
-    * @param novoCanalTexto Canal de texto a ser adicionado.
+		* @param novoCanalTexto Canal de texto a ser adicionado.
 		*/
-    void adicionaCanalTexto(CanalTexto novoCanalTexto);
+		void adicionaCanalTexto(CanalTexto novoCanalTexto);
+
+		/*
+		* @brief Adiciona uma nova mensagem no canal de texto especificado.
+		* @param nomeCanal Nome do canal de texto em que ser quer adicionar uma mensagem.
+		* @param mensagem classe Mensagem que ser quer adicionar ao canal de texto.
+		*/
+		void sendMensagem(std::string nomeCanal, Mensagem mensagem);
 };
 
 #endif
