@@ -11,6 +11,9 @@ string Sistema::quit() {
   return "Saindo...";
 }
 
+/*
+A1.2 ok
+*/
 string Sistema::create_user(const string email, const string senha, const string nome) {
   for(int i=0; i<usuarios.size(); i++) { 
     if(usuarios[i].getEmail() == email) {
@@ -26,6 +29,9 @@ string Sistema::create_user(const string email, const string senha, const string
 
 }
 
+/*
+A1.3 ok
+*/
 string Sistema::login(const string email, const string senha) {
   for(int i=0; i<usuarios.size(); i++) {
     if(usuarios[i].getEmail() == email && usuarios[i].getSenha() == senha) {
@@ -43,6 +49,9 @@ string Sistema::login(const string email, const string senha) {
 
 }
 
+/*
+A2.1 ok
+*/
 string Sistema::disconnect(int id) {
   if(search_usuariosLogados(id) == false)  
     return "== Usuário precisa estar logado para desconectar! ==";
@@ -52,6 +61,9 @@ string Sistema::disconnect(int id) {
 
 }
 
+/*
+A2.2 ok
+*/
 string Sistema::create_server(int id, const string nome) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para criar servidor! ==";
@@ -71,6 +83,9 @@ string Sistema::create_server(int id, const string nome) {
 
 }
 
+/*
+A2.3 ok
+*/
 string Sistema::set_server_desc(int id, const string nome, const string descricao) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para mudar descrição de um servidor! ==";
@@ -89,6 +104,9 @@ string Sistema::set_server_desc(int id, const string nome, const string descrica
 
 }
 
+/*
+A2.4 ok
+*/
 string Sistema::set_server_invite_code(int id, const string nome, const string codigo) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para mudar código de convite! ==";
@@ -113,6 +131,9 @@ string Sistema::set_server_invite_code(int id, const string nome, const string c
 
 }
 
+/*
+A2.5 ok
+*/
 string Sistema::list_servers(int id) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para acessar lista de servidores! ==";
@@ -162,6 +183,9 @@ string Sistema::list_servers_desc(int id) {
   return lista_servidores;
 }
 
+/*
+A2.6 ok
+*/
 string Sistema::remove_server(int id, const string nome) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para remover um servidor! ==";

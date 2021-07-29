@@ -2,6 +2,7 @@
 #define MENSAGEM_H
 #include <iostream>
 
+
 class Mensagem{
     private:
         std::string dataHora; //<! Um texto representando um timestamp com a data e hora em que a mensagem foi enviada

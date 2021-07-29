@@ -3,6 +3,9 @@
 #include <iostream>
 #include <vector>
 
+/*
+CP1 classe usuário ok!
+*/
 class Usuario{
   private:
     int id;            //<! ID do usuário.
