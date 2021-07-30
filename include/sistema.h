@@ -72,15 +72,15 @@ class Sistema {
         */ 
         std::string set_server_invite_code(int id, const std::string nome, const std::string codigo);
 
-        /*! Retorna uma lista os servidores cadastrados no sistema.
+        /*! Lista os servidores cadastrados no sistema.
             @param id um id válido de algum usuário cadastrado e logado no sistema.
-            @return string com a lista de servidores ou a string de erro "Usuário não está logado".
+            @return uma string vazia ou a string de erro "Usuário não está logado".
         */
         std::string list_servers(int id);
 
-        /*! Retorna uma lista com a descrição dos servidores cadastrados no sistema.
+        /*! Lista a descrição dos servidores cadastrados no sistema.
             @param id um id válido de algum usuário cadastrado e logado no sistema.
-            @return string com a descrição dos servidores ou a string de erro "Usuário não está logado".
+            @return uma string vazia ou a string de erro "Usuário não está logado".
         */
         std::string list_servers_desc(int id);
 
@@ -115,13 +115,13 @@ class Sistema {
 
         /*! Lista os participantes presentes no servidor que o usuário com o id passado está visualizando.
             @param id um id válido de algum usuário cadastrado e logado no sistema.
-            @return String com lista de participantes do servidor ou uma mensagem de erro em caso de falha.
+            @return Uma string vazia em caso de sucesso ou uma mensagem de erro em caso de falha.
         */
         std::string list_participants(int id);
 
         /*! Lista os canais do servidor que o usuário com o id passado está visualizando. 
             @param id um id válido de algum usuário cadastrado e logado no sistema.
-            @return uma string com os nomes dos canais do servidor em caso de sucesso ou uma mensagem de erro em caso de falha.
+            @return uma string vazia em caso de sucesso ou uma mensagem de erro em caso de falha.
         */
         std::string list_channels(int id);
 
