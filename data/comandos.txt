@@ -44,10 +44,10 @@ remove-server 0 servidor-bacana
 enter-server 0 servidor-bacana
 list-participants 0
 login renan@imd.ufrn.br senha
-list-online-users 0
 create-server 1 servidor-sinistro
 enter-server 1 servidor-sinistro
 login julio@imd.ufrn.br senha
+list-online-users 0
 enter-server 2 servidor-sinistro
 login isaacfranco@imd.ufrn.br senhalegal
 enter-server 0 servidor-sinistro
