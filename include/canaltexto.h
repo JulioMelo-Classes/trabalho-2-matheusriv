@@ -1,7 +1,9 @@
 #ifndef CANALTEXTO_H
 #define CANALTEXTO_H
 #include <vector>
+#include <ctime>
 
+#include "usuario.h"
 #include "mensagem.h"
 
 class CanalTexto{
@@ -14,28 +16,29 @@ class CanalTexto{
         CanalTexto(const std::string nome);
 
         /*
-        * @brief Retorna o nome do canal texto.
-        * @return String com o nome do canal texto.
+        * @brief Retorna o nome do canal texto
+        * @return String com o nome do canal texto
         */
         std::string getNome();
 
         /*
-        * @brief Retorna as mensagens do canal de texto.
-        * @return Vetor de mensagens do canal texto.
-        */
-        std::vector<Mensagem> getMensagens();
-
-        /*
-        * @brief Altera o nome do canal texto.
-        * @param novoNome String com novo nome do canal texto.
+        * @brief Altera o nome do canal texto
+        * @param novoNome String com novo nome do canal texto
         */
         void setNome(const std::string novoNome);
 		
         /*
-        * @brief Adiciona uma mensagem no vetor de mensagens do canal de texto.
-        * @param novaMensagem Nova mensagem a ser adicionado.
+        * @brief Adiciona uma mensagem no vetor de mensagens do canal de texto
+        * @param novaMensagem Nova mensagem a ser adicionado
         */
-        void adicionaMensagem(Mensagem novaMensagem);
+        void addMensagem(const std::string mensagem, int id);
+
+        /*
+        * @brief Lista as mensagens do canal de texto
+        * @param usuarios Vetor com todos os usuários cadastrados
+        */
+        void list_messages(std::vector<Usuario> &usuarios);
+
 };
 
 #endif

@@ -10,14 +10,34 @@ string CanalTexto::getNome(){
     return nome;
 }
 
-vector<Mensagem> CanalTexto::getMensagens(){
-    return mensagens;
-}
-
 void CanalTexto::setNome(const string novoNome){
     this->nome = novoNome;
 }
 
-void CanalTexto::adicionaMensagem(Mensagem novaMensagem){
+void CanalTexto::addMensagem(const string mensagem, int id){
+    char dataHora[64];
+    time_t now = time(nullptr);
+
+    strftime(dataHora, sizeof(dataHora), "%d/%m/%Y - %R", localtime(&now));
+
+    Mensagem novaMensagem(dataHora, mensagem, id);
+
     mensagens.push_back(novaMensagem);
+
+    cout << "== Mensagem enviada ==";
+}
+
+void CanalTexto::list_messages(vector<Usuario> &usuarios){
+    if(mensagens.empty()) { 
+        cout << "== Sem mensagens para exibir ==";
+        return;
+    }
+
+    cout << "\n== Mensagens '" << nome << "' ==" << endl;
+
+    for(int i=0; i<mensagens.size(); i++){
+        string nomeUsuario = usuarios[mensagens[i].getEnviadaPor()].getNome();
+        cout << nomeUsuario << " <" << mensagens[i].getDataHora() 
+            << ">: " + mensagens[i].getConteudo() << endl;
+    }
 }
