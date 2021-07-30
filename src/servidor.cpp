@@ -37,11 +37,11 @@ void Servidor::adicionaParticipante(int id) {
     participantesIDs.push_back(id);
 }
 
-void Servidor::removeParticipante(int id){
+void Servidor::removeParticipante(int id) {
     participantesIDs.erase(std::remove(participantesIDs.begin(), participantesIDs.end(), id), participantesIDs.end());
 }
 
-void Servidor::adicionaCanalTexto(CanalTexto novoCanalTexto){
+void Servidor::adicionaCanalTexto(CanalTexto novoCanalTexto) {
     canaisTexto.push_back(novoCanalTexto);
 }
 
@@ -70,7 +70,7 @@ void Servidor::list_participants(vector<Usuario> &usuarios) {
 
 }
 
-string Servidor::enter_leave_channel(string nomeCanal){
+string Servidor::enter_leave_channel(string nomeCanal) {
     if(canaisTexto.empty()) { 
         return "== Nenhum canal de texto em '" + nome + "' foi encontrado! ==";
     }
@@ -84,7 +84,7 @@ string Servidor::enter_leave_channel(string nomeCanal){
 
 vector<CanalTexto>::iterator Servidor::search_it_canalTexto(string nomeCanal) {
     auto it_canaltexto = canaisTexto.begin();
-    for(; it_canaltexto != canaisTexto.end(); it_canaltexto++){
+    for(; it_canaltexto != canaisTexto.end(); it_canaltexto++) {
         if(it_canaltexto->getNome() == nomeCanal)
             return it_canaltexto;
     }

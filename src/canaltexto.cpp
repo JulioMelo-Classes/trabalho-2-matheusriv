@@ -6,15 +6,15 @@ CanalTexto::CanalTexto(const string nome) {
     this->nome = nome;
 }
 
-string CanalTexto::getNome(){
+string CanalTexto::getNome() {
     return nome;
 }
 
-void CanalTexto::setNome(const string novoNome){
+void CanalTexto::setNome(const string novoNome){ 
     this->nome = novoNome;
 }
 
-void CanalTexto::addMensagem(const string mensagem, int id){
+void CanalTexto::addMensagem(const string mensagem, int id) {
     char dataHora[64];
     time_t now = time(nullptr);
 
@@ -27,7 +27,7 @@ void CanalTexto::addMensagem(const string mensagem, int id){
     cout << "== Mensagem enviada ==";
 }
 
-void CanalTexto::list_messages(vector<Usuario> &usuarios){
+void CanalTexto::list_messages(vector<Usuario> &usuarios) {
     if(mensagens.empty()) { 
         cout << "== Sem mensagens para exibir ==";
         return;
@@ -35,7 +35,7 @@ void CanalTexto::list_messages(vector<Usuario> &usuarios){
 
     cout << "\n== Mensagens '" << nome << "' ==" << endl;
 
-    for(int i=0; i<mensagens.size(); i++){
+    for(int i=0; i<mensagens.size(); i++) {
         string nomeUsuario = usuarios[mensagens[i].getEnviadaPor()].getNome();
         cout << nomeUsuario << " <" << mensagens[i].getDataHora() 
             << ">: " + mensagens[i].getConteudo() << endl;
