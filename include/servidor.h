@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <vector>
 
+#include "usuario.h"
 #include "canaltexto.h"
 
 class Servidor{
@@ -47,25 +48,6 @@ class Servidor{
         std::string getCodigoConvite();
 
         /*
-        * @brief Retorna os canais de texto do servidor.
-        * @return Vetor com os canais de texto do servidor.
-        */
-        std::vector<CanalTexto> getCanaisTexto();
-
-        /*
-        * @brief Retorna os participantes do servidor.
-        * @return Vetor com os participantes do servidor.
-        */
-        std::vector<int> getParticipantesIds();
-
-        /*
-        * @brief Retorna o vetor de mensagens do canal de texto especificado.
-        * @param nomeCanal Nome do canal de texto em que ser quer acessar as mensagens.
-        * @return O vetor de mensagens do canal de texto 'nomeCanal'.
-        */
-        std::vector<Mensagem> getMensagens(const std::string nomeCanal);
-
-        /*
         * @brief Altera a descrição do servidor.
         * @param descricao Nova descrição do servidor.
         */
@@ -97,11 +79,29 @@ class Servidor{
         void adicionaCanalTexto(CanalTexto novoCanalTexto);
 
         /*
-        * @brief Adiciona uma nova mensagem no canal de texto especificado.
-        * @param nomeCanal Nome do canal de texto em que se quer adicionar uma mensagem.
-        * @param mensagem classe Mensagem que se quer adicionar ao canal de texto.
+        * @brief Lista os canais de texto do servidor.
         */
-        void enviaMensagem(std::string nomeCanal, Mensagem mensagem);
+        void list_channels();
+
+        /*
+        * @brief Lista os participantes presentes no servidor.
+        * @param usuarios vetor com todos os usuários cadastrados.
+        */
+        void list_participants(std::vector<Usuario> &usuarios);
+
+        /*
+        * @brief Verifica as condições válidas para entrar ou sair de um canal de texto do servidor.
+        * @param nomeCanal Nome do canal de texto.
+        * @return Retorna mensagem de erro em caso de falha ou uma string vazia se as condições são válidas.
+        */
+        std::string enter_leave_channel(std::string nomeCanal);
+
+        /*
+        * @brief Procura um canal de texto especificado.
+        * @param nomeCanal Nome do canal de texto que se procurar.
+        * @return Retorna um iterator do canal de texto ou iterator canaisTexto.end() se o canal não for encontrado.
+        */
+        std::vector<CanalTexto>::iterator search_it_canalTexto(std::string nomeCanal);
 
 };
 

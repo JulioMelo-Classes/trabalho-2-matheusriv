@@ -25,24 +25,6 @@ string Servidor::getCodigoConvite() {
     return codigoConvite;
 }
 
-vector<CanalTexto> Servidor::getCanaisTexto() {
-    return canaisTexto;
-}
-
-vector<int> Servidor::getParticipantesIds() {
-    return participantesIDs;
-}
-
-vector<Mensagem> Servidor::getMensagens(const string nomeCanal) {
-    auto it_canal = canaisTexto.begin();
-    for(; it_canal != canaisTexto.end(); it_canal++){
-        if(it_canal->getNome() == nomeCanal)
-            break;
-    }
-
-    return it_canal->getMensagens();
-}
-
 void Servidor::setDescricao(string descricao) {
     this->descricao = descricao;
 }
@@ -63,12 +45,50 @@ void Servidor::adicionaCanalTexto(CanalTexto novoCanalTexto){
     canaisTexto.push_back(novoCanalTexto);
 }
 
-void Servidor::enviaMensagem(string nomeCanal, Mensagem mensagem) {
-    auto it_canal = canaisTexto.begin();
-    for(; it_canal != canaisTexto.end(); it_canal++){
-        if(it_canal->getNome() == nomeCanal)
-            break;
+void Servidor::list_channels() {
+    if(canaisTexto.empty()) { 
+        cout << "== Nenhum canal de texto em '" << nome << "' foi encontrado! ==";
     }
 
-    it_canal->adicionaMensagem(mensagem);
+    cout << "# Canais de texto '" << nome << "' #" << endl;
+
+    for(int i=0; i<canaisTexto.size(); i++) {
+        cout << "  " << canaisTexto[i].getNome() << endl;
+    }
+
+}
+
+void Servidor::list_participants(vector<Usuario> &usuarios) {
+    cout << "## Lista de Participantes '" << nome << "' ##" << endl;
+    
+    for(int i=0; i<usuarios.size(); i++) {
+        for(int j=0; j<participantesIDs.size(); j++) {
+            if(usuarios[i].getId() == participantesIDs[j])
+                cout << "   " << usuarios[i].getNome() << endl;
+        }
+    }
+
+}
+
+string Servidor::enter_leave_channel(string nomeCanal){
+    if(canaisTexto.empty()) { 
+        return "== Nenhum canal de texto em '" + nome + "' foi encontrado! ==";
+    }
+
+    if(search_it_canalTexto(nomeCanal) == canaisTexto.end())
+        return "== Canal '" + nomeCanal + "' não existe! ==";
+    
+    return "";
+
+}
+
+vector<CanalTexto>::iterator Servidor::search_it_canalTexto(string nomeCanal) {
+    auto it_canaltexto = canaisTexto.begin();
+    for(; it_canaltexto != canaisTexto.end(); it_canaltexto++){
+        if(it_canaltexto->getNome() == nomeCanal)
+            return it_canaltexto;
+    }
+
+    return canaisTexto.end();
+
 }
