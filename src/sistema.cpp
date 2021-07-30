@@ -58,7 +58,7 @@ string Sistema::create_server(int id, const string nome) {
   if(nome.empty())
     return "== Você não pode criar um servidor sem nome! ==";
   
-  if(search_it_servidores(nome) != servidores.end()){
+  if(search_it_servidores(nome) != servidores.end()) {
     return "== Servidor com o nome '" + nome + "' já existe! ==";
   }
 
@@ -81,7 +81,7 @@ string Sistema::set_server_desc(int id, const string nome, const string descrica
   if(it_server == servidores.end())
     return "== Servidor '" + nome + "' não encontrado! ==";
 
-  if(it_server->getNome() == nome && it_server->getUsuarioDonoId() == id){
+  if(it_server->getNome() == nome && it_server->getUsuarioDonoId() == id) {
     it_server->setDescricao(descricao);
     return "== Descrição do servidor '" + nome + "' modificada ==";
   }
@@ -177,9 +177,9 @@ string Sistema::remove_server(int id, const string nome) {
 
   if(it_server->getNome() == nome && it_server->getUsuarioDonoId() == id) {
     for(auto it_usuariosLogados = usuariosLogados.begin(); 
-    it_usuariosLogados != usuariosLogados.end(); it_usuariosLogados++){ 
+    it_usuariosLogados != usuariosLogados.end(); it_usuariosLogados++) { 
         // atualizar usuariosLogados que estejam visualizando o servidor e apagar servidor
-        if(it_usuariosLogados->second.first == nome){ 
+        if(it_usuariosLogados->second.first == nome) { 
           it_usuariosLogados->second.first.clear();
           it_usuariosLogados->second.second.clear(); 
         }
@@ -208,7 +208,7 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
   if(it_server->getUsuarioDonoId() == id ||
     it_server->getCodigoConvite().empty() || 
     it_server->getCodigoConvite() == codigo) {
-    it_server->adicionaParticipante(id);
+      it_server->adicionaParticipante(id);
       search_it_usuariosLogados(id)->second.first = nome;
       return "== " + usuarios[id].getNome() + " entrou no servidor '" + nome + "' com sucesso ==";
   } 
@@ -235,6 +235,7 @@ string Sistema::leave_server(int id, const string nome) {
   auto it_server = search_it_servidores(nome);
 
   it_server->removeParticipante(id);
+
   it_user->second.first.clear();
   it_user->second.second.clear();
   
@@ -248,14 +249,10 @@ string Sistema::list_participants(int id) {
   
   auto it_user = search_it_usuariosLogados(id);
 
-  if(it_user->first == id && it_user->second.first != ""){
+  if(it_user->first == id && it_user->second.first != "") {
     // usuario está visualizando um servidor
-    for(int i=0; i<servidores.size(); i++) {
-      if(servidores[i].getNome() == it_user->second.first) { 
-        servidores[i].list_participants(usuarios);
-        break;
-      }
-    }
+    auto it_server = search_it_servidores(it_user->second.first);
+    it_server->list_participants(usuarios);
 
     return "";
   }
@@ -412,9 +409,10 @@ string Sistema::list_online_users(int id) {
     return "== Usuário precisa estar logado! ==";
   
   vector<int> vetorIDsOnline;
+  
   string listaUsuariosOnline;
 
-  for(auto it = usuariosLogados.begin(); it != usuariosLogados.end(); it++){
+  for(auto it = usuariosLogados.begin(); it != usuariosLogados.end(); it++) {
     vetorIDsOnline.push_back(it->first);
   }
 
@@ -430,7 +428,7 @@ string Sistema::list_online_users(int id) {
 
 }
 
-bool Sistema::search_usuariosLogados(int id){
+bool Sistema::search_usuariosLogados(int id) {
   //verificar se usuario esta no std::map<int, std::pair<std::string, std::string>> usuariosLogados;
   auto it = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
                             [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
@@ -440,7 +438,7 @@ bool Sistema::search_usuariosLogados(int id){
                                     return false;
                                 });
                                 
-  if(it != usuariosLogados.end()){ 
+  if(it != usuariosLogados.end()) { 
     //usuario logado 
     return true;
   }
@@ -450,9 +448,9 @@ bool Sistema::search_usuariosLogados(int id){
   
 }
 
-std::map<int, std::pair<std::string, std::string>>::iterator Sistema::search_it_usuariosLogados(int id){
+std::map<int, std::pair<std::string, std::string>>::iterator Sistema::search_it_usuariosLogados(int id) {
   auto it = usuariosLogados.begin();
-  for(; it != usuariosLogados.end(); it++){
+  for(; it != usuariosLogados.end(); it++) {
     if(it->first == id)
       break;
   }
@@ -461,7 +459,7 @@ std::map<int, std::pair<std::string, std::string>>::iterator Sistema::search_it_
 
 }
 
-std::vector<Servidor>::iterator Sistema::search_it_servidores(string nomeServidor){
+std::vector<Servidor>::iterator Sistema::search_it_servidores(string nomeServidor) {
   auto it_server = servidores.begin();
   for(; it_server != servidores.end(); it_server++) {
     if(it_server->getNome() == nomeServidor) {
