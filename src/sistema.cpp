@@ -180,7 +180,9 @@ string Sistema::remove_server(int id, const string nome) {
     it_usuariosLogados != usuariosLogados.end(); it_usuariosLogados++) { 
         // atualizar usuariosLogados que estejam visualizando o servidor e apagar servidor
         if(it_usuariosLogados->second.first == nome) { 
+          // second.first Campo do nome do servidor
           it_usuariosLogados->second.first.clear();
+          // second.second Campo do nome do canal de texto
           it_usuariosLogados->second.second.clear(); 
         }
     }
@@ -205,11 +207,17 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
   if(it_server == servidores.end()) 
     return "== Servidor '" + nome + "' não existe! ==";
 
+  auto it_user = search_it_usuariosLogados(id);
+
+  if(it_user->second.first != "") {
+    return "== Saia do servidor conectado atualmente! ==";
+  }
+
   if(it_server->getUsuarioDonoId() == id ||
     it_server->getCodigoConvite().empty() || 
     it_server->getCodigoConvite() == codigo) {
       it_server->adicionaParticipante(id);
-      search_it_usuariosLogados(id)->second.first = nome;
+      it_user->second.first = nome;
       return "== " + usuarios[id].getNome() + " entrou no servidor '" + nome + "' com sucesso ==";
   } 
   else if( !(it_server->getCodigoConvite().empty()) && codigo.empty() ) {
@@ -231,10 +239,8 @@ string Sistema::leave_server(int id, const string nome) {
 
   if(it_user->second.first.empty())
     return "== Você não está em qualquer servidor! ==";
-  
-  auto it_server = search_it_servidores(nome);
 
-  it_server->removeParticipante(id);
+  search_it_servidores(nome)->removeParticipante(id);
 
   it_user->second.first.clear();
   it_user->second.second.clear();
@@ -251,8 +257,7 @@ string Sistema::list_participants(int id) {
 
   if(it_user->first == id && it_user->second.first != "") {
     // usuario está visualizando um servidor
-    auto it_server = search_it_servidores(it_user->second.first);
-    it_server->list_participants(usuarios);
+    search_it_servidores(it_user->second.first)->list_participants(usuarios);
 
     return "";
   }
@@ -287,11 +292,9 @@ string Sistema::create_channel(int id, const string nome) {
   
   if(nomeServidor.empty())
     return "== Você não está em qualquer servidor! ==";
-  
-  auto it_server = search_it_servidores(nomeServidor);
 
   CanalTexto NovoCanalTexto(nome);
-  it_server->adicionaCanalTexto(NovoCanalTexto);
+  search_it_servidores(nomeServidor)->adicionaCanalTexto(NovoCanalTexto);
 
   return "== Canal de texto '" + nome + "' em '" + nomeServidor + "' criado ==";
 
@@ -315,9 +318,11 @@ string Sistema::enter_channel(int id, const string nome) {
   if(it_user->second.second == nome)
     return "== Usuário já está no canal! ==";
 
-  auto it_server = search_it_servidores(nomeServidor);
+  if(it_user->second.second != "") {
+    return "== Saia do canal de texto conectado atualmente! ==";
+  }
   
-  string string_erro = it_server->enter_leave_channel(nome);
+  string string_erro = search_it_servidores(nomeServidor)->enter_leave_channel(nome);
   if(string_erro != "")
     return string_erro;
 
@@ -406,7 +411,7 @@ string Sistema::list_messages(int id) {
 
 string Sistema::list_online_users(int id) {
   if(search_usuariosLogados(id) == false) 
-    return "== Usuário precisa estar logado! ==";
+    return "== Usuário precisa estar logado para acessar lista de usuários online! ==";
   
   vector<int> vetorIDsOnline;
   

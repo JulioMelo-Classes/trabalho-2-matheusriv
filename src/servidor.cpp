@@ -48,6 +48,7 @@ void Servidor::adicionaCanalTexto(CanalTexto novoCanalTexto) {
 void Servidor::list_channels() {
     if(canaisTexto.empty()) { 
         cout << "== Nenhum canal de texto em '" << nome << "' foi encontrado! ==";
+        return;
     }
 
     cout << "# Canais de texto '" << nome << "' #" << endl;
@@ -59,7 +60,7 @@ void Servidor::list_channels() {
 }
 
 void Servidor::list_participants(vector<Usuario> &usuarios) {
-    cout << "## Lista de Participantes '" << nome << "' ##" << endl;
+    cout << "## Lista de Participantes do Servidor '" << nome << "' ##" << endl;
     
     for(int i=0; i<usuarios.size(); i++) {
         for(int j=0; j<participantesIDs.size(); j++) {
