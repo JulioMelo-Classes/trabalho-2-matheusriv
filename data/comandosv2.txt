@@ -3,7 +3,9 @@ create-user isaacfranco@imd.ufrn.br senhalegal Isaac Franco Fernandes
 create-user renan@imd.ufrn.br senha Renan
 create-user julio@imd.ufrn.br senha Julio
 login isaacfranco@imd.ufrn.br senhalegal
+list-online-users 0
 disconnect 0
+list-online-users 0
 disconnect 1
 login isaacfranco@imd.ufrn.br SENHA_ERRADA
 login isaacfranco@imd.ufrn.br senhalegal
@@ -11,14 +13,15 @@ create-server 0 servidor-legal
 set-server-desc 0 servidor-legal Um servidor muito banaca e coisa e tal
 create-server 0 servidor-ruim
 set-server-desc 0 servidor-ruim Um servidor lixo total
+list-servers-desc 0
 set-server-invite-code 0 servidor-legal 123
 disconnect 0
 set-server-invite-code 0 servidor-legal 456
 login renan@imd.ufrn.br senha Renan
 set-server-invite-code 1 servidor-legal 789
 login isaacfranco@imd.ufrn.br senhalegal
-list-servers-desc 0
 set-server-invite-code 0 servidor-legal 321
+list-servers 0
 set-server-invite-code 0 servidor-legal
 set-server-invite-code 0 servidor-inexistente 123
 set-server-invite-code 0 servidor-inexistente
@@ -52,6 +55,7 @@ enter-server 2 servidor-sinistro
 login isaacfranco@imd.ufrn.br senhalegal
 enter-server 0 servidor-sinistro
 list-participants 0
+list-channels 0
 create-channel 0 canalsinistro
 list-channels 0
 enter-channel 0 canalsinistro
