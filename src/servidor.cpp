@@ -71,15 +71,18 @@ void Servidor::list_participants(vector<Usuario> &usuarios) {
 
 }
 
-string Servidor::enter_leave_channel(string nomeCanal) {
+bool Servidor::enter_leave_channel(string nomeCanal) {
     if(canaisTexto.empty()) { 
-        return "== Nenhum canal de texto em '" + nome + "' foi encontrado! ==";
+        cout << "== Nenhum canal de texto em '" << nome << "' foi encontrado! ==";
+        return false;
     }
 
-    if(search_it_canalTexto(nomeCanal) == canaisTexto.end())
-        return "== Canal '" + nomeCanal + "' não existe! ==";
+    if(search_it_canalTexto(nomeCanal) == canaisTexto.end()) { 
+        cout << "== Canal '" << nomeCanal << "' não existe! ==";
+        return false;
+    }
     
-    return "";
+    return true;
 
 }
 

@@ -58,9 +58,8 @@ string Sistema::create_server(int id, const string nome) {
   if(nome.empty())
     return "== Você não pode criar um servidor sem nome! ==";
   
-  if(search_it_servidores(nome) != servidores.end()) {
+  if(search_it_servidores(nome) != servidores.end()) 
     return "== Servidor com o nome '" + nome + "' já existe! ==";
-  }
 
   Servidor novoServidor(id, nome);
   servidores.push_back(novoServidor);
@@ -103,7 +102,7 @@ string Sistema::set_server_invite_code(int id, const string nome, const string c
     return "== Servidor '" + nome + "' não encontrado! ==";
 
   if(it_server->getNome() == nome && it_server->getUsuarioDonoId() == id) {
-      if(codigo == "") {
+      if(codigo.empty()) {
         it_server->setConvite(codigo);
         return "== Código de convite do servidor '" + nome + "' removido ==";
       }
@@ -125,15 +124,13 @@ string Sistema::list_servers(int id) {
     return "== Não há servidores cadastrados ==";
 
   cout << "## Lista de Servidores ##" << endl;
+
   for(int i=0; i<servidores.size(); i++) {
     cout << "   " + servidores[i].getNome();
-
-    if(servidores[i].getCodigoConvite().empty()) {
+    if(servidores[i].getCodigoConvite().empty()) 
       cout << " [Servidor Aberto]" << endl;
-    }
-    else {
+    else 
       cout << " [Servidor Fechado]" << endl;;
-    }
   }
 
   return "";
@@ -148,15 +145,13 @@ string Sistema::list_servers_desc(int id) {
     return "== Não há servidores cadastrados ==";
 
   cout << "## Lista de Descrição dos Servidores ##" << endl;
+
   for(int i=0; i<servidores.size(); i++) {
     cout << "   " + servidores[i].getNome();
-
-    if(servidores[i].getDescricao().empty()) {
+    if(servidores[i].getDescricao().empty()) 
       cout << " | Servidor sem descrição" << endl;
-    }
-    else {
+    else 
       cout << " | " + servidores[i].getDescricao() << endl;
-    }
   }
 
   return "";
@@ -209,9 +204,8 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
 
   auto it_user = search_it_usuariosLogados(id);
 
-  if(it_user->second.first != "") {
+  if( !(it_user->second.first.empty()) ) 
     return "== Saia do servidor conectado atualmente! ==";
-  }
 
   if(it_server->getUsuarioDonoId() == id ||
     it_server->getCodigoConvite().empty() || 
@@ -318,13 +312,11 @@ string Sistema::enter_channel(int id, const string nome) {
   if(it_user->second.second == nome)
     return "== Usuário já está no canal! ==";
 
-  if(it_user->second.second != "") {
+  if( !(it_user->second.second.empty()) ) 
     return "== Saia do canal de texto conectado atualmente! ==";
-  }
   
-  string string_erro = search_it_servidores(nomeServidor)->enter_leave_channel(nome);
-  if(string_erro != "")
-    return string_erro;
+  if( !(search_it_servidores(nomeServidor)->enter_leave_channel(nome)) )
+    return "";
 
   it_user->second.second = nome;
 
@@ -348,11 +340,8 @@ string Sistema::leave_channel(int id) {
   if(nomeCanal.empty())
     return "== Você não está num canal! ==";
 
-  auto it_server = search_it_servidores(nomeServidor);
-
-  string string_erro = it_server->enter_leave_channel(nomeCanal);
-  if(string_erro != "") 
-    return string_erro;
+  if( !(search_it_servidores(nomeServidor)->enter_leave_channel(nomeCanal)) )
+    return "";
 
   it_user->second.second.clear();
   

@@ -92,9 +92,9 @@ class Servidor{
         /*
         * @brief Verifica as condições válidas para entrar ou sair de um canal de texto do servidor.
         * @param nomeCanal Nome do canal de texto.
-        * @return Retorna mensagem de erro em caso de falha ou uma string vazia se as condições são válidas.
+        * @return Retorna falso em caso de falha ou verdadeiro se as condições são válidas.
         */
-        std::string enter_leave_channel(std::string nomeCanal);
+        bool enter_leave_channel(std::string nomeCanal);
 
         /*
         * @brief Procura um canal de texto especificado.
