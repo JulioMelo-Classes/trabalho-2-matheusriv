@@ -34,7 +34,7 @@ string Sistema::login(const string email, const string senha) {
                             return usuario.getEmail() == email && usuario.getSenha() == senha;
                         });
 
-  if(it_user != usuarios.end()){
+  if(it_user != usuarios.end()) {
     if( search_usuariosLogados(it_user->getId()) ) { 
       return "== Usuário " + email + " já encontra-se logado! ==";
     } 
@@ -213,7 +213,7 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
     it_server->getCodigoConvite() == codigo) {
       it_server->adicionaParticipante(id);
       it_user->second.first = nome;
-      return "== " + usuarios[id].getNome() + " entrou no servidor '" + nome + "' com sucesso ==";
+      return "== " + usuarios[id].getNome() + " entrou no servidor '" + nome + "' ==";
   } 
   else if( !(it_server->getCodigoConvite().empty()) && codigo.empty() ) {
     return "== Servidor requer código de convite! ==";
@@ -233,8 +233,12 @@ string Sistema::leave_server(int id, const string nome) {
   auto it_user = search_it_usuariosLogados(id);
   if(it_user->second.first.empty())
     return "== Você não está em qualquer servidor! ==";
+  
+  auto it_server = search_it_servidores(nome);
+  if(it_server == servidores.end())
+    return "== Servidor '" + nome + "' não existe! ==";
 
-  search_it_servidores(nome)->removeParticipante(id);
+  it_server->removeParticipante(id);
 
   it_user->second.first.clear();
   it_user->second.second.clear();
@@ -249,9 +253,11 @@ string Sistema::list_participants(int id) {
   
   auto it_user = search_it_usuariosLogados(id);
 
-  if(it_user->first == id && it_user->second.first != "") {
+  string nomeServidor = it_user->second.first;
+
+  if(it_user->first == id && nomeServidor != "") {
     // usuario está visualizando um servidor
-    search_it_servidores(it_user->second.first)->list_participants(usuarios);
+    search_it_servidores(nomeServidor)->list_participants(usuarios);
 
     return "";
   }
@@ -439,9 +445,9 @@ bool Sistema::search_usuariosLogados(int id) {
   
 }
 
-std::map<int, std::pair<std::string, std::string>>::iterator Sistema::search_it_usuariosLogados(int id) {
+std::map<int, std::pair<string, string>>::iterator Sistema::search_it_usuariosLogados(int id) {
   auto it = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
-                            [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
+                            [&](std::pair<int, std::pair<string, string>> entrada){ 
                                   return entrada.first == id;
                                 });
 
