@@ -14,7 +14,7 @@ void CanalTexto::setNome(const string novoNome){
     this->nome = novoNome;
 }
 
-void CanalTexto::addMensagem(const string mensagem, int id) {
+void CanalTexto::criarMensagem(const string mensagem, int id) {
     char dataHora[64];
     time_t now = time(nullptr);
 
@@ -25,6 +25,10 @@ void CanalTexto::addMensagem(const string mensagem, int id) {
     mensagens.push_back(novaMensagem);
 
     cout << "== Mensagem enviada ==";
+}
+
+void CanalTexto::addMensagem(Mensagem novaMensagem) {
+    mensagens.push_back(novaMensagem);
 }
 
 void CanalTexto::list_messages(vector<Usuario> &usuarios) {

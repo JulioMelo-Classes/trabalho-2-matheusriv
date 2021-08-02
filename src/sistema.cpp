@@ -375,7 +375,7 @@ string Sistema::send_message(int id, const string mensagem) {
 
   auto it_canaltexto = search_it_servidores(nomeServidor)->search_it_canalTexto(nomeCanal);
 
-  it_canaltexto->addMensagem(mensagem, id);
+  it_canaltexto->criarMensagem(mensagem, id);
 
   return "";
 

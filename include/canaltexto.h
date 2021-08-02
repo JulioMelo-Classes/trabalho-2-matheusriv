@@ -28,10 +28,17 @@ class CanalTexto{
         void setNome(const std::string novoNome);
 		
         /*
+        * @brief Cria e adiciona uma mensagem no vetor de mensagens do canal de texto
+        * @param novaMensagem Conteudo da nova mensagem a ser adicionada
+        * @id id do usuário dono da mensagem
+        */
+        void criarMensagem(const std::string mensagem, int id);
+
+        /*
         * @brief Adiciona uma mensagem no vetor de mensagens do canal de texto
         * @param novaMensagem Nova mensagem a ser adicionado
         */
-        void addMensagem(const std::string mensagem, int id);
+        void addMensagem(Mensagem novaMensagem);
 
         /*
         * @brief Lista as mensagens do canal de texto
