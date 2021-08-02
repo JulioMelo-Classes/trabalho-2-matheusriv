@@ -72,11 +72,12 @@ class Servidor{
         void removeParticipante(int id);
 
         /*
-        * @brief Adiciona um canal de texto na lista de canais de texto do servidor.
+        * @brief Adiciona um canal de texto se não existir um canal com o mesmo nome do novo canal.
         * @param nome Nome do canal de texto a ser adicionado.
         * @param novoCanalTexto Canal de texto a ser adicionado.
+        * @return Mensagem de sucesso ou de erro.
         */
-        void adicionaCanalTexto(CanalTexto novoCanalTexto);
+        std::string adicionaCanalTexto(CanalTexto novoCanalTexto);
 
         /*
         * @brief Lista os canais de texto do servidor.
@@ -94,7 +95,7 @@ class Servidor{
         * @param nomeCanal Nome do canal de texto.
         * @return Retorna falso em caso de falha ou verdadeiro se as condições são válidas.
         */
-        bool enter_leave_channel(std::string nomeCanal);
+        std::string enter_leave_channel(std::string nomeCanal);
 
         /*
         * @brief Procura um canal de texto especificado.

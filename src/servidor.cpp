@@ -41,8 +41,16 @@ void Servidor::removeParticipante(int id) {
     participantesIDs.erase(std::remove(participantesIDs.begin(), participantesIDs.end(), id), participantesIDs.end());
 }
 
-void Servidor::adicionaCanalTexto(CanalTexto novoCanalTexto) {
+string Servidor::adicionaCanalTexto(CanalTexto novoCanalTexto) {
+    string nomeCanal = novoCanalTexto.getNome();
+
+    if(search_it_canalTexto(nomeCanal) != canaisTexto.end()) 
+        return "Canal de texto '" + nomeCanal + "' já existe!";
+
     canaisTexto.push_back(novoCanalTexto);
+
+    return "== Canal de texto '" + nomeCanal + "' em '" + nome + "' criado ==";
+
 }
 
 void Servidor::list_channels() {
@@ -71,28 +79,23 @@ void Servidor::list_participants(vector<Usuario> &usuarios) {
 
 }
 
-bool Servidor::enter_leave_channel(string nomeCanal) {
-    if(canaisTexto.empty()) { 
-        cout << "== Nenhum canal de texto em '" << nome << "' foi encontrado! ==";
-        return false;
-    }
+string Servidor::enter_leave_channel(string nomeCanal) {
+    if(canaisTexto.empty()) 
+        return "== Nenhum canal de texto em '" + nome + "' foi encontrado! ==";
 
-    if(search_it_canalTexto(nomeCanal) == canaisTexto.end()) { 
-        cout << "== Canal '" << nomeCanal << "' não existe! ==";
-        return false;
-    }
+    if(search_it_canalTexto(nomeCanal) == canaisTexto.end()) 
+        return "== Canal '" + nomeCanal + "' não existe! ==";
     
-    return true;
+    return "";
 
 }
 
 vector<CanalTexto>::iterator Servidor::search_it_canalTexto(string nomeCanal) {
-    auto it_canaltexto = canaisTexto.begin();
-    for(; it_canaltexto != canaisTexto.end(); it_canaltexto++) {
-        if(it_canaltexto->getNome() == nomeCanal)
-            return it_canaltexto;
-    }
+    auto it_canaltexto= std::find_if(canaisTexto.begin(), canaisTexto.end(), 
+                                [nomeCanal](CanalTexto canal){
+                                  return canal.getNome() == nomeCanal;
+                                });
 
-    return canaisTexto.end();
+    return it_canaltexto;
 
 }
