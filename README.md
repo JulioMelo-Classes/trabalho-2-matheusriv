@@ -2,16 +2,22 @@
 
 Essa atividade se trata de um sistema chamado "Concordo" com recursos similares ao Discord, mas que vai funcionar somente em modo texto e sem recursos de rede. A ideia principal é simular o “backend” de um serviço com o discord, que, embora de forma simplificada, serve para dar uma boa ideia de como as coisas são feitas nesse nicho de aplicação.
 
-## Para compilar
+## Para executar
+Você pode rodar o sistema e em logo depois digitar os comandos seguidos de ENTER
 
-```console
+1. Entre na pasta `build`:
+```
 cd build
+```
+2. Execute os comandos do `cmake` para gerar os arquivos intermediários e o executável dentro de `build`.
+```
 cmake ..
 cmake --build .
 ```
 
-## Para executar
-Você pode rodar o sistema e em logo depois digitar os comandos seguidos de ENTER
+Isso criará um executável dentro de `build` chamado de `concordo`.
+
+Logo após a compilação, para executar o programa gerado use os comandos:
 
 No linux:
 ```console
