@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <fstream>
 
 #include "usuario.h"
 #include "canaltexto.h"
@@ -101,6 +102,12 @@ class Servidor{
         * @return Retorna falso em caso de falha ou verdadeiro se as condições são válidas.
         */
         std::string enter_leave_channel(std::string nomeCanal);
+
+        /*
+        * @brief Salva os dados do servidor num arquivo.
+        * @param ofs ofstream do arquivo.
+        */
+        void salvarServidorCanaisOfs(std::ofstream &ofs);
 
         /*
         * @brief Procura um canal de texto especificado.

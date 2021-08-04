@@ -13,29 +13,42 @@
 // Sistema deve concentrar todas as operações do Concordo
 class Sistema {
     private:
-        std::vector<Servidor> servidores; //<! um vetor com todos os servidores
-        std::vector<Usuario> usuarios; //<! um vetor com todos os usuários cadastrados
-        std::map< int, std::pair<std::string, std::string> > usuariosLogados; //<! um vetor contendo os usuários que logaram no sistema
-        int countId = -1; //<! ID de usuário gerado automaticamente. 
+        std::vector<Servidor> servidores; //<! um vetor com todos os servidores.
+        std::vector<Usuario> usuarios; //<! um vetor com todos os usuários cadastrados.
+        std::map< int, std::pair<std::string, std::string> > usuariosLogados; //<! um vetor contendo os usuários que logaram no sistema.
+        int countId = -1; //<! ID de usuário gerado automaticamente.
+
+        void salvar_usuarios(); // Salva os dados dos usuários cadastrados.
+        void salvar_usuariosLogados(); // Salva os dados dos usuários logados.
+        void salvar_servidores(); // Salva os dados dos servidores cadastrados.
+        void carregar_usuarios(); // Carrega os dados dos usuários cadastrados.
+        void carregar_usuariosLogados(); // Carrega os dados dos usuários logados.
+        void carregar_servidores(); // Carrega os dados dos servidores cadastrados.
 		
     public:
+        /* Salva todos os dados do sistema num arquivo. */
+        void salvar_sistema();
+
+        /* Carrega todos os dados do sistema de um arquivo. */
+        void carregar_sistema();
+
         /*! Encerra o funcionamento do Concordo, o programa termina ao executar este comando.
             @return uma string com a mensagem "Saindo.."
         */
         std::string quit();
 
-        /*! Cria um usuário e retorna uma string de erro/sucesso 
-            @param email o email do usuário informado no comando create-user
-            @param senha a senha passada ao comando create-ser
-            @param nome o nome do usuário (com espaços) passado ao comando create user 
-            @return uma string contendo uma mensagem de erro ou "Usuário Criado"
+        /*! Cria um usuário e retorna uma string de erro/sucesso.
+            @param email o email do usuário informado no comando create-user.
+            @param senha a senha passada ao comando create-ser.
+            @param nome o nome do usuário (com espaços) passado ao comando create user.
+            @return uma string contendo uma mensagem de erro ou "Usuário Criado".
         */
         std::string create_user(const std::string email, const std::string senha, const std::string nome);
 
         /*! Realiza o login do usuário com email e senha, retorna uma string de erro ou uma mensagem de login bem sucedido. 
         Quando um usuário loga o sistema deve adicionar o usuário na tabela Sistema::usuariosLogados.
-            @param email o email do usuário, passado no comando login
-            @param senha a senha correspondente àquele usuário
+            @param email o email do usuário, passado no comando login.
+            @param senha a senha correspondente àquele usuário.
             @return uma string contendo uma mensagem de erro ou "Logado como <email>!"
         */
         std::string login(const std::string email, const std::string senha);

@@ -1,6 +1,7 @@
 #ifndef CANALTEXTO_H
 #define CANALTEXTO_H
 #include <vector>
+#include <fstream>
 #include <ctime>
 
 #include "usuario.h"
@@ -45,6 +46,12 @@ class CanalTexto{
         * @param usuarios Vetor com todos os usuários cadastrados
         */
         void list_messages(std::vector<Usuario> &usuarios);
+
+        /*
+        * @brief Salva as mensagens do canal de texto num arquivo
+        * @param ofs ofstream do arquivo
+        */
+        void salvarMensagensOfs(std::ofstream &ofs);
 
 };
 

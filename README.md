@@ -3,7 +3,6 @@
 Essa atividade se trata de um sistema chamado "Concordo" com recursos similares ao Discord, mas que vai funcionar somente em modo texto e sem recursos de rede. A ideia principal é simular o “backend” de um serviço com o discord, que, embora de forma simplificada, serve para dar uma boa ideia de como as coisas são feitas nesse nicho de aplicação.
 
 ## Para executar
-Você pode rodar o sistema e em logo depois digitar os comandos seguidos de ENTER
 
 1. Entre na pasta `build`:
 ```
@@ -15,7 +14,7 @@ cmake ..
 cmake --build .
 ```
 
-Isso criará um executável dentro de `build` chamado de `concordo`.
+Isso criará a pasta `data` e um executável dentro de `build` chamado de `concordo`.
 
 Logo após a compilação, para executar o programa gerado use os comandos:
 
@@ -28,6 +27,8 @@ No windows:
 ```
 .\Debug\concordo.exe
 ```
+
+Você pode rodar o sistema e em logo depois digitar os comandos seguidos de ENTER.
 
 ## Comandos
 
@@ -401,3 +402,65 @@ Renan<08/03/2021 - 12:00>: Semestre passado fizemos assim e ninguém entregou :/
 list-messages 0
 == Sem mensagens para exibir ==
 ```
+
+## Persistência de dados
+
+A persistência dos dados neste projeto permite que todas as informações de usuários cadastrados, usuários logados, servidores, usuários participantes em um servidor e mensagens em cada canal são dados que não são perdidos quando o sistema termina. A persistência de dados é feita utilizando manipulação de arquivos .txt localizados na pasta `data`.
+
+### Usuários
+
+Para armazenar os dados dos usuários utiliza-se o arquivo `usuarios.txt` que é estruturado da seguinte forma:
+
+- A primeira linha possui um número que informa a quantidade de usuários cadastrados;
+
+Para cada usuário, teremos as seguintes linhas:
+
+- Linha com o Id do usuário;
+- Linha com o nome do usuário;
+- Linha com o email do usuário;
+- Linha com a senha do usuário.
+
+### Usuários Logados
+
+Para armazenar os dados dos usuários logados no sistema utiliza-se o arquivo `usuarioslogados.txt` que é estruturado da seguinte forma:
+
+- A primeira linha possui um número que informa a quantidade de usuários logados;
+
+Para cada usuário, teremos as seguintes linhas:
+
+- Linha com o nome do usuário;
+- Linha com o nome do servidor que o usuário está visualizando (se não estiver visualizando um servidor, uma linha vazia);
+- Linha com o nome do canal de texto do servidor que o usuário está visualizando (se não estiver visualizando um canal, uma linha vazia).
+
+### Servidores
+
+Para armazenar os dados dos servidores cadastrados utiliza-se o arquivo `servidores.txt` que é estruturado da seguinte forma:
+
+- A primeira linha possui um número que informa a quantidade de servidores cadastrados;
+
+Para cada servidor, teremos as seguintes linhas:
+
+- Linha com o Id do usuário dono do servidor;
+- Linha com o nome do servidor;
+- Linha com a descrição do servidor (se não existir descrição, linha vazia);
+- Linha com o código de convite do servidor (se não existir código de convite, linha vazia);
+- Linha com o número de participantes do servidor;
+
+Para cada participante do servidor, teremos em seguida:
+
+- Linha com o Id do usuário participante;
+
+Em seguida:
+
+- Linha com o número de canais de texto do servidor;
+
+Para cada canal de texto no servidor, teremos as seguintes linhas em seguida:
+
+- Linha com o nome do canal;
+- Linha com o número de mensagens do canal;
+
+Para cada mensagem no canal, teremos as seguintes linhas em seguida:
+
+- Linha com a data e hora em que a mensagem foi enviada;
+- Linha com o Id do usuário que enviou a mensagem;
+- Linha com o conteúdo da mensagem.

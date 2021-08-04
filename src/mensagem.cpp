@@ -2,10 +2,10 @@
 
 using namespace std;
 
-Mensagem::Mensagem(string dataHora, string conteudo, int enviadaPor) {
+Mensagem::Mensagem(string dataHora, int enviadaPor, string conteudo) {
     this->dataHora = dataHora;
-    this->conteudo = conteudo;
     this->enviadaPor = enviadaPor;
+    this->conteudo = conteudo;
 }
 
 Mensagem::Mensagem() {}

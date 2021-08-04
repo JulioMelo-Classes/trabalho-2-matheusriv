@@ -55,6 +55,7 @@ string Servidor::adicionaCanalTexto(CanalTexto novoCanalTexto) {
 
 void Servidor::adicionaCanalTexto_(CanalTexto novoCanalTexto) {
     canaisTexto.push_back(novoCanalTexto);
+
 }
 
 void Servidor::list_channels() {
@@ -94,8 +95,26 @@ string Servidor::enter_leave_channel(string nomeCanal) {
 
 }
 
+void Servidor::salvarServidorCanaisOfs(ofstream &ofs) {
+    // Imprime a quantidade de participantes do servidor
+    ofs << participantesIDs.size() << endl;
+    // Imprime o id de cada participante do servidor
+    for(auto it_p = participantesIDs.begin(); it_p != participantesIDs.end(); it_p++)
+        ofs << *it_p << endl;
+
+    // Imprime a quantidade de canais de texto do servidor
+    ofs << canaisTexto.size() << endl;
+    // Imprime os dados de cada canal de texto
+    for(auto it_canal = canaisTexto.begin(); it_canal != canaisTexto.end(); it_canal++) {
+        // Imprime o nome do canal
+        ofs << it_canal->getNome() << endl;
+        // Dados das mensagens dos canais
+        it_canal->salvarMensagensOfs(ofs);
+    }
+}
+
 vector<CanalTexto>::iterator Servidor::search_it_canalTexto(string nomeCanal) {
-    auto it_canaltexto= std::find_if(canaisTexto.begin(), canaisTexto.end(), 
+    auto it_canaltexto = std::find_if(canaisTexto.begin(), canaisTexto.end(), 
                                 [nomeCanal](CanalTexto canal){
                                   return canal.getNome() == nomeCanal;
                                 });

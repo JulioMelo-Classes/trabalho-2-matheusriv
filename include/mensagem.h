@@ -10,7 +10,7 @@ class Mensagem{
     
     public:
         /* Construtor */
-        Mensagem(std::string dataHora, std::string conteudo, int enviadaPor);
+        Mensagem(std::string dataHora, int enviadaPor, std::string conteudo);
 
         /* Construtor padrão */
         Mensagem();

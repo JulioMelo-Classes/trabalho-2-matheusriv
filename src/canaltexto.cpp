@@ -20,7 +20,7 @@ void CanalTexto::criarMensagem(const string mensagem, int id) {
 
     strftime(dataHora, sizeof(dataHora), "%d/%m/%Y - %R", localtime(&now));
 
-    Mensagem novaMensagem(dataHora, mensagem, id);
+    Mensagem novaMensagem(dataHora, id, mensagem);
 
     addMensagem(novaMensagem);
 
@@ -43,5 +43,17 @@ void CanalTexto::list_messages(vector<Usuario> &usuarios) {
         string nomeUsuario = usuarios[mensagens[i].getEnviadaPor()].getNome();
         cout << nomeUsuario << " <" << mensagens[i].getDataHora() 
             << ">: " + mensagens[i].getConteudo() << endl;
+    }
+}
+
+void CanalTexto::salvarMensagensOfs(std::ofstream &ofs) {
+    // Imprime a quantidade de mensagens do canal de texto
+    ofs << mensagens.size() << endl;
+
+    // Imprime os dados de cada mensagem
+    for(auto it_m = mensagens.begin(); it_m != mensagens.end(); ++it_m) {
+        ofs << it_m->getDataHora() << endl;
+        ofs << it_m->getEnviadaPor() << endl;
+        ofs << it_m->getConteudo() << endl;
     }
 }

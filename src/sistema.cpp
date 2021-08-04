@@ -1,9 +1,231 @@
 #include "sistema.h"
 #include <iostream>
-#include <sstream>
 #include <algorithm>
+#include <fstream>
 
 using namespace std;
+
+void Sistema::salvar_sistema() {
+    salvar_usuarios();
+    salvar_usuariosLogados();
+    salvar_servidores();
+}
+
+void Sistema::salvar_usuarios() {
+  // Abre o arquivo usuarios.txt para salvar dados dos usuários
+  ofstream osfstream_usuarios("../data/usuarios.txt");
+
+  if(osfstream_usuarios) {
+    // Imprime a quantidade de usuários cadastrados
+    osfstream_usuarios << usuarios.size() << endl;
+
+    // Imprime os dados de cada usuário
+    for(auto it_user = usuarios.begin(); it_user != usuarios.end(); it_user++) {
+      osfstream_usuarios << it_user->getId() << endl;
+      osfstream_usuarios << it_user->getNome() << endl;
+      osfstream_usuarios << it_user->getEmail() << endl;
+      osfstream_usuarios << it_user->getSenha() << endl;
+    }
+  }
+  else { 
+    std::cerr << "Erro ao salvar usuários! " << endl;
+  }
+  
+  osfstream_usuarios.close();
+
+}
+
+void Sistema::salvar_usuariosLogados() {
+  // Abre o arquivo para salvar dados dos usuários logados
+  ofstream ofstream_usuariosLog("../data/usuarioslogados.txt");
+
+  if(ofstream_usuariosLog) {
+    // Imprime a quantidade de usuários logados
+    ofstream_usuariosLog << usuariosLogados.size() << endl;
+
+    for(auto it = usuariosLogados.begin(); it != usuariosLogados.end(); it++) {
+      // Imprime o id do usuário logado
+      ofstream_usuariosLog << it->first << endl;
+      // Imprime o nome do servidor que o usuário está visualizando
+      ofstream_usuariosLog << it->second.first << endl;
+      // Imprime o nome do canal de texto que o usuário está visualizando
+      ofstream_usuariosLog << it->second.second << endl;
+    }
+  }
+  else {
+    std::cerr << "Erro ao salvar usuários logados!" << endl;
+  }
+
+  ofstream_usuariosLog.close();
+
+}
+
+void Sistema::salvar_servidores() {
+  // Abre o arquivo servidores.txt para salvar dados dos servidores cadastrados
+  ofstream ofstream_servidores("../data/servidores.txt");
+
+  if(ofstream_servidores) {
+    // Imprime a quantidade de servidores cadastrados
+    ofstream_servidores << servidores.size() << endl;
+
+    // Imprime os dados de cada servidor
+    for(auto it_server = servidores.begin(); it_server != servidores.end(); it_server++) {
+      ofstream_servidores << it_server->getUsuarioDonoId() << endl;
+      ofstream_servidores << it_server->getNome() << endl;
+      ofstream_servidores << it_server->getDescricao() << endl;
+      ofstream_servidores << it_server->getCodigoConvite() << endl;
+      // Imprime os dados dos participantes e canais do servidor
+      it_server->salvarServidorCanaisOfs(ofstream_servidores);
+    }
+  }
+  else {  
+    std::cerr << "Erro ao salvar servidores!" << endl;
+  }
+
+  ofstream_servidores.close();
+
+}
+
+void Sistema::carregar_sistema() {
+  carregar_usuarios();
+  carregar_usuariosLogados();
+  carregar_servidores();
+}
+
+void Sistema::carregar_usuarios() {
+  // Abre o arquivo para obter os dados do usuários
+  ifstream ifstream_usuarios("../data/usuarios.txt");
+
+  if(ifstream_usuarios) {
+    // Verifica se o arquivo não está vazio
+    if(ifstream_usuarios.peek() != ifstream::traits_type::eof()) {
+      usuarios.clear();
+
+      string users_qtd, id, nome, email, senha;
+
+      // Lê a quantidade de usuários cadastrados
+      getline(ifstream_usuarios, users_qtd);
+
+      // Lê os dados de cada usuário
+      for(int user = 0; user<stoi(users_qtd); user++) {
+        getline(ifstream_usuarios, id);
+        getline(ifstream_usuarios, nome);
+        getline(ifstream_usuarios, email);
+        getline(ifstream_usuarios, senha);
+
+        // Cria e cadastra o novo usuário no sistema
+        Usuario novoUsuario(stoi(id), nome, email, senha);
+        usuarios.push_back(novoUsuario);
+      }
+    }
+  } 
+  else { 
+    std::cerr << "Erro ao restaurar usuários!" << endl;
+  }
+
+}
+
+void Sistema::carregar_usuariosLogados() {
+  // Abre o arquivo para obter os dados dos usuários logados
+  ifstream ifstream_usuariosLog("../data/usuarioslogados.txt");
+
+  if(ifstream_usuariosLog) {
+    // Verifica se o arquivo não está vazio
+    if(ifstream_usuariosLog.peek() != std::ifstream::traits_type::eof()) {
+      usuariosLogados.clear();
+
+      string users_qtd, id, nomeServidor, nomeCanal;
+
+      // Lê a quantidade de usuários logados
+      getline(ifstream_usuariosLog, users_qtd);
+
+      // Lê os dados de cada usuário
+      for(int user = 0; user<stoi(users_qtd); user++) {
+        getline(ifstream_usuariosLog, id);
+        getline(ifstream_usuariosLog, nomeServidor);
+        getline(ifstream_usuariosLog, nomeCanal);
+        // Insere o usuário logado no sistema
+        usuariosLogados.insert({stoi(id), {nomeServidor,nomeCanal}});
+      }
+    }
+  } 
+  else { 
+    std::cerr << "Erro ao restaurar usuários logados!" << endl;
+  }
+}
+
+void Sistema::carregar_servidores() {
+  // Abre o arquivo para obter os dados dos servidores
+  ifstream ifstream_servidores("../data/servidores.txt");
+
+  if(ifstream_servidores) {
+    // Verifica se o arquivo não está vazio
+    if(ifstream_servidores.peek() != ifstream::traits_type::eof()) {
+      servidores.clear();
+
+      string server_qtd, server_donoId, server_nome, server_desc;
+      string server_cod, server_numParticipants, server_partId;
+      string canal_qtd, canal_Id, canal_nome;
+      string mensagem_qtd, mensagem_donoId, mensagem_dataHora, mensagem_cont;
+
+      // Lê a quantidade de usuários cadastrados
+      getline(ifstream_servidores, server_qtd);
+
+      // Lê os dados de cada servidor
+      for(int server = 0; server<stoi(server_qtd); server++) {
+        getline(ifstream_servidores, server_donoId);
+        getline(ifstream_servidores, server_nome);
+        getline(ifstream_servidores, server_desc);
+        getline(ifstream_servidores, server_cod);
+        
+        // Cria e cadastra o novo servidor no sistema
+        Servidor novoServidor(stoi(server_donoId), server_nome);
+        novoServidor.setDescricao(server_desc);
+        novoServidor.setConvite(server_cod);
+
+        // Lê a quantidade de participantes do servidor
+        getline(ifstream_servidores, server_numParticipants);
+
+        // Faz a leitura do Id de todos os participantes e os adiciona ao servidor
+        for(int part = 0; part<stoi(server_numParticipants); part++){
+          getline(ifstream_servidores, server_partId);
+          novoServidor.adicionaParticipante(stoi(server_partId));
+        }
+
+        // Lê a quantidade de canais do servidor
+        getline(ifstream_servidores, canal_qtd);
+
+        // Lê os dados dos canais e insere no servidor
+        for(int canal = 0; canal<stoi(canal_qtd); canal++) {
+          getline(ifstream_servidores, canal_nome);
+
+          CanalTexto novoCanal(canal_nome);
+
+          // Lê a quantidade de mensagens do canal
+          getline(ifstream_servidores, mensagem_qtd);
+
+          // Faz a leitura dos dados das mensagens do canal
+          for(int m = 0; m<stoi(mensagem_qtd); m++) {
+            getline(ifstream_servidores, mensagem_dataHora);
+            getline(ifstream_servidores, mensagem_donoId);
+            getline(ifstream_servidores, mensagem_cont);
+
+            // Cria e adiciona a mensagem ao canal
+            Mensagem novaMensagem(mensagem_dataHora, stoi(mensagem_donoId), mensagem_cont);
+            novoCanal.addMensagem(novaMensagem);
+          }
+          // Adiciona o canal de texto ao servidor
+          novoServidor.adicionaCanalTexto_(novoCanal);
+        }
+        // Adiciona o servidor
+        servidores.push_back(novoServidor);
+      }
+    }
+  } 
+  else { 
+    std::cerr << "Erro ao restaurar usuários!" << endl;
+  }
+}
 
 /* COMANDOS */
 string Sistema::quit() {
@@ -14,11 +236,12 @@ string Sistema::create_user(const string email, const string senha, const string
   if(email.empty() || senha.empty() || nome.empty())
     return "Informe todos os dados necessários!";
 
-  // Procura no vetor usuarios algum usuário com o email informado
+  carregar_sistema();
+
   auto it_user = std::find_if(usuarios.begin(), usuarios.end(), 
-                              [email](Usuario usuario){
-                                        return usuario.getEmail() == email;
-                                      });
+                                [email](Usuario usuario){
+                                  return usuario.getEmail() == email;
+                                });
 
   if(it_user != usuarios.end())
     return "== Usuário " + email + " já existe! ==";
@@ -26,6 +249,8 @@ string Sistema::create_user(const string email, const string senha, const string
   countId++;
   Usuario NovoUsuario(countId, nome, email, senha);
   usuarios.push_back(NovoUsuario);
+
+  salvar_sistema();
 
   return "== Usuário Criado ==";
 
@@ -35,10 +260,13 @@ string Sistema::login(const string email, const string senha) {
   if(email.empty() || senha.empty())
     return "Informe todos os dados necessários!";
 
-  // Procura no vetor usuarios algum usuário com o email e senha informados
-  auto it_user = std::find_if(usuarios.begin(), usuarios.end(), [email, senha](Usuario usuario) {
-                            return usuario.getEmail() == email && usuario.getSenha() == senha;
-                        });
+  carregar_sistema();
+
+  auto it_user = std::find_if(usuarios.begin(), usuarios.end(), 
+                              [email, senha](Usuario usuario) {
+                                return usuario.getEmail() == email && 
+                                       usuario.getSenha() == senha;
+                              });
 
   if(it_user != usuarios.end()) {
     if( search_usuariosLogados(it_user->getId()) ) { 
@@ -46,6 +274,7 @@ string Sistema::login(const string email, const string senha) {
     } 
     else { 
       usuariosLogados.insert({it_user->getId(), {"",""}});
+      salvar_sistema();
       return "== Logado como " + email + " ==";
     }
   }
@@ -55,15 +284,22 @@ string Sistema::login(const string email, const string senha) {
 }
 
 string Sistema::disconnect(int id) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false)  
     return "== Usuário precisa estar logado para desconectar! ==";
 
   usuariosLogados.erase(search_it_usuariosLogados(id));
+
+  salvar_sistema();
+
   return "== Desconectando usuário " + usuarios[id].getEmail() + " ==";
 
 }
 
 string Sistema::create_server(int id, const string nome) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para criar servidor! ==";
   
@@ -76,11 +312,15 @@ string Sistema::create_server(int id, const string nome) {
   Servidor novoServidor(id, nome);
   servidores.push_back(novoServidor);
 
+  salvar_sistema();
+
   return "== Servidor '" + nome + "' criado ==";
 
 }
 
 string Sistema::set_server_desc(int id, const string nome, const string descricao) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para mudar descrição de um servidor! ==";
   
@@ -93,6 +333,8 @@ string Sistema::set_server_desc(int id, const string nome, const string descrica
 
   if(it_server->getNome() == nome && it_server->getUsuarioDonoId() == id) {
     it_server->setDescricao(descricao);
+    salvar_sistema();
+
     return "== Descrição do servidor '" + nome + "' modificada ==";
   }
 
@@ -101,6 +343,8 @@ string Sistema::set_server_desc(int id, const string nome, const string descrica
 }
 
 string Sistema::set_server_invite_code(int id, const string nome, const string codigo) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para mudar código de convite! ==";
   
@@ -114,10 +358,12 @@ string Sistema::set_server_invite_code(int id, const string nome, const string c
   if(it_server->getNome() == nome && it_server->getUsuarioDonoId() == id) {
       if(codigo.empty()) {
         it_server->setConvite(codigo);
+        salvar_sistema();
         return "== Código de convite do servidor '" + nome + "' removido ==";
       }
       else {
         it_server->setConvite(codigo);
+        salvar_sistema();
         return "== Código de convite do servidor '" + nome + "' modificado ==";
       }
   }
@@ -127,6 +373,8 @@ string Sistema::set_server_invite_code(int id, const string nome, const string c
 }
 
 string Sistema::list_servers(int id) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para acessar lista de servidores! ==";
 
@@ -148,6 +396,8 @@ string Sistema::list_servers(int id) {
 }
 
 string Sistema::list_servers_desc(int id) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para acessar lista de servidores! ==";
 
@@ -169,6 +419,8 @@ string Sistema::list_servers_desc(int id) {
 }
 
 string Sistema::remove_server(int id, const string nome) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para remover um servidor! ==";
   
@@ -191,6 +443,7 @@ string Sistema::remove_server(int id, const string nome) {
         }
     }
     servidores.erase(it_server);
+    salvar_sistema();
 
     return "== Servidor '" + nome + "' removido ==";
   }
@@ -200,6 +453,8 @@ string Sistema::remove_server(int id, const string nome) {
 }
 
 string Sistema::enter_server(int id, const string nome, const string codigo) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para entrar num servidor! ==";
   
@@ -219,6 +474,7 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
     it_server->getCodigoConvite() == codigo) {
       it_server->adicionaParticipante(id);
       it_user->second.first = nome;
+      salvar_sistema();
       return "== " + usuarios[id].getNome() + " entrou no servidor '" + nome + "' ==";
   } 
   else if( !(it_server->getCodigoConvite().empty()) && codigo.empty() ) {
@@ -230,6 +486,8 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
 }
 
 string Sistema::leave_server(int id, const string nome) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para sair de um servidor! ==";
   
@@ -245,15 +503,19 @@ string Sistema::leave_server(int id, const string nome) {
     return "== Servidor '" + nome + "' não existe! ==";
 
   it_server->removeParticipante(id);
-
+  
   it_user->second.first.clear();
   it_user->second.second.clear();
+
+  salvar_sistema();
   
   return "== Saindo do servidor '" + nome + "' ==";
 
 }
 
 string Sistema::list_participants(int id) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para acessar lista de participantes de um servidor! ==";
   
@@ -286,6 +548,8 @@ string Sistema::list_channels(int id) {
 }
 
 string Sistema::create_channel(int id, const string nome) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para criar um canal num servidor! ==";
   
@@ -301,12 +565,16 @@ string Sistema::create_channel(int id, const string nome) {
   string retorno;
   retorno = search_it_servidores(nomeServidor)->adicionaCanalTexto(NovoCanalTexto);
 
+  salvar_sistema();
+
   return retorno;
 
 }
 
 
 string Sistema::enter_channel(int id, const string nome) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado parar entrar num canal! ==";
   
@@ -331,11 +599,15 @@ string Sistema::enter_channel(int id, const string nome) {
 
   it_user->second.second = nome;
 
+  salvar_sistema();
+
   return "== " + usuarios[id].getNome() + " entrou no canal '" + nome + "' ==";
 
 }
 
 string Sistema::leave_channel(int id) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para sair de um canal! ==";
   
@@ -355,11 +627,15 @@ string Sistema::leave_channel(int id) {
 
   it_user->second.second.clear();
 
+  salvar_sistema();
+
   return "== Saindo do canal '" + nomeCanal + "' ==";
 
 }
 
 string Sistema::send_message(int id, const string mensagem) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para mandar uma mensagem! ==";
 
@@ -380,11 +656,15 @@ string Sistema::send_message(int id, const string mensagem) {
 
   it_canaltexto->criarMensagem(mensagem, id);
 
+  salvar_sistema();
+
   return "";
 
 }
 
 string Sistema::list_messages(int id) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para acessar lista de mensagens! ==";
   
@@ -400,11 +680,15 @@ string Sistema::list_messages(int id) {
 
   it_canaltexto->list_messages(usuarios);
 
+  salvar_sistema();
+
   return "";
 
 }
 
 string Sistema::list_online_users(int id) {
+  carregar_sistema();
+
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para acessar lista de usuários online! ==";
   
@@ -429,11 +713,12 @@ string Sistema::list_online_users(int id) {
 }
 
 bool Sistema::search_usuariosLogados(int id) {
+  carregar_sistema();
   //verificar se usuario esta no std::map<int, std::pair<std::string, std::string>> usuariosLogados;
   auto it = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
-                            [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
-                                  return entrada.first == id;
-                                });
+                          [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
+                                return entrada.first == id;
+                              });
                                 
   if(it != usuariosLogados.end()) { 
     //usuario logado 
@@ -446,16 +731,20 @@ bool Sistema::search_usuariosLogados(int id) {
 }
 
 std::map<int, std::pair<string, string>>::iterator Sistema::search_it_usuariosLogados(int id) {
+  carregar_sistema();
+
   auto it = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
-                            [&](std::pair<int, std::pair<string, string>> entrada){ 
-                                  return entrada.first == id;
-                                });
+                          [&](std::pair<int, std::pair<string, string>> entrada){ 
+                                return entrada.first == id;
+                              });
 
   return it;
 
 }
 
 std::vector<Servidor>::iterator Sistema::search_it_servidores(string nomeServidor) {
+  carregar_sistema();
+
   auto it_server= std::find_if(servidores.begin(), servidores.end(), 
                                 [nomeServidor](Servidor servidor){
                                   return servidor.getNome() == nomeServidor;

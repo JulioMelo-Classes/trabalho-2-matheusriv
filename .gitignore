@@ -2,5 +2,5 @@
 build/*
 !build/.gitkeep
 
-src/tests
+data/
 .vscode/
