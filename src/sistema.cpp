@@ -11,6 +11,9 @@ string Sistema::quit() {
 }
 
 string Sistema::create_user(const string email, const string senha, const string nome) {
+  if(email.empty() || senha.empty() || nome.empty())
+    return "Informe todos os dados necessários!";
+
   // Procura no vetor usuarios algum usuário com o email informado
   auto it_user = std::find_if(usuarios.begin(), usuarios.end(), 
                               [email](Usuario usuario){
@@ -29,6 +32,9 @@ string Sistema::create_user(const string email, const string senha, const string
 }
 
 string Sistema::login(const string email, const string senha) {
+  if(email.empty() || senha.empty())
+    return "Informe todos os dados necessários!";
+
   // Procura no vetor usuarios algum usuário com o email e senha informados
   auto it_user = std::find_if(usuarios.begin(), usuarios.end(), [email, senha](Usuario usuario) {
                             return usuario.getEmail() == email && usuario.getSenha() == senha;
@@ -258,7 +264,6 @@ string Sistema::list_participants(int id) {
   if(it_user->first == id && nomeServidor != "") {
     // usuario está visualizando um servidor
     search_it_servidores(nomeServidor)->list_participants(usuarios);
-
     return "";
   }
 
@@ -321,7 +326,6 @@ string Sistema::enter_channel(int id, const string nome) {
     return "== Saia do canal de texto conectado atualmente! ==";
   
   string str_erro = search_it_servidores(nomeServidor)->enter_leave_channel(nome);
-  
   if(str_erro != "")
     return str_erro;
 
@@ -346,7 +350,6 @@ string Sistema::leave_channel(int id) {
     return "== Você não está num canal! ==";
 
   string str_erro = search_it_servidores(nomeServidor)->enter_leave_channel(nomeCanal);
-  
   if(str_erro != "")
     return str_erro;
 
@@ -429,10 +432,7 @@ bool Sistema::search_usuariosLogados(int id) {
   //verificar se usuario esta no std::map<int, std::pair<std::string, std::string>> usuariosLogados;
   auto it = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
                             [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
-                                if(entrada.first == id) 
-                                    return true; 
-                                else 
-                                    return false;
+                                  return entrada.first == id;
                                 });
                                 
   if(it != usuariosLogados.end()) { 

@@ -73,11 +73,16 @@ class Servidor{
 
         /*
         * @brief Adiciona um canal de texto se não existir um canal com o mesmo nome do novo canal.
-        * @param nome Nome do canal de texto a ser adicionado.
         * @param novoCanalTexto Canal de texto a ser adicionado.
         * @return Mensagem de sucesso ou de erro.
         */
         std::string adicionaCanalTexto(CanalTexto novoCanalTexto);
+
+        /*
+        * @brief Adiciona um canal de texto ao servidor.
+        * @param novoCanalTexto Canal de texto a ser adicionado.
+        */
+        void adicionaCanalTexto_(CanalTexto novoCanalTexto);
 
         /*
         * @brief Lista os canais de texto do servidor.

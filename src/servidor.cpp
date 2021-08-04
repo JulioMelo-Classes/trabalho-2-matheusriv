@@ -47,10 +47,14 @@ string Servidor::adicionaCanalTexto(CanalTexto novoCanalTexto) {
     if(search_it_canalTexto(nomeCanal) != canaisTexto.end()) 
         return "Canal de texto '" + nomeCanal + "' já existe!";
 
-    canaisTexto.push_back(novoCanalTexto);
+    adicionaCanalTexto_(novoCanalTexto);
 
     return "== Canal de texto '" + nomeCanal + "' em '" + nome + "' criado ==";
 
+}
+
+void Servidor::adicionaCanalTexto_(CanalTexto novoCanalTexto) {
+    canaisTexto.push_back(novoCanalTexto);
 }
 
 void Servidor::list_channels() {

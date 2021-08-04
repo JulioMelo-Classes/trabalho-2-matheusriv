@@ -22,7 +22,7 @@ void CanalTexto::criarMensagem(const string mensagem, int id) {
 
     Mensagem novaMensagem(dataHora, mensagem, id);
 
-    mensagens.push_back(novaMensagem);
+    addMensagem(novaMensagem);
 
     cout << "== Mensagem enviada ==";
 }
