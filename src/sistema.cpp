@@ -27,9 +27,8 @@ void Sistema::salvar_usuarios() {
       osfstream_usuarios << it_user->getSenha() << endl;
     }
   }
-  else { 
+  else 
     std::cerr << "Erro ao salvar usuários! " << endl;
-  }
   
   osfstream_usuarios.close();
 
@@ -52,9 +51,8 @@ void Sistema::salvar_usuariosLogados() {
       ofstream_usuariosLog << it->second.second << endl;
     }
   }
-  else {
+  else 
     std::cerr << "Erro ao salvar usuários logados!" << endl;
-  }
 
   ofstream_usuariosLog.close();
 
@@ -74,13 +72,12 @@ void Sistema::salvar_servidores() {
       ofstream_servidores << it_server->getNome() << endl;
       ofstream_servidores << it_server->getDescricao() << endl;
       ofstream_servidores << it_server->getCodigoConvite() << endl;
-      // Imprime os dados dos participantes e canais do servidor
-      it_server->salvarServidorCanaisOfs(ofstream_servidores);
+      it_server->salvarIdsParticipantes(ofstream_servidores);
+      it_server->salvarCanais(ofstream_servidores);
     }
   }
-  else {  
+  else 
     std::cerr << "Erro ao salvar servidores!" << endl;
-  }
 
   ofstream_servidores.close();
 
@@ -119,9 +116,8 @@ void Sistema::carregar_usuarios() {
       }
     }
   } 
-  else { 
+  else
     std::cerr << "Erro ao restaurar usuários!" << endl;
-  }
 
 }
 
@@ -149,9 +145,9 @@ void Sistema::carregar_usuariosLogados() {
       }
     }
   } 
-  else { 
+  else 
     std::cerr << "Erro ao restaurar usuários logados!" << endl;
-  }
+
 }
 
 void Sistema::carregar_servidores() {
@@ -164,7 +160,7 @@ void Sistema::carregar_servidores() {
       servidores.clear();
 
       string server_qtd, server_donoId, server_nome, server_desc;
-      string server_cod, server_numParticipants, server_partId;
+      string server_cod, server_qtdParticipantes, server_partId;
       string canal_qtd, canal_Id, canal_nome;
       string mensagem_qtd, mensagem_donoId, mensagem_dataHora, mensagem_cont;
 
@@ -181,13 +177,13 @@ void Sistema::carregar_servidores() {
         // Cria e cadastra o novo servidor no sistema
         Servidor novoServidor(stoi(server_donoId), server_nome);
         novoServidor.setDescricao(server_desc);
-        novoServidor.setConvite(server_cod);
+        novoServidor.setCodigoConvite(server_cod);
 
         // Lê a quantidade de participantes do servidor
-        getline(ifstream_servidores, server_numParticipants);
+        getline(ifstream_servidores, server_qtdParticipantes);
 
         // Faz a leitura do Id de todos os participantes e os adiciona ao servidor
-        for(int part = 0; part<stoi(server_numParticipants); part++){
+        for(int part = 0; part<stoi(server_qtdParticipantes); part++){
           getline(ifstream_servidores, server_partId);
           novoServidor.adicionaParticipante(stoi(server_partId));
         }
@@ -222,9 +218,9 @@ void Sistema::carregar_servidores() {
       }
     }
   } 
-  else { 
+  else
     std::cerr << "Erro ao restaurar usuários!" << endl;
-  }
+
 }
 
 /* COMANDOS */
@@ -357,12 +353,12 @@ string Sistema::set_server_invite_code(int id, const string nome, const string c
 
   if(it_server->getNome() == nome && it_server->getUsuarioDonoId() == id) {
       if(codigo.empty()) {
-        it_server->setConvite(codigo);
+        it_server->setCodigoConvite(codigo);
         salvar_sistema();
         return "== Código de convite do servidor '" + nome + "' removido ==";
       }
       else {
-        it_server->setConvite(codigo);
+        it_server->setCodigoConvite(codigo);
         salvar_sistema();
         return "== Código de convite do servidor '" + nome + "' modificado ==";
       }
@@ -466,7 +462,7 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
     return "== Servidor '" + nome + "' não existe! ==";
 
   auto it_user = search_it_usuariosLogados(id);
-  if( !(it_user->second.first.empty()) ) 
+  if(it_user->second.first != "" ) 
     return "== Saia do servidor conectado atualmente! ==";
 
   if(it_server->getUsuarioDonoId() == id ||
@@ -477,7 +473,7 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
       salvar_sistema();
       return "== " + usuarios[id].getNome() + " entrou no servidor '" + nome + "' ==";
   } 
-  else if( !(it_server->getCodigoConvite().empty()) && codigo.empty() ) {
+  else if(it_server->getCodigoConvite() != "" && codigo.empty() ) {
     return "== Servidor requer código de convite! ==";
   } 
   
@@ -590,7 +586,7 @@ string Sistema::enter_channel(int id, const string nome) {
   if(it_user->second.second == nome)
     return "== Usuário já está no canal! ==";
 
-  if( !(it_user->second.second.empty()) ) 
+  if(it_user->second.second != "") 
     return "== Saia do canal de texto conectado atualmente! ==";
   
   string str_erro = search_it_servidores(nomeServidor)->enter_leave_channel(nome);
@@ -721,11 +717,11 @@ bool Sistema::search_usuariosLogados(int id) {
                               });
                                 
   if(it != usuariosLogados.end()) { 
-    //usuario logado 
+    //usuário logado 
     return true;
   }
 
-  //usuario não logado 
+  //usuário não logado 
   return false;
   
 }
@@ -746,9 +742,9 @@ std::vector<Servidor>::iterator Sistema::search_it_servidores(string nomeServido
   carregar_sistema();
 
   auto it_server= std::find_if(servidores.begin(), servidores.end(), 
-                                [nomeServidor](Servidor servidor){
-                                  return servidor.getNome() == nomeServidor;
-                                });
+                              [&](Servidor servidor){
+                                    return servidor.getNome() == nomeServidor;
+                                  });
 
   return it_server;
 
