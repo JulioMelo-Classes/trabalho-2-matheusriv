@@ -15,20 +15,21 @@ void Sistema::salvar_usuarios() {
   // Abre o arquivo usuarios.txt para salvar dados dos usuários
   ofstream osfstream_usuarios("../data/usuarios.txt");
 
-  if(osfstream_usuarios) {
-    // Imprime a quantidade de usuários cadastrados
-    osfstream_usuarios << usuarios.size() << endl;
-
-    // Imprime os dados de cada usuário
-    for(auto it_user = usuarios.begin(); it_user != usuarios.end(); it_user++) {
-      osfstream_usuarios << it_user->getId() << endl;
-      osfstream_usuarios << it_user->getNome() << endl;
-      osfstream_usuarios << it_user->getEmail() << endl;
-      osfstream_usuarios << it_user->getSenha() << endl;
-    }
+  if(!osfstream_usuarios) {
+    cerr << "Erro ao salvar usuários! " << endl;
+    return; 
   }
-  else 
-    std::cerr << "Erro ao salvar usuários! " << endl;
+
+  // Imprime a quantidade de usuários cadastrados
+  osfstream_usuarios << usuarios.size() << endl;
+
+  // Imprime os dados de cada usuário
+  for(auto it_user = usuarios.begin(); it_user != usuarios.end(); it_user++) {
+    osfstream_usuarios << it_user->getId() << endl;
+    osfstream_usuarios << it_user->getNome() << endl;
+    osfstream_usuarios << it_user->getEmail() << endl;
+    osfstream_usuarios << it_user->getSenha() << endl;
+  }
   
   osfstream_usuarios.close();
 
@@ -38,21 +39,22 @@ void Sistema::salvar_usuariosLogados() {
   // Abre o arquivo para salvar dados dos usuários logados
   ofstream ofstream_usuariosLog("../data/usuarioslogados.txt");
 
-  if(ofstream_usuariosLog) {
-    // Imprime a quantidade de usuários logados
-    ofstream_usuariosLog << usuariosLogados.size() << endl;
-
-    for(auto it = usuariosLogados.begin(); it != usuariosLogados.end(); it++) {
-      // Imprime o id do usuário logado
-      ofstream_usuariosLog << it->first << endl;
-      // Imprime o nome do servidor que o usuário está visualizando
-      ofstream_usuariosLog << it->second.first << endl;
-      // Imprime o nome do canal de texto que o usuário está visualizando
-      ofstream_usuariosLog << it->second.second << endl;
-    }
+  if(!ofstream_usuariosLog) {
+    cerr << "Erro ao salvar usuários logados!" << endl;
+    return;
   }
-  else 
-    std::cerr << "Erro ao salvar usuários logados!" << endl;
+
+  // Imprime a quantidade de usuários logados
+  ofstream_usuariosLog << usuariosLogados.size() << endl;
+
+  for(auto it = usuariosLogados.begin(); it != usuariosLogados.end(); it++) {
+    // Imprime o id do usuário logado
+    ofstream_usuariosLog << it->first << endl;
+    // Imprime o nome do servidor que o usuário está visualizando
+    ofstream_usuariosLog << it->second.first << endl;
+    // Imprime o nome do canal de texto que o usuário está visualizando
+    ofstream_usuariosLog << it->second.second << endl;
+  }
 
   ofstream_usuariosLog.close();
 
@@ -62,22 +64,23 @@ void Sistema::salvar_servidores() {
   // Abre o arquivo servidores.txt para salvar dados dos servidores cadastrados
   ofstream ofstream_servidores("../data/servidores.txt");
 
-  if(ofstream_servidores) {
-    // Imprime a quantidade de servidores cadastrados
-    ofstream_servidores << servidores.size() << endl;
-
-    // Imprime os dados de cada servidor
-    for(auto it_server = servidores.begin(); it_server != servidores.end(); it_server++) {
-      ofstream_servidores << it_server->getUsuarioDonoId() << endl;
-      ofstream_servidores << it_server->getNome() << endl;
-      ofstream_servidores << it_server->getDescricao() << endl;
-      ofstream_servidores << it_server->getCodigoConvite() << endl;
-      it_server->salvarIdsParticipantes(ofstream_servidores);
-      it_server->salvarCanais(ofstream_servidores);
-    }
+  if(!ofstream_servidores) {
+    cerr << "Erro ao salvar servidores!" << endl;
+    return;
   }
-  else 
-    std::cerr << "Erro ao salvar servidores!" << endl;
+
+  // Imprime a quantidade de servidores cadastrados
+  ofstream_servidores << servidores.size() << endl;
+
+  // Imprime os dados de cada servidor
+  for(auto it_server = servidores.begin(); it_server != servidores.end(); it_server++) {
+    ofstream_servidores << it_server->getUsuarioDonoId() << endl;
+    ofstream_servidores << it_server->getNome() << endl;
+    ofstream_servidores << it_server->getDescricao() << endl;
+    ofstream_servidores << it_server->getCodigoConvite() << endl;
+    it_server->salvarIdsParticipantes(ofstream_servidores);
+    it_server->salvarCanais(ofstream_servidores);
+  }
 
   ofstream_servidores.close();
 
@@ -93,31 +96,32 @@ void Sistema::carregar_usuarios() {
   // Abre o arquivo para obter os dados do usuários
   ifstream ifstream_usuarios("../data/usuarios.txt");
 
-  if(ifstream_usuarios) {
-    // Verifica se o arquivo não está vazio
-    if(ifstream_usuarios.peek() != ifstream::traits_type::eof()) {
-      usuarios.clear();
+  if(!ifstream_usuarios) {
+    cerr << "Erro ao restaurar usuários!" << endl;
+    return;
+  }
 
-      string users_qtd, id, nome, email, senha;
+  // Verifica se o arquivo não está vazio
+  if(ifstream_usuarios.peek() != ifstream::traits_type::eof()) {
+    usuarios.clear();
 
-      // Lê a quantidade de usuários cadastrados
-      getline(ifstream_usuarios, users_qtd);
+    string users_qtd, id, nome, email, senha;
 
-      // Lê os dados de cada usuário
-      for(int user = 0; user<stoi(users_qtd); user++) {
-        getline(ifstream_usuarios, id);
-        getline(ifstream_usuarios, nome);
-        getline(ifstream_usuarios, email);
-        getline(ifstream_usuarios, senha);
+    // Lê a quantidade de usuários cadastrados
+    getline(ifstream_usuarios, users_qtd);
 
-        // Cria e cadastra o novo usuário no sistema
-        Usuario novoUsuario(stoi(id), nome, email, senha);
-        usuarios.push_back(novoUsuario);
-      }
+    // Lê os dados de cada usuário
+    for(int user = 0; user<stoi(users_qtd); user++) {
+      getline(ifstream_usuarios, id);
+      getline(ifstream_usuarios, nome);
+      getline(ifstream_usuarios, email);
+      getline(ifstream_usuarios, senha);
+
+      // Cria e cadastra o novo usuário no sistema
+      Usuario novoUsuario(stoi(id), nome, email, senha);
+      usuarios.push_back(novoUsuario);
     }
-  } 
-  else
-    std::cerr << "Erro ao restaurar usuários!" << endl;
+  }
 
 }
 
@@ -125,28 +129,29 @@ void Sistema::carregar_usuariosLogados() {
   // Abre o arquivo para obter os dados dos usuários logados
   ifstream ifstream_usuariosLog("../data/usuarioslogados.txt");
 
-  if(ifstream_usuariosLog) {
-    // Verifica se o arquivo não está vazio
-    if(ifstream_usuariosLog.peek() != std::ifstream::traits_type::eof()) {
-      usuariosLogados.clear();
+  if(!ifstream_usuariosLog) {
+    cerr << "Erro ao restaurar usuários logados!" << endl;
+    return;
+  }
 
-      string users_qtd, id, nomeServidor, nomeCanal;
+  // Verifica se o arquivo não está vazio
+  if(ifstream_usuariosLog.peek() != std::ifstream::traits_type::eof()) {
+    usuariosLogados.clear();
 
-      // Lê a quantidade de usuários logados
-      getline(ifstream_usuariosLog, users_qtd);
+    string users_qtd, id, nomeServidor, nomeCanal;
 
-      // Lê os dados de cada usuário
-      for(int user = 0; user<stoi(users_qtd); user++) {
-        getline(ifstream_usuariosLog, id);
-        getline(ifstream_usuariosLog, nomeServidor);
-        getline(ifstream_usuariosLog, nomeCanal);
-        // Insere o usuário logado no sistema
-        usuariosLogados.insert({stoi(id), {nomeServidor,nomeCanal}});
-      }
+    // Lê a quantidade de usuários logados
+    getline(ifstream_usuariosLog, users_qtd);
+
+    // Lê os dados de cada usuário
+    for(int user = 0; user<stoi(users_qtd); user++) {
+      getline(ifstream_usuariosLog, id);
+      getline(ifstream_usuariosLog, nomeServidor);
+      getline(ifstream_usuariosLog, nomeCanal);
+      // Insere o usuário logado no sistema
+      usuariosLogados.insert({stoi(id), {nomeServidor,nomeCanal}});
     }
-  } 
-  else 
-    std::cerr << "Erro ao restaurar usuários logados!" << endl;
+  }
 
 }
 
@@ -154,72 +159,72 @@ void Sistema::carregar_servidores() {
   // Abre o arquivo para obter os dados dos servidores
   ifstream ifstream_servidores("../data/servidores.txt");
 
-  if(ifstream_servidores) {
-    // Verifica se o arquivo não está vazio
-    if(ifstream_servidores.peek() != ifstream::traits_type::eof()) {
-      servidores.clear();
+  if(!ifstream_servidores) {
+    cerr << "Erro ao restaurar usuários!" << endl;
+    return;
+  }
 
-      string server_qtd, server_donoId, server_nome, server_desc;
-      string server_cod, server_qtdParticipantes, server_partId;
-      string canal_qtd, canal_Id, canal_nome;
-      string mensagem_qtd, mensagem_donoId, mensagem_dataHora, mensagem_cont;
+  // Verifica se o arquivo não está vazio
+  if(ifstream_servidores.peek() != ifstream::traits_type::eof()) {
+    servidores.clear();
 
-      // Lê a quantidade de usuários cadastrados
-      getline(ifstream_servidores, server_qtd);
+    string server_qtd, server_donoId, server_nome, server_desc;
+    string server_cod, server_qtdParticipantes, server_partId;
+    string canal_qtd, canal_Id, canal_nome;
+    string mensagem_qtd, mensagem_donoId, mensagem_dataHora, mensagem_cont;
 
-      // Lê os dados de cada servidor
-      for(int server = 0; server<stoi(server_qtd); server++) {
-        getline(ifstream_servidores, server_donoId);
-        getline(ifstream_servidores, server_nome);
-        getline(ifstream_servidores, server_desc);
-        getline(ifstream_servidores, server_cod);
-        
-        // Cria e cadastra o novo servidor no sistema
-        Servidor novoServidor(stoi(server_donoId), server_nome);
-        novoServidor.setDescricao(server_desc);
-        novoServidor.setCodigoConvite(server_cod);
+    // Lê a quantidade de usuários cadastrados
+    getline(ifstream_servidores, server_qtd);
 
-        // Lê a quantidade de participantes do servidor
-        getline(ifstream_servidores, server_qtdParticipantes);
+    // Lê os dados de cada servidor
+    for(int server = 0; server<stoi(server_qtd); server++) {
+      getline(ifstream_servidores, server_donoId);
+      getline(ifstream_servidores, server_nome);
+      getline(ifstream_servidores, server_desc);
+      getline(ifstream_servidores, server_cod);
+      
+      Servidor novoServidor(stoi(server_donoId), server_nome);
+      novoServidor.setDescricao(server_desc);
+      novoServidor.setCodigoConvite(server_cod);
 
-        // Faz a leitura do Id de todos os participantes e os adiciona ao servidor
-        for(int part = 0; part<stoi(server_qtdParticipantes); part++){
-          getline(ifstream_servidores, server_partId);
-          novoServidor.adicionaParticipante(stoi(server_partId));
-        }
+      // Lê a quantidade de participantes do servidor
+      getline(ifstream_servidores, server_qtdParticipantes);
 
-        // Lê a quantidade de canais do servidor
-        getline(ifstream_servidores, canal_qtd);
-
-        // Lê os dados dos canais e insere no servidor
-        for(int canal = 0; canal<stoi(canal_qtd); canal++) {
-          getline(ifstream_servidores, canal_nome);
-
-          CanalTexto novoCanal(canal_nome);
-
-          // Lê a quantidade de mensagens do canal
-          getline(ifstream_servidores, mensagem_qtd);
-
-          // Faz a leitura dos dados das mensagens do canal
-          for(int m = 0; m<stoi(mensagem_qtd); m++) {
-            getline(ifstream_servidores, mensagem_dataHora);
-            getline(ifstream_servidores, mensagem_donoId);
-            getline(ifstream_servidores, mensagem_cont);
-
-            // Cria e adiciona a mensagem ao canal
-            Mensagem novaMensagem(mensagem_dataHora, stoi(mensagem_donoId), mensagem_cont);
-            novoCanal.addMensagem(novaMensagem);
-          }
-          // Adiciona o canal de texto ao servidor
-          novoServidor.adicionaCanalTexto_(novoCanal);
-        }
-        // Adiciona o servidor
-        servidores.push_back(novoServidor);
+      // Faz a leitura do Id dos participantes e os adiciona ao servidor
+      for(int part = 0; part<stoi(server_qtdParticipantes); part++){
+        getline(ifstream_servidores, server_partId);
+        novoServidor.adicionaParticipante(stoi(server_partId));
       }
+
+      // Lê a quantidade de canais do servidor
+      getline(ifstream_servidores, canal_qtd);
+
+      // Lê os dados dos canais e insere no servidor
+      for(int canal = 0; canal<stoi(canal_qtd); canal++) {
+        getline(ifstream_servidores, canal_nome);
+
+        CanalTexto novoCanal(canal_nome);
+
+        // Lê a quantidade de mensagens do canal
+        getline(ifstream_servidores, mensagem_qtd);
+
+        // Faz a leitura dos dados das mensagens do canal
+        for(int m = 0; m<stoi(mensagem_qtd); m++) {
+          getline(ifstream_servidores, mensagem_dataHora);
+          getline(ifstream_servidores, mensagem_donoId);
+          getline(ifstream_servidores, mensagem_cont);
+
+          // Cria e adiciona a mensagem ao canal
+          Mensagem novaMensagem(mensagem_dataHora, stoi(mensagem_donoId), mensagem_cont);
+          novoCanal.addMensagem(novaMensagem);
+        }
+        // Adiciona o canal de texto ao servidor
+        novoServidor.adicionaCanalTexto_(novoCanal);
+      }
+      // Adiciona o servidor
+      servidores.push_back(novoServidor);
     }
-  } 
-  else
-    std::cerr << "Erro ao restaurar usuários!" << endl;
+  }
 
 }
 
