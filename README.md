@@ -14,7 +14,7 @@ cmake ..
 cmake --build .
 ```
 
-Isso criará a pasta `data` e um executável dentro de `build` chamado de `concordo`.
+Isso criará a pasta arquivos dentro da pasta `data` e um executável dentro da pasta `build` chamado de `concordo`.
 
 Logo após a compilação, para executar o programa gerado use os comandos:
 

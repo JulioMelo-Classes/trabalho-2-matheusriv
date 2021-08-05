@@ -18,7 +18,6 @@ add_executable( concordo
 
 add_custom_command( TARGET concordo
                 POST_BUILD
-                COMMAND mkdir -p ../data
                 COMMAND touch ../data/usuarios.txt
                 COMMAND touch ../data/usuarioslogados.txt
                 COMMAND touch ../data/servidores.txt )

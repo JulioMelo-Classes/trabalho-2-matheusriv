@@ -10,6 +10,7 @@ using namespace std;
 int main() {
   // inicialização do sistema
   Sistema sistema;
+  sistema.carregar_sistema();
   Executor executor(sistema);
 
   // o executor recebe o cin e o cout. Ele os utilizará para ler as linhas

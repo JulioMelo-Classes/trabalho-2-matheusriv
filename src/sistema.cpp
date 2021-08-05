@@ -191,7 +191,7 @@ void Sistema::carregar_servidores() {
       getline(ifstream_servidores, server_qtdParticipantes);
 
       // Faz a leitura do Id dos participantes e os adiciona ao servidor
-      for(int part = 0; part<stoi(server_qtdParticipantes); part++){
+      for(int part = 0; part<stoi(server_qtdParticipantes); part++) {
         getline(ifstream_servidores, server_partId);
         novoServidor.adicionaParticipante(stoi(server_partId));
       }
@@ -237,8 +237,6 @@ string Sistema::create_user(const string email, const string senha, const string
   if(email.empty() || senha.empty() || nome.empty())
     return "Informe todos os dados necessários!";
 
-  carregar_sistema();
-
   auto it_user = std::find_if(usuarios.begin(), usuarios.end(), 
                                 [email](Usuario usuario){
                                   return usuario.getEmail() == email;
@@ -261,10 +259,8 @@ string Sistema::login(const string email, const string senha) {
   if(email.empty() || senha.empty())
     return "Informe todos os dados necessários!";
 
-  carregar_sistema();
-
   auto it_user = std::find_if(usuarios.begin(), usuarios.end(), 
-                              [email, senha](Usuario usuario) {
+                              [email, senha](Usuario usuario){
                                 return usuario.getEmail() == email && 
                                        usuario.getSenha() == senha;
                               });
@@ -285,8 +281,6 @@ string Sistema::login(const string email, const string senha) {
 }
 
 string Sistema::disconnect(int id) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false)  
     return "== Usuário precisa estar logado para desconectar! ==";
 
@@ -299,8 +293,6 @@ string Sistema::disconnect(int id) {
 }
 
 string Sistema::create_server(int id, const string nome) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para criar servidor! ==";
   
@@ -320,8 +312,6 @@ string Sistema::create_server(int id, const string nome) {
 }
 
 string Sistema::set_server_desc(int id, const string nome, const string descricao) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para mudar descrição de um servidor! ==";
   
@@ -335,7 +325,6 @@ string Sistema::set_server_desc(int id, const string nome, const string descrica
   if(it_server->getNome() == nome && it_server->getUsuarioDonoId() == id) {
     it_server->setDescricao(descricao);
     salvar_sistema();
-
     return "== Descrição do servidor '" + nome + "' modificada ==";
   }
 
@@ -344,8 +333,6 @@ string Sistema::set_server_desc(int id, const string nome, const string descrica
 }
 
 string Sistema::set_server_invite_code(int id, const string nome, const string codigo) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para mudar código de convite! ==";
   
@@ -374,8 +361,6 @@ string Sistema::set_server_invite_code(int id, const string nome, const string c
 }
 
 string Sistema::list_servers(int id) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para acessar lista de servidores! ==";
 
@@ -397,8 +382,6 @@ string Sistema::list_servers(int id) {
 }
 
 string Sistema::list_servers_desc(int id) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para acessar lista de servidores! ==";
 
@@ -420,8 +403,6 @@ string Sistema::list_servers_desc(int id) {
 }
 
 string Sistema::remove_server(int id, const string nome) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para remover um servidor! ==";
   
@@ -454,8 +435,6 @@ string Sistema::remove_server(int id, const string nome) {
 }
 
 string Sistema::enter_server(int id, const string nome, const string codigo) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para entrar num servidor! ==";
   
@@ -487,8 +466,6 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
 }
 
 string Sistema::leave_server(int id, const string nome) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para sair de um servidor! ==";
   
@@ -515,8 +492,6 @@ string Sistema::leave_server(int id, const string nome) {
 }
 
 string Sistema::list_participants(int id) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para acessar lista de participantes de um servidor! ==";
   
@@ -549,8 +524,6 @@ string Sistema::list_channels(int id) {
 }
 
 string Sistema::create_channel(int id, const string nome) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para criar um canal num servidor! ==";
   
@@ -574,8 +547,6 @@ string Sistema::create_channel(int id, const string nome) {
 
 
 string Sistema::enter_channel(int id, const string nome) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado parar entrar num canal! ==";
   
@@ -607,8 +578,6 @@ string Sistema::enter_channel(int id, const string nome) {
 }
 
 string Sistema::leave_channel(int id) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para sair de um canal! ==";
   
@@ -635,8 +604,6 @@ string Sistema::leave_channel(int id) {
 }
 
 string Sistema::send_message(int id, const string mensagem) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para mandar uma mensagem! ==";
 
@@ -664,8 +631,6 @@ string Sistema::send_message(int id, const string mensagem) {
 }
 
 string Sistema::list_messages(int id) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para acessar lista de mensagens! ==";
   
@@ -681,15 +646,11 @@ string Sistema::list_messages(int id) {
 
   it_canaltexto->list_messages(usuarios);
 
-  salvar_sistema();
-
   return "";
 
 }
 
 string Sistema::list_online_users(int id) {
-  carregar_sistema();
-
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para acessar lista de usuários online! ==";
   
@@ -714,7 +675,6 @@ string Sistema::list_online_users(int id) {
 }
 
 bool Sistema::search_usuariosLogados(int id) {
-  carregar_sistema();
   //verificar se usuario esta no std::map<int, std::pair<std::string, std::string>> usuariosLogados;
   auto it = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
                           [&](std::pair<int, std::pair<std::string, std::string>> entrada){ 
@@ -732,8 +692,6 @@ bool Sistema::search_usuariosLogados(int id) {
 }
 
 std::map<int, std::pair<string, string>>::iterator Sistema::search_it_usuariosLogados(int id) {
-  carregar_sistema();
-
   auto it = std::find_if(usuariosLogados.begin(), usuariosLogados.end(), 
                           [&](std::pair<int, std::pair<string, string>> entrada){ 
                                 return entrada.first == id;
@@ -744,8 +702,6 @@ std::map<int, std::pair<string, string>>::iterator Sistema::search_it_usuariosLo
 }
 
 std::vector<Servidor>::iterator Sistema::search_it_servidores(string nomeServidor) {
-  carregar_sistema();
-
   auto it_server= std::find_if(servidores.begin(), servidores.end(), 
                               [&](Servidor servidor){
                                     return servidor.getNome() == nomeServidor;
