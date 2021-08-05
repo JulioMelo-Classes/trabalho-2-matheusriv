@@ -46,7 +46,7 @@ void CanalTexto::list_messages(vector<Usuario> &usuarios) {
     }
 }
 
-void CanalTexto::salvarMensagensOfs(std::ofstream &ofs) {
+void CanalTexto::salvarMensagens(std::ofstream &ofs) {
     // Imprime a quantidade de mensagens do canal de texto
     ofs << mensagens.size() << endl;
 

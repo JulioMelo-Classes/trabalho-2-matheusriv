@@ -51,7 +51,7 @@ class CanalTexto{
         * @brief Salva as mensagens do canal de texto num arquivo
         * @param ofs ofstream do arquivo
         */
-        void salvarMensagensOfs(std::ofstream &ofs);
+        void salvarMensagens(std::ofstream &ofs);
 
 };
 

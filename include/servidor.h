@@ -58,7 +58,7 @@ class Servidor{
         * @brief Altera o código de convite do servidor.
         * @param codigoConvite Novo código de convite do servidor.
         */
-        void setConvite(std::string codigoConvite);
+        void setCodigoConvite(std::string codigoConvite);
 
         /*
         * @brief Adiciona o ID de um novo participante à lista de IDs do servidor.
@@ -104,10 +104,16 @@ class Servidor{
         std::string enter_leave_channel(std::string nomeCanal);
 
         /*
-        * @brief Salva os dados do servidor num arquivo.
+        * @brief Salva os ids participantes do servidor num arquivo.
         * @param ofs ofstream do arquivo.
         */
-        void salvarServidorCanaisOfs(std::ofstream &ofs);
+        void salvarIdsParticipantes(std::ofstream &ofs);
+
+        /*
+        * @brief Salva os dados dos canais de texto do servidor num arquivo.
+        * @param ofs ofstream do arquivo.
+        */
+        void salvarCanais(std::ofstream &ofs);
 
         /*
         * @brief Procura um canal de texto especificado.
