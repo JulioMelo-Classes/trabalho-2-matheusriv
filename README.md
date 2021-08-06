@@ -14,7 +14,7 @@ cmake ..
 cmake --build .
 ```
 
-Isso criará a pasta arquivos dentro da pasta `data` e um executável dentro da pasta `build` chamado de `concordo`.
+Isso criará um executável dentro da pasta `build` chamado de `concordo`.
 
 Logo após a compilação, para executar o programa gerado use os comandos:
 
@@ -405,7 +405,7 @@ list-messages 0
 
 ## Persistência de dados
 
-A persistência dos dados neste projeto permite que todas as informações de usuários cadastrados, usuários logados, servidores, usuários participantes em um servidor e mensagens em cada canal são dados que não são perdidos quando o sistema termina. A persistência de dados é feita utilizando manipulação de arquivos .txt localizados na pasta `data`.
+A persistência dos dados neste projeto permite que todas as informações de usuários cadastrados, usuários logados, servidores, usuários participantes em um servidor e mensagens em cada canal são dados que não são perdidos quando o sistema termina. A persistência de dados é feita utilizando manipulação de arquivos .txt localizados na pasta `database`.
 
 ### Usuários
 
