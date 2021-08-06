@@ -115,6 +115,10 @@ void Servidor::salvarCanais(ofstream &ofs) {
     }
 }
 
+void Servidor::clearCanaisTexto() {
+    this->canaisTexto.clear();
+}
+
 vector<CanalTexto>::iterator Servidor::search_it_canalTexto(string nomeCanal) {
     auto it_canaltexto = std::find_if(canaisTexto.begin(), canaisTexto.end(), 
                                 [nomeCanal](CanalTexto canal){

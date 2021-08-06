@@ -450,7 +450,13 @@ Para cada participante do servidor, teremos em seguida:
 
 - Linha com o Id do usuário participante;
 
-Em seguida:
+### Canais de texto
+
+Para armazenar os dados dos canais de texto cadastrados utiliza-se o arquivo `canaistexto.txt` que é estruturado da seguinte forma:
+
+- A primeira linha possui um número que informa a quantidade de servidores cadastrados;
+
+Para cada servidor, teremos as seguintes linhas:
 
 - Linha com o número de canais de texto do servidor;
 

@@ -2,8 +2,4 @@
 build/*
 !build/.gitkeep
 
-data/servidores.txt
-data/usuarios.txt
-data/usuarioslogados.txt
-
 .vscode/

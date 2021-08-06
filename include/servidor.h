@@ -116,6 +116,11 @@ class Servidor{
         void salvarCanais(std::ofstream &ofs);
 
         /*
+        * @brief Faz clear do vetor contendo todos os canais de texto do servidor.
+        */
+        void clearCanaisTexto();
+
+        /*
         * @brief Procura um canal de texto especificado.
         * @param nomeCanal Nome do canal de texto que se procurar.
         * @return Retorna um iterator do canal de texto ou iterator canaisTexto.end() se o canal não for encontrado.

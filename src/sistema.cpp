@@ -12,8 +12,7 @@ void Sistema::salvar_sistema() {
 }
 
 void Sistema::salvar_usuarios() {
-  // Abre o arquivo usuarios.txt para salvar dados dos usuários
-  ofstream osfstream_usuarios("../data/usuarios.txt");
+  ofstream osfstream_usuarios("../database/usuarios.txt");
 
   if(!osfstream_usuarios) {
     cerr << "Erro ao salvar usuários! " << endl;
@@ -36,8 +35,7 @@ void Sistema::salvar_usuarios() {
 }
 
 void Sistema::salvar_usuariosLogados() {
-  // Abre o arquivo para salvar dados dos usuários logados
-  ofstream ofstream_usuariosLog("../data/usuarioslogados.txt");
+  ofstream ofstream_usuariosLog("../database/usuarioslogados.txt");
 
   if(!ofstream_usuariosLog) {
     cerr << "Erro ao salvar usuários logados!" << endl;
@@ -61,17 +59,16 @@ void Sistema::salvar_usuariosLogados() {
 }
 
 void Sistema::salvar_servidores() {
-  // Abre o arquivo servidores.txt para salvar dados dos servidores cadastrados
-  ofstream ofstream_servidores("../data/servidores.txt");
+  ofstream ofstream_servidores("../database/servidores.txt");
+  ofstream ofstream_canaistexto("../database/canaistexto.txt");
 
-  if(!ofstream_servidores) {
+  if(!ofstream_servidores || !ofstream_canaistexto) {
     cerr << "Erro ao salvar servidores!" << endl;
     return;
   }
 
   // Imprime a quantidade de servidores cadastrados
   ofstream_servidores << servidores.size() << endl;
-
   // Imprime os dados de cada servidor
   for(auto it_server = servidores.begin(); it_server != servidores.end(); it_server++) {
     ofstream_servidores << it_server->getUsuarioDonoId() << endl;
@@ -79,10 +76,18 @@ void Sistema::salvar_servidores() {
     ofstream_servidores << it_server->getDescricao() << endl;
     ofstream_servidores << it_server->getCodigoConvite() << endl;
     it_server->salvarIdsParticipantes(ofstream_servidores);
-    it_server->salvarCanais(ofstream_servidores);
+  }
+
+  // Imprime a quantidade de servidores cadastrados
+  ofstream_canaistexto << servidores.size() << endl;
+  // Imprime os dados de cada servidor
+  for(auto it_server = servidores.begin(); it_server != servidores.end(); it_server++) {
+    ofstream_canaistexto << it_server->getNome() << endl;
+    it_server->salvarCanais(ofstream_canaistexto);
   }
 
   ofstream_servidores.close();
+  ofstream_canaistexto.close();
 
 }
 
@@ -93,8 +98,7 @@ void Sistema::carregar_sistema() {
 }
 
 void Sistema::carregar_usuarios() {
-  // Abre o arquivo para obter os dados do usuários
-  ifstream ifstream_usuarios("../data/usuarios.txt");
+  ifstream ifstream_usuarios("../database/usuarios.txt");
 
   if(!ifstream_usuarios) {
     cerr << "Erro ao restaurar usuários!" << endl;
@@ -126,8 +130,7 @@ void Sistema::carregar_usuarios() {
 }
 
 void Sistema::carregar_usuariosLogados() {
-  // Abre o arquivo para obter os dados dos usuários logados
-  ifstream ifstream_usuariosLog("../data/usuarioslogados.txt");
+  ifstream ifstream_usuariosLog("../database/usuarioslogados.txt");
 
   if(!ifstream_usuariosLog) {
     cerr << "Erro ao restaurar usuários logados!" << endl;
@@ -156,10 +159,10 @@ void Sistema::carregar_usuariosLogados() {
 }
 
 void Sistema::carregar_servidores() {
-  // Abre o arquivo para obter os dados dos servidores
-  ifstream ifstream_servidores("../data/servidores.txt");
+  ifstream ifstream_servidores("../database/servidores.txt");
+  ifstream ifstream_canaistexto("../database/canaistexto.txt");
 
-  if(!ifstream_servidores) {
+  if(!ifstream_servidores || !ifstream_canaistexto) {
     cerr << "Erro ao restaurar usuários!" << endl;
     return;
   }
@@ -170,10 +173,8 @@ void Sistema::carregar_servidores() {
 
     string server_qtd, server_donoId, server_nome, server_desc;
     string server_cod, server_qtdParticipantes, server_partId;
-    string canal_qtd, canal_Id, canal_nome;
-    string mensagem_qtd, mensagem_donoId, mensagem_dataHora, mensagem_cont;
 
-    // Lê a quantidade de usuários cadastrados
+    // Lê a quantidade de servidores cadastrados
     getline(ifstream_servidores, server_qtd);
 
     // Lê os dados de cada servidor
@@ -196,33 +197,51 @@ void Sistema::carregar_servidores() {
         novoServidor.adicionaParticipante(stoi(server_partId));
       }
 
+      // Adiciona o servidor
+      servidores.push_back(novoServidor);
+    }
+  }
+
+  // Verifica se o arquivo não está vazio
+  if(ifstream_canaistexto.peek() != ifstream::traits_type::eof()) {
+    string server_qtd, server_nome, canal_qtd, canal_Id, canal_nome;
+    string mensagem_qtd, mensagem_donoId, mensagem_dataHora, mensagem_cont;
+
+    // Lê a quantidade de servidores cadastrados
+    getline(ifstream_canaistexto, server_qtd);
+
+    for(int server = 0; server<stoi(server_qtd); server++) {
+      // Lê o nome do servidor
+      getline(ifstream_canaistexto, server_nome);
+
+      auto it_server = search_it_servidores(server_nome);
+      it_server->clearCanaisTexto();
+
       // Lê a quantidade de canais do servidor
-      getline(ifstream_servidores, canal_qtd);
+      getline(ifstream_canaistexto, canal_qtd);
 
       // Lê os dados dos canais e insere no servidor
       for(int canal = 0; canal<stoi(canal_qtd); canal++) {
-        getline(ifstream_servidores, canal_nome);
+        getline(ifstream_canaistexto, canal_nome);
 
         CanalTexto novoCanal(canal_nome);
 
         // Lê a quantidade de mensagens do canal
-        getline(ifstream_servidores, mensagem_qtd);
+        getline(ifstream_canaistexto, mensagem_qtd);
 
         // Faz a leitura dos dados das mensagens do canal
         for(int m = 0; m<stoi(mensagem_qtd); m++) {
-          getline(ifstream_servidores, mensagem_dataHora);
-          getline(ifstream_servidores, mensagem_donoId);
-          getline(ifstream_servidores, mensagem_cont);
+          getline(ifstream_canaistexto, mensagem_dataHora);
+          getline(ifstream_canaistexto, mensagem_donoId);
+          getline(ifstream_canaistexto, mensagem_cont);
 
           // Cria e adiciona a mensagem ao canal
           Mensagem novaMensagem(mensagem_dataHora, stoi(mensagem_donoId), mensagem_cont);
           novoCanal.addMensagem(novaMensagem);
         }
         // Adiciona o canal de texto ao servidor
-        novoServidor.adicionaCanalTexto_(novoCanal);
-      }
-      // Adiciona o servidor
-      servidores.push_back(novoServidor);
+        it_server->adicionaCanalTexto_(novoCanal);
+      } 
     }
   }
 
