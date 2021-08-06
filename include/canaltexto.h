@@ -39,7 +39,7 @@ class CanalTexto{
         * @brief Adiciona uma mensagem no vetor de mensagens do canal de texto
         * @param novaMensagem Nova mensagem a ser adicionado
         */
-        void addMensagem(Mensagem novaMensagem);
+        void adicionaMensagem(Mensagem novaMensagem);
 
         /*
         * @brief Lista as mensagens do canal de texto
@@ -51,7 +51,7 @@ class CanalTexto{
         * @brief Salva as mensagens do canal de texto num arquivo
         * @param ofs ofstream do arquivo
         */
-        void salvarMensagens(std::ofstream &ofs);
+        void salvarMensagensOfstream(std::ofstream &ofs);
 
 };
 

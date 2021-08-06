@@ -22,12 +22,12 @@ void CanalTexto::criarMensagem(const string mensagem, int id) {
 
     Mensagem novaMensagem(dataHora, id, mensagem);
 
-    addMensagem(novaMensagem);
+    adicionaMensagem(novaMensagem);
 
     cout << "== Mensagem enviada ==";
 }
 
-void CanalTexto::addMensagem(Mensagem novaMensagem) {
+void CanalTexto::adicionaMensagem(Mensagem novaMensagem) {
     mensagens.push_back(novaMensagem);
 }
 
@@ -46,7 +46,7 @@ void CanalTexto::list_messages(vector<Usuario> &usuarios) {
     }
 }
 
-void CanalTexto::salvarMensagens(std::ofstream &ofs) {
+void CanalTexto::salvarMensagensOfstream(std::ofstream &ofs) {
     // Imprime a quantidade de mensagens do canal de texto
     ofs << mensagens.size() << endl;
 

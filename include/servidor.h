@@ -107,13 +107,13 @@ class Servidor{
         * @brief Salva os ids participantes do servidor num arquivo.
         * @param ofs ofstream do arquivo.
         */
-        void salvarIdsParticipantes(std::ofstream &ofs);
+        void salvarIdsOfstream(std::ofstream &ofs);
 
         /*
         * @brief Salva os dados dos canais de texto do servidor num arquivo.
         * @param ofs ofstream do arquivo.
         */
-        void salvarCanais(std::ofstream &ofs);
+        void salvarCanaisOfstream(std::ofstream &ofs);
 
         /*
         * @brief Faz clear do vetor contendo todos os canais de texto do servidor.

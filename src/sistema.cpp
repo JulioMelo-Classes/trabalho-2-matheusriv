@@ -75,7 +75,7 @@ void Sistema::salvar_servidores() {
     ofstream_servidores << it_server->getNome() << endl;
     ofstream_servidores << it_server->getDescricao() << endl;
     ofstream_servidores << it_server->getCodigoConvite() << endl;
-    it_server->salvarIdsParticipantes(ofstream_servidores);
+    it_server->salvarIdsOfstream(ofstream_servidores);
   }
 
   // Imprime a quantidade de servidores cadastrados
@@ -83,7 +83,7 @@ void Sistema::salvar_servidores() {
   // Imprime os dados de cada servidor
   for(auto it_server = servidores.begin(); it_server != servidores.end(); it_server++) {
     ofstream_canaistexto << it_server->getNome() << endl;
-    it_server->salvarCanais(ofstream_canaistexto);
+    it_server->salvarCanaisOfstream(ofstream_canaistexto);
   }
 
   ofstream_servidores.close();
@@ -237,7 +237,7 @@ void Sistema::carregar_servidores() {
 
           // Cria e adiciona a mensagem ao canal
           Mensagem novaMensagem(mensagem_dataHora, stoi(mensagem_donoId), mensagem_cont);
-          novoCanal.addMensagem(novaMensagem);
+          novoCanal.adicionaMensagem(novaMensagem);
         }
         // Adiciona o canal de texto ao servidor
         it_server->adicionaCanalTexto_(novoCanal);
