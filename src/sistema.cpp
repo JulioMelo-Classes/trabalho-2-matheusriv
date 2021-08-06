@@ -163,7 +163,7 @@ void Sistema::carregar_servidores() {
   ifstream ifstream_canaistexto("../database/canaistexto.txt");
 
   if(!ifstream_servidores || !ifstream_canaistexto) {
-    cerr << "Erro ao restaurar usuários!" << endl;
+    cerr << "Erro ao restaurar servidores!" << endl;
     return;
   }
 
