@@ -454,12 +454,12 @@ Em seguida:
 
 - Linha com o número de canais de texto do servidor;
 
-Para cada canal de texto no servidor, teremos as seguintes linhas em seguida:
+Para cada canal de texto no servidor, teremos as seguintes linhas:
 
 - Linha com o nome do canal;
 - Linha com o número de mensagens do canal;
 
-Para cada mensagem no canal, teremos as seguintes linhas em seguida:
+Para cada mensagem no canal, teremos as seguintes linhas:
 
 - Linha com a data e hora em que a mensagem foi enviada;
 - Linha com o Id do usuário que enviou a mensagem;
