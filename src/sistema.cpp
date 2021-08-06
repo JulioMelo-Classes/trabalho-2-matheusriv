@@ -446,7 +446,7 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
     return "== Servidor '" + nome + "' não existe! ==";
 
   auto it_user = search_it_usuariosLogados(id);
-  if(it_user->second.first != "" ) 
+  if(it_user->second.first != "") 
     return "== Saia do servidor conectado atualmente! ==";
 
   if(it_server->getUsuarioDonoId() == id ||
@@ -457,7 +457,7 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
       salvar_sistema();
       return "== " + usuarios[id].getNome() + " entrou no servidor '" + nome + "' ==";
   } 
-  else if(it_server->getCodigoConvite() != "" && codigo.empty() ) {
+  else if(!(it_server->getCodigoConvite().empty()) && codigo.empty()) {
     return "== Servidor requer código de convite! ==";
   } 
   
@@ -499,7 +499,7 @@ string Sistema::list_participants(int id) {
 
   string nomeServidor = it_user->second.first;
 
-  if(it_user->first == id && nomeServidor != "") {
+  if(it_user->first == id && !(nomeServidor.empty())) {
     // usuario está visualizando um servidor
     search_it_servidores(nomeServidor)->list_participants(usuarios);
     return "";
