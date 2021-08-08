@@ -14,6 +14,9 @@ set-server-desc 0 servidor-legal Um servidor muito banaca e coisa e tal
 create-server 0 servidor-ruim
 set-server-desc 0 servidor-ruim Um servidor lixo total
 list-servers-desc 0
+set-server-desc 0 servidor-ruim
+set-server-desc 0 servidor-ruim
+list-servers-desc 0
 set-server-invite-code 0 servidor-legal 123
 disconnect 0
 set-server-invite-code 0 servidor-legal 456
@@ -23,12 +26,12 @@ login isaacfranco@imd.ufrn.br senhalegal
 set-server-invite-code 0 servidor-legal 321
 list-servers 0
 set-server-invite-code 0 servidor-legal
+set-server-invite-code 0 servidor-legal
 set-server-invite-code 0 servidor-inexistente 123
 set-server-invite-code 0 servidor-inexistente
 disconnect 0
 list-servers 0
 login isaacfranco@imd.ufrn.br senhalegal
-list-servers 0
 remove-server 0 servidor-inexistente
 remove-server 0 servidor-legal
 list-servers 0
@@ -52,15 +55,17 @@ create-server 1 servidor-fuderoso
 create-server 1 servidor-sinistro
 enter-server 1 servidor-sinistro
 enter-server 2 servidor-sinistro
-login isaacfranco@imd.ufrn.br senhalegal
 enter-server 0 servidor-sinistro
 list-participants 0
 list-channels 0
 create-channel 0 canalsinistro
+create-channel 0 canalsinistro
+create-channel 0 canallegal
 list-channels 0
 enter-channel 0 canalsinistro
 enter-channel 0 canalsinistro
 enter-channel 1 canalsinistro
+enter-channel 1 canallegal
 enter-channel 2 canalsinistro
 list-messages 0
 send-message 0 Oi pessoal querem TC?
