@@ -139,7 +139,7 @@ create-server 0 minha-casa
 
 ### `set-server-desc` 
 
-Muda a descrição do servidor. Apenas o dono do servidor pode fazer essa alteração:
+Muda a descrição do servidor. Apenas o dono do servidor pode fazer essa alteração. Se você utilizar o comando sem nenhuma descrição, então o servidor apaga a descrição do servidor.
 
 ```
 set-server-desc [id do usuário logado dono do servidor] [nome do servidor] [descrição]
@@ -150,8 +150,8 @@ Exemplo de entrada/saída:
 set-server-desc 0 minha-casa Este servidor serve como minha casa, sempre estarei nele
 == Descrição do servidor 'minha-casa' modificada ==
 
-set-server-desc 0 minha-casa2 Este servidor serve como minha casa, sempre estarei nele
-== Servidor 'minha-casa2' não encontrado! ==
+set-server-desc 0 minha-casa2
+== Descrição do sevidor 'minha-casa2' removida ==
 
 set-server-desc 0 minha-casa55 Trocando a descrição de servidor dos outros
 == Você não pode alterar a descrição de um servidor que não foi criado por você! ==
