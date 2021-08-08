@@ -14,13 +14,13 @@ void CanalTexto::setNome(const string novoNome){
     this->nome = novoNome;
 }
 
-void CanalTexto::criarMensagem(const string mensagem, int id) {
+void CanalTexto::criarMensagem(const string mensagem_cont, int id) {
     char dataHora[64];
     time_t now = time(nullptr);
 
     strftime(dataHora, sizeof(dataHora), "%d/%m/%Y - %R", localtime(&now));
 
-    Mensagem novaMensagem(dataHora, id, mensagem);
+    Mensagem novaMensagem(dataHora, id, mensagem_cont);
 
     adicionaMensagem(novaMensagem);
 
@@ -33,7 +33,7 @@ void CanalTexto::adicionaMensagem(Mensagem novaMensagem) {
 
 void CanalTexto::list_messages(vector<Usuario> &usuarios) {
     if(mensagens.empty()) { 
-        cout << "== Sem mensagens para exibir ==";
+        cout << "== Sem mensagens para exibir! ==";
         return;
     }
 
@@ -42,7 +42,7 @@ void CanalTexto::list_messages(vector<Usuario> &usuarios) {
     for(int i=0; i<mensagens.size(); i++) {
         string nomeUsuario = usuarios[mensagens[i].getEnviadaPor()].getNome();
         cout << nomeUsuario << " <" << mensagens[i].getDataHora() 
-            << ">: " + mensagens[i].getConteudo() << endl;
+            << ">: " << mensagens[i].getConteudo() << endl;
     }
 }
 

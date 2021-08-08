@@ -45,7 +45,7 @@ string Servidor::adicionaCanalTexto(CanalTexto novoCanalTexto) {
     string nomeCanal = novoCanalTexto.getNome();
 
     if(search_it_canalTexto(nomeCanal) != canaisTexto.end()) 
-        return "Canal de texto '" + nomeCanal + "' já existe!";
+        return "== Canal de texto '" + nomeCanal + "' já existe! ==";
 
     adicionaCanalTexto_(novoCanalTexto);
 
@@ -113,10 +113,6 @@ void Servidor::salvarCanaisOfstream(ofstream &ofs) {
         // Imprime os dados das mensagens dos canais
         it_canal->salvarMensagensOfstream(ofs);
     }
-}
-
-void Servidor::clearCanaisTexto() {
-    this->canaisTexto.clear();
 }
 
 vector<CanalTexto>::iterator Servidor::search_it_canalTexto(string nomeCanal) {

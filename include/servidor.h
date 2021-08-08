@@ -50,13 +50,13 @@ class Servidor{
 
         /*
         * @brief Altera a descrição do servidor.
-        * @param descricao Nova descrição do servidor.
+        * @param descricao String com nova descrição do servidor.
         */
         void setDescricao(std::string descricao);
 
         /*
         * @brief Altera o código de convite do servidor.
-        * @param codigoConvite Novo código de convite do servidor.
+        * @param codigoConvite String com novo código de convite do servidor.
         */
         void setCodigoConvite(std::string codigoConvite);
 
@@ -75,7 +75,7 @@ class Servidor{
         /*
         * @brief Adiciona um canal de texto se não existir um canal com o mesmo nome do novo canal.
         * @param novoCanalTexto Canal de texto a ser adicionado.
-        * @return Mensagem de sucesso ou de erro.
+        * @return String com uma mensagem de sucesso ou de erro.
         */
         std::string adicionaCanalTexto(CanalTexto novoCanalTexto);
 
@@ -98,8 +98,8 @@ class Servidor{
 
         /*
         * @brief Verifica as condições válidas para entrar ou sair de um canal de texto do servidor.
-        * @param nomeCanal Nome do canal de texto.
-        * @return Retorna falso em caso de falha ou verdadeiro se as condições são válidas.
+        * @param nomeCanal String com nome do canal de texto.
+        * @return Uma string de erro em caso de falha ou uma string vazia se as condições são válidas.
         */
         std::string enter_leave_channel(std::string nomeCanal);
 
@@ -116,14 +116,9 @@ class Servidor{
         void salvarCanaisOfstream(std::ofstream &ofs);
 
         /*
-        * @brief Faz clear do vetor contendo todos os canais de texto do servidor.
-        */
-        void clearCanaisTexto();
-
-        /*
         * @brief Procura um canal de texto especificado.
         * @param nomeCanal Nome do canal de texto que se procurar.
-        * @return Retorna um iterator do canal de texto ou iterator canaisTexto.end() se o canal não for encontrado.
+        * @return Iterator do canal de texto ou iterator canaisTexto.end() se o canal não for encontrado.
         */
         std::vector<CanalTexto>::iterator search_it_canalTexto(std::string nomeCanal);
 
