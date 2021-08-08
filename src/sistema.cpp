@@ -251,12 +251,12 @@ string Sistema::create_user(const string email, const string senha, const string
   if(email.empty() || senha.empty() || nome.empty())
     return "== Informe todos os dados necessários! ==";
 
-  auto it_user = std::find_if(usuarios.begin(), usuarios.end(), 
-                                [email](Usuario usuario){
-                                  return usuario.getEmail() == email;
-                                });
+  auto it = std::find_if(usuarios.begin(), usuarios.end(), 
+                          [email](Usuario usuario){
+                            return usuario.getEmail() == email;
+                          });
 
-  if(it_user != usuarios.end())
+  if(it != usuarios.end())
     return "== Usuário " + email + " já existe! ==";
   
   countId++;
@@ -273,18 +273,18 @@ string Sistema::login(const string email, const string senha) {
   if(email.empty() || senha.empty())
     return "== Informe todos os dados necessários! ==";
 
-  auto it_user = std::find_if(usuarios.begin(), usuarios.end(), 
-                              [email, senha](Usuario usuario){
-                                return usuario.getEmail() == email && 
-                                       usuario.getSenha() == senha;
-                              });
+  auto it = std::find_if(usuarios.begin(), usuarios.end(), 
+                            [email, senha](Usuario usuario){
+                              return usuario.getEmail() == email && 
+                                      usuario.getSenha() == senha;
+                            });
 
-  if(it_user != usuarios.end()) {
-    if( search_usuariosLogados(it_user->getId()) ) { 
+  if(it != usuarios.end()) {
+    if( search_usuariosLogados(it->getId()) ) { 
       return "== Usuário " + email + " já encontra-se logado! ==";
     } 
     else { 
-      usuariosLogados.insert({it_user->getId(), {"",""}});
+      usuariosLogados.insert({it->getId(), {"",""}});
       salvar_sistema();
       return "== Logado como " + email + " ==";
     }
@@ -295,6 +295,13 @@ string Sistema::login(const string email, const string senha) {
 }
 
 string Sistema::disconnect(int id) {
+  auto it = std::find_if(usuarios.begin(), usuarios.end(), 
+                          [id](Usuario usuario){
+                            return usuario.getId() == id;
+                          });
+  if(it == usuarios.end())
+    return "== Id do usuário não existe! ==";
+
   if(search_usuariosLogados(id) == false)  
     return "== Usuário precisa estar logado para desconectar! ==";
 
