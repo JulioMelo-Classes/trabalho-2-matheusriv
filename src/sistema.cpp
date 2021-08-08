@@ -112,6 +112,8 @@ void Sistema::carregar_usuarios() {
     // Lê a quantidade de usuários cadastrados
     getline(ifstream_usuarios, users_qtd);
 
+    countId = stoi(users_qtd) - 1;
+
     // Lê os dados de cada usuário
     for(int user = 0; user<stoi(users_qtd); user++) {
       getline(ifstream_usuarios, id);
