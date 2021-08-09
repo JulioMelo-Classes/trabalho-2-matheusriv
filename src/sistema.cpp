@@ -279,29 +279,21 @@ string Sistema::login(const string email, const string senha) {
                                       usuario.getSenha() == senha;
                             });
 
-  if(it != usuarios.end()) {
-    if( search_usuariosLogados(it->getId()) ) { 
-      return "== Usuário " + email + " já encontra-se logado! ==";
-    } 
-    else { 
-      usuariosLogados.insert({it->getId(), {"",""}});
-      salvar_sistema();
-      return "== Logado como " + email + " ==";
-    }
-  }
+  if(it == usuarios.end()) 
+    return "== Senha ou Usuário Inválidos! ==";
 
-  return "== Senha ou Usuário Inválidos! ==";
+  if(search_usuariosLogados(it->getId())) 
+    return "== Usuário " + email + " já encontra-se logado! ==";
+  
+  usuariosLogados.insert({it->getId(), {"",""}});
+
+  salvar_sistema();
+
+  return "== Logado como " + email + " ==";
 
 }
 
 string Sistema::disconnect(int id) {
-  auto it = std::find_if(usuarios.begin(), usuarios.end(), 
-                          [id](Usuario usuario){
-                            return usuario.getId() == id;
-                          });
-  if(it == usuarios.end())
-    return "== Id do usuário não existe! ==";
-
   if(search_usuariosLogados(id) == false)  
     return "== Usuário precisa estar logado para desconectar! ==";
 
@@ -341,27 +333,27 @@ string Sistema::set_server_desc(int id, const string nome, const string descrica
   
   auto it_server = search_it_servidores(nome);
   if(it_server == servidores.end())
-    return "== Servidor '" + nome + "' não encontrado! ==";
+    return "== Servidor '" + nome + "' não existe! ==";
 
-  if(it_server->getUsuarioDonoId() == id) {
-    if(descricao.empty()) {
-        if(it_server->getDescricao().empty()) {
-          return "== Descrição do servidor '" + nome + "' já está vazia! ==";
-        } 
-        else { 
-          it_server->setDescricao(descricao);
-          salvar_sistema();
-          return "== Descrição do servidor '" + nome + "' removida ==";
-        }
-    }
+  if(it_server->getUsuarioDonoId() != id)
+    return "== Você não pode alterar a descrição de um servidor que não foi criado por você! ==";
+
+  if(descricao.empty()) {
+    if(it_server->getDescricao().empty()) {
+      return "== Descrição do servidor '" + nome + "' já está vazia! ==";
+    } 
     else { 
-        it_server->setDescricao(descricao);
-        salvar_sistema();
-        return "== Descrição do servidor '" + nome + "' modificada ==";
+      it_server->setDescricao(descricao);
+      salvar_sistema();
+      return "== Descrição do servidor '" + nome + "' removida ==";
     }
   }
 
-  return "== Você não pode alterar a descrição de um servidor que não foi criado por você! ==";
+  it_server->setDescricao(descricao);
+
+  salvar_sistema();
+
+  return "== Descrição do servidor '" + nome + "' modificada ==";
 
 }
 
@@ -374,27 +366,27 @@ string Sistema::set_server_invite_code(int id, const string nome, const string c
   
   auto it_server = search_it_servidores(nome);
   if(it_server == servidores.end())
-    return "== Servidor '" + nome + "' não encontrado! ==";
+    return "== Servidor '" + nome + "' não existe! ==";
 
-  if(it_server->getUsuarioDonoId() == id) {
-    if(codigo.empty()) {
-        if(it_server->getCodigoConvite().empty()) {
-          return "== Servidor '" + nome + "' já não possui código de convite! ==";
-        }
-        else {
-          it_server->setCodigoConvite(codigo);
-          salvar_sistema();
-          return "== Código de convite do servidor '" + nome + "' removido ==";
-        }
+  if(it_server->getUsuarioDonoId() != id)
+    return "== Você não pode alterar o código de convite de um servidor que não foi criado por você! ==";
+
+  if(codigo.empty()) {
+    if(it_server->getCodigoConvite().empty()) {
+      return "== Servidor '" + nome + "' já não possui código de convite! ==";
     }
     else {
-        it_server->setCodigoConvite(codigo);
-        salvar_sistema();
-        return "== Código de convite do servidor '" + nome + "' modificado ==";
+      it_server->setCodigoConvite(codigo);
+      salvar_sistema();
+      return "== Código de convite do servidor '" + nome + "' removido ==";
     }
   }
+    
+  it_server->setCodigoConvite(codigo);
   
-  return "== Você não pode alterar o código de convite de um servidor que não foi criado por você! ==";
+  salvar_sistema();
+  
+  return "== Código de convite do servidor '" + nome + "' modificado ==";
 
 }
 
@@ -451,24 +443,24 @@ string Sistema::remove_server(int id, const string nome) {
   if(it_server == servidores.end())
     return "== Servidor '" + nome + "' não existe! ==";
 
-  if(it_server->getUsuarioDonoId() == id) {
-    for(auto it_usuariosLogados = usuariosLogados.begin(); 
-    it_usuariosLogados != usuariosLogados.end(); it_usuariosLogados++) { 
-        // atualizar usuariosLogados que estejam visualizando o servidor e apagar servidor
-        if(it_usuariosLogados->second.first == nome) { 
-          // second.first Campo do nome do servidor
-          it_usuariosLogados->second.first.clear();
-          // second.second Campo do nome do canal de texto
-          it_usuariosLogados->second.second.clear(); 
-        }
-    }
-    servidores.erase(it_server);
-    salvar_sistema();
+  if(it_server->getUsuarioDonoId() != id) 
+    return "== Você não é o dono do servidor '" + nome + "'! ==";
 
-    return "== Servidor '" + nome + "' removido ==";
+  for(auto it = usuariosLogados.begin(); it != usuariosLogados.end(); it++) { 
+    // atualizar usuariosLogados que estejam visualizando o servidor e apagar servidor
+    if(it->second.first == nome) { 
+        // second.first Campo do nome do servidor
+        it->second.first.clear();
+        // second.second Campo do nome do canal de texto
+        it->second.second.clear(); 
+    }
   }
+
+  servidores.erase(it_server);
   
-  return "== Você não é o dono do servidor '" + nome + "'! ==";
+  salvar_sistema();
+
+  return "== Servidor '" + nome + "' removido ==";
 
 }
 
@@ -537,12 +529,12 @@ string Sistema::list_participants(int id) {
   
   auto it_user = search_it_usuariosLogados(id);
 
-  if(it_user->second.first != "") {
-    search_it_servidores(it_user->second.first)->list_participants(usuarios);
-    return "";
-  }
+  if(it_user->second.first.empty()) 
+    return "== Você não está em qualquer servidor! ==";
 
-  return "== Você não está em qualquer servidor! ==";
+  search_it_servidores(it_user->second.first)->list_participants(usuarios);
+
+  return "";
 
 }
 
@@ -552,12 +544,12 @@ string Sistema::list_channels(int id) {
 
   auto it_user = search_it_usuariosLogados(id);
 
-  if(it_user->second.first != "") {
-    search_it_servidores(it_user->second.first)->list_channels();
-    return "";
-  }
+  if(it_user->second.first.empty()) 
+    return "== Você não está em qualquer servidor! ==";
   
-  return "== Você não está em qualquer servidor! ==";
+  search_it_servidores(it_user->second.first)->list_channels();
+
+  return "";
 
 }
 
@@ -739,7 +731,7 @@ std::map<int, std::pair<string, string>>::iterator Sistema::search_it_usuariosLo
 }
 
 std::vector<Servidor>::iterator Sistema::search_it_servidores(string nomeServidor) {
-  auto it_server= std::find_if(servidores.begin(), servidores.end(), 
+  auto it_server = std::find_if(servidores.begin(), servidores.end(), 
                               [&](Servidor servidor){
                                     return servidor.getNome() == nomeServidor;
                                   });

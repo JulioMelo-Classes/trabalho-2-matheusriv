@@ -73,7 +73,7 @@ void Servidor::list_channels() {
 }
 
 void Servidor::list_participants(vector<Usuario> &usuarios) {
-    cout << "## Lista de Participantes do Servidor '" << nome << "' ##" << endl;
+    cout << "## Lista de Participantes '" << nome << "' ##" << endl;
     
     for(int i=0; i<usuarios.size(); i++) {
         for(int j=0; j<participantesIDs.size(); j++) {
