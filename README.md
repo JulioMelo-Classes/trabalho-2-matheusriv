@@ -46,7 +46,6 @@ Exemplo de entrada/saída:
 
 ```
 quit
-
 Saindo...
 ```
 
@@ -187,7 +186,6 @@ Exemplo de entrada/saída:
 
 ```
 list-servers 0
-
 ## Lista de Servidores ##
    minha-casa
    minha-casa2
@@ -207,12 +205,11 @@ Exemplo de entrada/saída:
 
 ```
 list-servers-desc 0
-
 ## Lista de Descrição dos Servidores ##
-   minha-casa 'essa é minha casa'
-   minha-casa2 'essa é minha segunda casa'
-   RPG-galera 'galera do RPG'
-   Bate-papo-uol Servidor sem descrição
+   minha-casa | essa é minha casa
+   minha-casa2 | essa é minha segunda casa
+   RPG-galera | galera do RPG
+   Bate-papo-uol | Servidor sem descrição
 ```
 
 ### `remove-server`
@@ -270,11 +267,7 @@ Exemplo de entrada/saída (caso ele esteja visualizando algum servidor):
 ```
 leave-server 0 minha-casa
 == Saindo do servidor 'minha-casa' ==
-```
 
-Exemplo de entrada/saída (caso ele não seja membro de nenhum servidor, isto é o usuário já saiu de todos os servidores que participava ou não fez enter-server em qualquer servidor):
-
-```
 leave-server 0 minha-casa
 == Você não está em qualquer servidor! ==
 ```
