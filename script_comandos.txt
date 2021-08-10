@@ -1,38 +1,48 @@
 create-user isaacfranco@imd.ufrn.br senhalegal Isaac Franco Fernandes
+create-user
 create-user isaacfranco@imd.ufrn.br senhalegal Isaac Franco Fernandes
 create-user renan@imd.ufrn.br senha Renan
 create-user julio@imd.ufrn.br senha Julio
 login isaacfranco@imd.ufrn.br senhalegal
-list-online-users 0
+login isaacfranco@imd.ufrn.br senhalegal
 disconnect 0
-list-online-users 0
 disconnect 1
+list-servers 0
+create-server 0 servidor-legal
 login isaacfranco@imd.ufrn.br SENHA_ERRADA
 login isaacfranco@imd.ufrn.br senhalegal
+create-server 0
 create-server 0 servidor-legal
-set-server-desc 0 servidor-legal Um servidor muito banaca e coisa e tal
+create-server 0 servidor-legal
 create-server 0 servidor-ruim
+set-server-desc 0
+set-server-desc 0 servidor-legal Um servidor muito bacana e coisa e tal
 set-server-desc 0 servidor-ruim Um servidor lixo total
 list-servers-desc 0
 set-server-desc 0 servidor-ruim
 set-server-desc 0 servidor-ruim
 list-servers-desc 0
+set-server-invite-code 0
 set-server-invite-code 0 servidor-legal 123
 disconnect 0
 set-server-invite-code 0 servidor-legal 456
 login renan@imd.ufrn.br senha Renan
+set-server-desc 1 servidor-legal descricao
 set-server-invite-code 1 servidor-legal 789
 login isaacfranco@imd.ufrn.br senhalegal
 set-server-invite-code 0 servidor-legal 321
+enter-server 1 servidor-legal
+enter-server 1 servidor-legal 555
+enter-server 1 servidor-legal 321
+enter-server 1 servidor-ruim
 list-servers 0
 set-server-invite-code 0 servidor-legal
 set-server-invite-code 0 servidor-legal
+set-server-desc 0 servidor-inexistente descricao
 set-server-invite-code 0 servidor-inexistente 123
-set-server-invite-code 0 servidor-inexistente
-disconnect 0
-list-servers 0
-login isaacfranco@imd.ufrn.br senhalegal
 remove-server 0 servidor-inexistente
+remove-server 1 servidor-legal
+remove-server 0 servidor-legal
 remove-server 0 servidor-legal
 list-servers 0
 disconnect 0
@@ -40,33 +50,32 @@ remove-server 0 servidor-ruim
 login isaacfranco@imd.ufrn.br senhalegal
 remove-server 0 servidor-ruim
 create-server 0 servidor-bacana
-create-server 0 servidor-fuderoso
+create-server 0 servidor-sinistro
+set-server-desc 0 servidor-bacana Um servidor bacana
+set-server-desc 0 servidor-sinistro Um servidor sinistro
 list-servers 0
 enter-server 0 servidor-bacana
 leave-server 0 servidor-bacana
-login isaacfranco@imd.ufrn.br senhalegal
-remove-server 0 servidor-bacana
-enter-server 0 servidor-bacana
 list-participants 0
-login renan@imd.ufrn.br senha
 login julio@imd.ufrn.br senha
 list-online-users 0
-create-server 1 servidor-fuderoso
-create-server 1 servidor-sinistro
+enter-server 0 servidor-inexistente
+enter-server 0 servidor-sinistro
 enter-server 1 servidor-sinistro
 enter-server 2 servidor-sinistro
-enter-server 0 servidor-sinistro
+enter-server 2 servidor-sinistro
 list-participants 0
 list-channels 0
+create-channel 0
 create-channel 0 canalsinistro
 create-channel 0 canalsinistro
 create-channel 0 canallegal
 list-channels 0
 enter-channel 0 canalsinistro
-enter-channel 0 canalsinistro
 enter-channel 1 canalsinistro
-enter-channel 1 canallegal
 enter-channel 2 canalsinistro
+enter-channel 2 canalsinistro
+enter-channel 2 canallegal
 list-messages 0
 send-message 0 Oi pessoal querem TC?
 send-message 1 ola pessoal
