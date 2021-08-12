@@ -441,7 +441,7 @@ Para cada servidor, teremos as seguintes linhas:
 
 Para cada participante do servidor, teremos em seguida:
 
-- Linha com o Id do usuário participante;
+- Linha com o Id do usuário participante.
 
 ### Canais de texto
 
@@ -451,6 +451,7 @@ Para armazenar os dados dos canais de texto cadastrados utiliza-se o arquivo `ca
 
 Para cada servidor, teremos as seguintes linhas:
 
+- Linha com o nome do servidor;
 - Linha com o número de canais de texto do servidor;
 
 Para cada canal de texto no servidor, teremos as seguintes linhas:
