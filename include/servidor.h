@@ -7,7 +7,9 @@
 
 #include "usuario.h"
 #include "canaltexto.h"
-
+/*
+Cp2 ok
+*/
 class Servidor{
     private:
         int usuarioDonoId; //<! Id do usuário dono do Servidor.

@@ -1,7 +1,9 @@
 #ifndef MENSAGEM_H
 #define MENSAGEM_H
 #include <iostream>
-
+/*
+CP2 ok
+*/
 class Mensagem{
     private:
         std::string dataHora; //<! Um texto representando um timestamp com a data e hora em que a mensagem foi enviada

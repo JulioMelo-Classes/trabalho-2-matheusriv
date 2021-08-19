@@ -7,6 +7,9 @@
 #include "usuario.h"
 #include "mensagem.h"
 
+/*
+cp2 ok
+*/
 class CanalTexto{
     private:
         std::string nome; //<! O nome do canal, conforme o comando create-channel

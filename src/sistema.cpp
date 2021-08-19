@@ -11,6 +11,9 @@ void Sistema::salvar_sistema() {
     salvar_servidores();
 }
 
+/*
+Extra arquivos: usuários ok
+*/
 void Sistema::salvar_usuarios() {
   ofstream ofstream_usuarios("../database/usuarios.txt");
 
@@ -58,6 +61,12 @@ void Sistema::salvar_usuariosLogados() {
 
 }
 
+/*
+Extra arquivos: servidores e canais incompleto 0,5
+Essa parte aqui parece estar com algum problema,
+  nos testes de "enter-server" os usuários ficam repetidos como se, a cada vez que o sistema roda ele não reconhecesse
+  que aqueles usuários estão logados naquele servidor e apenas os readicionasse
+  */
 void Sistema::salvar_servidores() {
   ofstream ofstream_servidores("../database/servidores.txt");
   ofstream ofstream_canaistexto("../database/canaistexto.txt");
@@ -464,6 +473,9 @@ string Sistema::remove_server(int id, const string nome) {
 
 }
 
+/*
+A2.7 0,8
+*/
 string Sistema::enter_server(int id, const string nome, const string codigo) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para entrar num servidor! ==";
@@ -478,7 +490,9 @@ string Sistema::enter_server(int id, const string nome, const string codigo) {
   auto it_user = search_it_usuariosLogados(id);
   if(it_user->second.first == nome) 
     return "== Usuário já está no servidor! ==";
-  if(it_user->second.first != "") 
+  //isso aqui não está na especificação! Se o usuário precisa sair de um servidor pra entrar em outro,
+  //não tem sentido a ideia de guardar qual servidor que ele está visualizando. Vou remover 20% por isso
+  if(it_user->second.first != "")
     return "== Saia do servidor conectado atualmente! ==";
 
   if(it_server->getUsuarioDonoId() == id ||
@@ -538,6 +552,9 @@ string Sistema::list_participants(int id) {
 
 }
 
+/*
+B1.1 ok
+*/
 string Sistema::list_channels(int id) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para acessar lista de canais de um servidor! ==";
@@ -553,6 +570,9 @@ string Sistema::list_channels(int id) {
 
 }
 
+/*
+B1.2 ok
+*/
 string Sistema::create_channel(int id, const string nome) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para criar um canal num servidor! ==";
@@ -575,7 +595,9 @@ string Sistema::create_channel(int id, const string nome) {
 
 }
 
-
+/*
+B1.3 0,9
+*/
 string Sistema::enter_channel(int id, const string nome) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado parar entrar num canal! ==";
@@ -591,6 +613,7 @@ string Sistema::enter_channel(int id, const string nome) {
 
   if(it_user->second.second == nome)
     return "== Usuário já está no canal! ==";
+  //essa operação também não estava na especificação, um usuario pode apenas entrar em um canal sem fazer leave do anterior!, vou tirar 10% por isso
   if(it_user->second.second != "") 
     return "== Saia do canal de texto conectado atualmente! ==";
   
@@ -606,6 +629,9 @@ string Sistema::enter_channel(int id, const string nome) {
 
 }
 
+/*
+B1.4 ok
+*/
 string Sistema::leave_channel(int id) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para sair de um canal! ==";
@@ -632,6 +658,9 @@ string Sistema::leave_channel(int id) {
 
 }
 
+/*
+B2.1 ok
+*/
 string Sistema::send_message(int id, const string mensagem) {
   if(search_usuariosLogados(id) == false) 
     return "== Usuário precisa estar logado para mandar uma mensagem! ==";

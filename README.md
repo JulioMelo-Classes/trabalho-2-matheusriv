@@ -1,5 +1,5 @@
 # Concordo - Projeto 02 de LP1
-
+<!--como você não documentou casos de teste vou considerar 0.5 neste quesito! -->
 Essa atividade se trata de um sistema chamado "Concordo" com recursos similares ao Discord, mas que vai funcionar somente em modo texto e sem recursos de rede. A ideia principal é simular o “backend” de um serviço com o discord, que, embora de forma simplificada, serve para dar uma boa ideia de como as coisas são feitas nesse nicho de aplicação.
 
 ## Para executar
